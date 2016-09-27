@@ -1,0 +1,194 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/lbl_Ventas_Cliente"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/lbl_RCliente_Monto_Pendiente_Total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingTop="10dp"
+        android:text="Catalogo" />
+
+    <Spinner
+        android:id="@+id/spinner_Ventas_Catalogos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lbl_Resumen_MontoAbonado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Página" />
+
+        <TextView
+            android:id="@+id/lbl_Dialogo_MostrarID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="90dp"
+            android:text="Número" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="130dp"
+            android:layout_height="40dp" >
+
+            <EditText
+                android:id="@+id/txt_Ventas_Pagina"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <EditText
+                android:id="@+id/txt_Ventas_Numero"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:inputType="numberDecimal" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="160dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/lbl_Ventas_Marca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Marca" />
+
+            <AutoCompleteTextView
+                android:id="@+id/txt_Ventas_Marca"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID" />
+
+            <EditText
+                android:id="@+id/txt_Ventas_ID"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:ems="10"
+                android:inputType="number"
+                android:maxLength="6" >
+
+                <requestFocus />
+            </EditText>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/lbl_Dialogo_MostrarPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Costo" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="150dp"
+            android:text="Precio" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="180dp"
+            android:layout_height="match_parent" >
+
+            <EditText
+                android:id="@+id/txt_Ventas_Costo"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:inputType="number" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <EditText
+                android:id="@+id/txt_Ventas_Precio"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:inputType="number" />
+
+            "
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_Ventas_Completar"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Hacer Pedido"
+            android:textSize="10sp" />
+
+        <Button
+            android:id="@+id/btn_Ventas_Cancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="Cancelar"
+            android:textSize="10sp" />
+
+    </LinearLayout>
+
+</LinearLayout>
