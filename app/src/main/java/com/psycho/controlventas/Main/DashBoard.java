@@ -3,69 +3,74 @@ package com.psycho.controlventas.Main;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.psycho.controlventas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link DashBoard.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link DashBoard#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class DashBoard extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class DashBoard extends Fragment {
+
+    public int i = 0;
+    Handler progressHandler = new Handler();
+    ProgressBar myprogressBar;
+    TextView progressingTextView;
+
 
     private OnFragmentInteractionListener mListener;
 
     public DashBoard() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashBoard.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static DashBoard newInstance(String param1, String param2) {
         DashBoard fragment = new DashBoard();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.dashboard, container, false);
+        View view = inflater.inflate(R.layout.dashboard, container, false);
+
+        getActivity().setTitle("Inicio");
+
+        myprogressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        progressingTextView = (TextView)view.findViewById(R.id.progress_circle_text);
+
+        myprogressBar.setProgress(20);
+        progressingTextView.setText("20");
+
+        /*new Thread(new Runnable() {
+            public void run() {
+                while (i < 100) {
+                    i += 2;
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            myprogressBar.setProgress(i);
+                            progressingTextView.setText("" + i);
+                        }
+                    });
+                    try {
+                        Thread.sleep(300);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();*/
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,18 +97,7 @@ public class DashBoard extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

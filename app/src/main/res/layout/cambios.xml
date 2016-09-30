@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.psycho.controlventas.Main.Cambios">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Cambios" />
+   <ListView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:id="@+id/Lista_Cambios"></ListView>
 
 </FrameLayout>

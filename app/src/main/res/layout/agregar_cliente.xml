@@ -44,20 +44,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre" />
-
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
                 <EditText
                     android:id="@+id/clientes_nombre_cliente"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:hint="Nombres del cliente"
+                    android:layout_height="match_parent"
+                    android:inputType="textCapWords"
+                    android:hint="Nombre(s)"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp" />
+                    android:textSize="15sp">
+                    <requestFocus />
+                    </EditText>
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -65,20 +65,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apellido Paterno" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/clientes_apellidopaterno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords"
                     android:hint="Apellido Paterno"
                     android:textColorHint="@android:color/darker_gray"
                     android:textSize="15sp"/>
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -86,61 +85,60 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Apellido Materno" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/clientes_apellidomaterno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:inputType="textPersonName"
+                    android:inputType="textCapWords"
                     android:hint="Apellido Materno"
                     android:textColorHint="@android:color/darker_gray"
                     android:textSize="15sp" />
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dip"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Dirección" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/clientes_direccion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textMultiLine"
+                    android:inputType="textMultiLine|textCapWords"
                     android:scrollbars="vertical"
                     android:lines="4"
                     android:gravity="top"
-                    android:hint="Dirección del cliente"
+                    android:hint="Dirección"
                     android:textColorHint="@android:color/darker_gray"
                     android:textSize="15sp"/>
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Teléfono" />
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/clientes_telefono"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:hint="Teléfono del cliente"
+                    android:inputType="phone"
+                    android:hint="Teléfono"
                     android:textColorHint="@android:color/darker_gray"
                     android:textSize="15sp"/>
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>

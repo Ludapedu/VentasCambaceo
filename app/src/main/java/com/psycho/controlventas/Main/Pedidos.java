@@ -1,80 +1,132 @@
 package com.psycho.controlventas.Main;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.psycho.controlventas.Adaptadores.AdaptadorBuscablePedidos;
+import com.psycho.controlventas.BaseDatos.BaseDatos;
+import com.psycho.controlventas.Modelos.Venta;
 import com.psycho.controlventas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link com.psycho.controlventas.Pedidos.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link com.psycho.controlventas.Pedidos#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Pedidos extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+
+public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
+
+    private final int EDIT_VENTA = 60;
+
+    ListView ListView_Pedidos;
+    ArrayList<Venta> Lista_De_Pedidos = new ArrayList<Venta>();
+    Venta RegistroVenta;
+    Venta VentaSeleccionada;
+    private AdaptadorBuscablePedidos pedidosadapter;
 
     private OnFragmentInteractionListener mListener;
 
     public Pedidos() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Pedidos.
-     */
-    // TODO: Rename and change types and number of parameters
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EDIT_VENTA)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
+    }
+
     public static Pedidos newInstance(String param1, String param2, Context context) {
         Pedidos fragment = new Pedidos();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.pedidos, container, false);
 
-        ListView l = (ListView)view.findViewById(R.id.Lista_Pedidos);
-        ArrayAdapter array = new ArrayAdapter(view.getContext(),android.R.layout.simple_dropdown_item_1line, new String [] {"Uno", "Dos", "Tres", "Cuatro", "Cinco", "Seis", "Siete"});
-        l.setAdapter(array);
+        View view = inflater.inflate(R.layout.pedidos, container, false);
+        getActivity().setTitle("Pedidos");
+
+
+
+        ListView_Pedidos = (ListView) view.findViewById(R.id.Lista_Pedidos);
+        ActualizarListView();
+
+
+        ListView_Pedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                VentaSeleccionada = pedidosadapter.getItem(i);
+
+                Intent intent = new Intent(getActivity(),DetallesVenta.class);
+                intent.putExtra("Venta", VentaSeleccionada);
+                startActivityForResult(intent, EDIT_VENTA);
+            }
+        });
+
+
 
         return view;
     }
+
+    private void ActualizarListView() {
+
+        Lista_De_Pedidos.clear();
+        BaseDatos db = new BaseDatos(getContext(), "Ventas", null, 1);
+        SQLiteDatabase TablaVentas = db.getWritableDatabase();
+        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 0", null);
+        if (fila.moveToFirst()) {
+            do {
+                RegistroVenta = new Venta();
+                RegistroVenta.setIDREG(fila.getInt(0));
+                RegistroVenta.setCliente(fila.getString(1));
+                RegistroVenta.setIdCliente(fila.getInt(2));
+                RegistroVenta.setCatalogo(fila.getString(3));
+                RegistroVenta.setPagina(fila.getInt(4));
+                RegistroVenta.setMarca(fila.getString(5));
+                RegistroVenta.setID(fila.getInt(6));
+                RegistroVenta.setNumero(fila.getFloat(7));
+                RegistroVenta.setCosto(fila.getInt(8));
+                RegistroVenta.setPrecio(fila.getInt(9));
+                RegistroVenta.setEntregado(fila.getInt(10));
+                Lista_De_Pedidos.add(RegistroVenta);
+            } while (fila.moveToNext());
+        }
+        fila.close();
+        db.close();
+
+        pedidosadapter = new AdaptadorBuscablePedidos(getContext(), Lista_De_Pedidos);
+        ListView_Pedidos.setAdapter(pedidosadapter);
+
+
+    }
+
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -100,6 +152,17 @@ public class Pedidos extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        pedidosadapter.getFilter().filter(newText);
+        return false;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -113,5 +176,26 @@ public class Pedidos extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem item = menu.add("Search");
+        item.setIcon(android.R.drawable.ic_menu_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
+
+        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
+
+        MenuItemCompat.setActionView(item, searchView);
+        searchView.setOnQueryTextListener(this);
     }
 }

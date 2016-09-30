@@ -12,9 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,15 +29,13 @@ import com.psycho.controlventas.R;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 public class Clientes extends Fragment implements SearchView.OnQueryTextListener{
 
     private final int ADD_NEW_CLIENT = 100;
+    private final int EDIT_CLIENT = 50;
 
 
-    private List<Cliente> mModels;
-    private RecyclerView mRecyclerView;
     private OnFragmentInteractionListener mListener;
     private ArrayList<Cliente> ListaDeClientes = new ArrayList<>();
     private Cliente RegistroCliente;
@@ -78,14 +74,13 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
         Lista_Clientes = (ListView)view.findViewById(R.id.Lista_Clientes);
 
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         getActivity().setTitle("Clientes");
 
         BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
         SQLiteDatabase clientes = db.getWritableDatabase();
         ListaDeClientes.clear();
 
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno FROM Clientes",null);
+        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
         if(fila.moveToFirst())
         {
             do {
@@ -94,6 +89,8 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                 RegistroCliente.setNombre(fila.getString(1));
                 RegistroCliente.setApellidoPaterno(fila.getString(2));
                 RegistroCliente.setApellidoMaterno(fila.getString(3));
+                RegistroCliente.setDireccion(fila.getString(4));
+                RegistroCliente.setTelefono(fila.getString(5));
                 ListaDeClientes.add(RegistroCliente);
             }while (fila.moveToNext());
         }
@@ -106,9 +103,9 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cliente selectedclient = clientesadapter.getItem(i);
-                Intent intent = new Intent(getActivity(), AgregarCliente.class);
+                Intent intent = new Intent(getActivity(), DetallesCliente.class);
                 intent.putExtra("Cliente", selectedclient);
-                startActivity(intent);
+                startActivityForResult(intent, EDIT_CLIENT);
             }
         });
 
@@ -119,7 +116,6 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
             public void onClick(View view) {
                 Intent i = new Intent(getActivity(), AgregarCliente.class);
                 startActivityForResult(i,ADD_NEW_CLIENT);
-                // overridePendingTransition(R.anim.right_in, R.anim.right_out);
             }
         });
 
@@ -144,7 +140,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
                 ListaDeClientes.clear();
 
-                Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno FROM Clientes",null);
+                Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
                 if(fila.moveToFirst())
                 {
                     do {
@@ -153,6 +149,37 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                         RegistroCliente.setNombre(fila.getString(1));
                         RegistroCliente.setApellidoPaterno(fila.getString(2));
                         RegistroCliente.setApellidoMaterno(fila.getString(3));
+                        RegistroCliente.setDireccion(fila.getString(4));
+                        RegistroCliente.setTelefono(fila.getString(5));
+                        ListaDeClientes.add(RegistroCliente);
+                    }while (fila.moveToNext());
+                }
+                fila.close();
+                db.close();
+                clientesadapter = new AdaptadorBuscable(getContext(), ListaDeClientes);
+                Lista_Clientes.setAdapter(clientesadapter);
+            }
+        }
+        else if(requestCode == EDIT_CLIENT)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
+                SQLiteDatabase clientes = db.getWritableDatabase();
+
+                ListaDeClientes.clear();
+
+                Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
+                if(fila.moveToFirst())
+                {
+                    do {
+                        RegistroCliente = new Cliente();
+                        RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
+                        RegistroCliente.setNombre(fila.getString(1));
+                        RegistroCliente.setApellidoPaterno(fila.getString(2));
+                        RegistroCliente.setApellidoMaterno(fila.getString(3));
+                        RegistroCliente.setDireccion(fila.getString(4));
+                        RegistroCliente.setTelefono(fila.getString(5));
                         ListaDeClientes.add(RegistroCliente);
                     }while (fila.moveToNext());
                 }

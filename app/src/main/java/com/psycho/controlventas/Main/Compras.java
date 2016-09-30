@@ -3,43 +3,37 @@ package com.psycho.controlventas.Main;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import com.psycho.controlventas.Modelos.Cliente;
+import com.psycho.controlventas.Adaptadores.AdaptadorBuscablePedidos;
+import com.psycho.controlventas.BaseDatos.BaseDatos;
+import com.psycho.controlventas.Modelos.Venta;
 import com.psycho.controlventas.R;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 
-public class Compras extends Fragment implements SearchView.OnQueryTextListener {
+public class Compras extends Fragment{
 
-    private final int ADD_NEW_CLIENT = 100;
+    private final int EDIT_VENTA = 60;
+    ListView ListViewCompras;
+    ArrayList<Venta> Lista_De_Compras = new ArrayList<Venta>();
+    private AdaptadorBuscablePedidos comprasadapter;
+    Venta CompraSeleccionada;
+    Venta RegistroVenta;
+
 
     private OnFragmentInteractionListener mListener;
-
-    private static final Comparator<Cliente> ALPHABETICAL_COMPARATOR = new Comparator<Cliente>() {
-        @Override
-        public int compare(Cliente a, Cliente b) {
-            return a.nombre.compareTo(b.nombre);
-        }
-    };
-
-    private List<Cliente> mModels;
-    private RecyclerView mRecyclerView;
 
     public Compras() {
     }
@@ -54,17 +48,18 @@ public class Compras extends Fragment implements SearchView.OnQueryTextListener 
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.compras, container, false);
+        getActivity().setTitle("Compras");
+        ListViewCompras = (ListView) view.findViewById(R.id.Lista_Compras);
 
-        mRecyclerView = (RecyclerView)view.findViewById(R.id.recycler_view);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        ActualizarListView();
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ListViewCompras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity(), AgregarCliente.class);
-                startActivityForResult(i, ADD_NEW_CLIENT);
-                // overridePendingTransition(R.anim.right_in, R.anim.right_out);
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                CompraSeleccionada = comprasadapter.getItem(i);
+                Intent intent = new Intent(getActivity(),DetallesVenta.class);
+                intent.putExtra("Venta", CompraSeleccionada);
+                startActivityForResult(intent, EDIT_VENTA);
             }
         });
 
@@ -78,23 +73,6 @@ public class Compras extends Fragment implements SearchView.OnQueryTextListener 
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_NEW_CLIENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                Cliente myObject = (Cliente) data.getExtras().getSerializable("result");
-
-
-
-            }
-        }
-    }
-
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -115,44 +93,53 @@ public class Compras extends Fragment implements SearchView.OnQueryTextListener 
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem item = menu.add("Search");
-        item.setIcon(android.R.drawable.ic_menu_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 
-        SearchView searchView = new SearchView(((MainActivity) getActivity()).getSupportActionBar().getThemedContext());
-
-        MenuItemCompat.setActionView(item, searchView);
-        searchView.setOnQueryTextListener(this);
     }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        final List<Cliente> filteredModelList = filter(mModels, newText);
-
-        return true;
-    }
-
-    private static List<Cliente> filter(List<Cliente> models, String query) {
-        final String lowerCaseQuery = query.toLowerCase();
-
-        final List<Cliente> filteredModelList = new ArrayList<>();
-        for (Cliente model : models) {
-            final String text = model.nombre.toLowerCase();
-            if (text.contains(lowerCaseQuery)) {
-                filteredModelList.add(model);
-            }
-        }
-
-        return filteredModelList;
-    }
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void ActualizarListView() {
+
+        Lista_De_Compras.clear();
+        BaseDatos db = new BaseDatos(getContext(), "Ventas", null, 1);
+        SQLiteDatabase TablaVentas = db.getWritableDatabase();
+        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 1", null);
+        if (fila.moveToFirst()) {
+            do {
+                RegistroVenta = new Venta();
+                RegistroVenta.setIDREG(fila.getInt(0));
+                RegistroVenta.setCliente(fila.getString(1));
+                RegistroVenta.setIdCliente(fila.getInt(2));
+                RegistroVenta.setCatalogo(fila.getString(3));
+                RegistroVenta.setPagina(fila.getInt(4));
+                RegistroVenta.setMarca(fila.getString(5));
+                RegistroVenta.setID(fila.getInt(6));
+                RegistroVenta.setNumero(fila.getFloat(7));
+                RegistroVenta.setCosto(fila.getInt(8));
+                RegistroVenta.setPrecio(fila.getInt(9));
+                RegistroVenta.setEntregado(fila.getInt(10));
+                Lista_De_Compras.add(RegistroVenta);
+            } while (fila.moveToNext());
+        }
+        fila.close();
+        db.close();
+        comprasadapter = new AdaptadorBuscablePedidos(getContext(), Lista_De_Compras);
+        ListViewCompras.setAdapter(comprasadapter);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EDIT_VENTA)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
     }
 
 

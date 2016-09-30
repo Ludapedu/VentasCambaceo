@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity
         Ventas.OnFragmentInteractionListener,
         Pagos.OnFragmentInteractionListener,
         Cambios.OnFragmentInteractionListener,
-        Clientes.OnFragmentInteractionListener
-        ,DashBoard.OnFragmentInteractionListener{
+        Clientes.OnFragmentInteractionListener,
+        DashBoard.OnFragmentInteractionListener,
+        Entregas.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,9 @@ public class MainActivity extends AppCompatActivity
             fragmentClass = Clientes.class;
         } else if (id == R.id.inicio) {
             fragmentClass = DashBoard.class;
+        }
+        else if (id == R.id.entregas) {
+            fragmentClass = Entregas.class;
         }
         try {
             fragment = (Fragment) fragmentClass.newInstance();

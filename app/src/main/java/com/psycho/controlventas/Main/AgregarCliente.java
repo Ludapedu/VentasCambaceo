@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,7 +28,7 @@ public class AgregarCliente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.agregar_cliente);
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 
 
@@ -36,12 +37,6 @@ public class AgregarCliente extends AppCompatActivity {
         TextApellidoMaterno = (EditText)findViewById(R.id.clientes_apellidomaterno);
         TextDireccion = (EditText)findViewById(R.id.clientes_direccion);
         TextTelefono = (EditText)findViewById(R.id.clientes_telefono);
-
-        Bundle bundle = getIntent().getExtras();
-        if(!bundle.isEmpty()) {
-            cliente = (Cliente) bundle.getSerializable("Cliente");
-            TextNombre.setText(cliente.getNombre());
-        }
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

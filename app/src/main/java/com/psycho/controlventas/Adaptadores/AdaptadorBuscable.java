@@ -2,6 +2,7 @@ package com.psycho.controlventas.Adaptadores;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,7 @@ public class AdaptadorBuscable extends ArrayAdapter<Cliente> implements Filterab
     private List<Cliente> filteredData = null;
     private LayoutInflater mInflater;
     private ItemFilter mFilter = new ItemFilter();
-//    private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
+    private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
 
     public AdaptadorBuscable(Context context, ArrayList<Cliente> data) {
         super(context,-1,data);
@@ -77,10 +78,10 @@ public class AdaptadorBuscable extends ArrayAdapter<Cliente> implements Filterab
         }
 
         // If weren't re-ordering this you could rely on what you set last time
-        //holder.text1.setTypeface(font);
-        //holder.text2.setTypeface(font);
+        holder.text1.setTypeface(font);
+        holder.text2.setTypeface(font);
         holder.text1.setText(filteredData.get(position).getNombre());
-        holder.text2.setText(filteredData.get(position).getApellidoPaterno() + filteredData.get(position).getApellidoMaterno());
+        holder.text2.setText(filteredData.get(position).getApellidoPaterno() + " " + filteredData.get(position).getApellidoMaterno());
 
         return convertView;
     }

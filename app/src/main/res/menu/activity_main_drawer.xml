@@ -19,6 +19,10 @@
             android:icon="@drawable/ventas"
             android:title="Ventas" />
         <item
+            android:id="@+id/entregas"
+            android:icon="@drawable/entregar"
+            android:title="Entregas" />
+        <item
             android:id="@+id/pagos"
             android:icon="@drawable/pagos"
             android:title="Pagos" />
