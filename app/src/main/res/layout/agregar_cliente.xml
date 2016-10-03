@@ -20,7 +20,7 @@
                 android:background="?attr/colorPrimary"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <Button
+                <!--<Button
                     android:id="@+id/cliente_agregarcliente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                     android:text="Agregar"
                     android:typeface="sans"
                     android:textSize="15sp"
-                    android:background="@color/colorPrimary"/>
+                    android:background="@color/colorPrimary"/>-->
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>

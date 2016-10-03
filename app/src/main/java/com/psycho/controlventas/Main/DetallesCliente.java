@@ -35,7 +35,7 @@ public class DetallesCliente extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles_cliente);
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_detalles_cliente);
         CollapsingToolbarLayout tool = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         tool.setTitleEnabled(true);
         tool.setTitle("Detalle");

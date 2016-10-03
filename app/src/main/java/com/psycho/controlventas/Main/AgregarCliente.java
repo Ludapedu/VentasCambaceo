@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -44,10 +43,29 @@ public class AgregarCliente extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Button button = (Button) findViewById(R.id.cliente_agregarcliente);
+        /*Button button = (Button) findViewById(R.id.cliente_agregarcliente);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+            }
+        });*/
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_agregar_cliente, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+            case R.id.agregar_cliente_agregar:
+            {
                 String nombre = TextNombre.getText().toString();
                 String apellidopaterno = TextApellidoPaterno.getText().toString();
                 String apellidomaterno = TextApellidoMaterno.getText().toString();
@@ -60,26 +78,16 @@ public class AgregarCliente extends AppCompatActivity {
                 cliente.setDireccion(direccion);
                 cliente.setTelefono(telefono);
                 cliente.setIdCliente(0);
-                 if(cliente.nombre.isEmpty())
+                if(cliente.nombre.isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),"El cliente no puede ser vacío", Toast.LENGTH_SHORT).show();
-                    return;
+                    return false;
                 }
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("Cliente",cliente);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
-                // finish();
                 return true;
         }
 
