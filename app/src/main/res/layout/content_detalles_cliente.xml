@@ -120,6 +120,19 @@
                 android:id="@+id/detalles_cliente_telefono"/>
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Detalle"
+            android:textSize="15sp"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
+            android:id="@+id/btn_detalle_cliente_detalles"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
+
+
 
 </android.support.v4.widget.NestedScrollView>

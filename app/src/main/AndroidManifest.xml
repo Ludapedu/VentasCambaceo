@@ -35,6 +35,10 @@
             android:label="Detalles Venta"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Main.Detalle_Ventas_Cliente"
+            android:label="@string/title_activity_detalle__ventas__cliente"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

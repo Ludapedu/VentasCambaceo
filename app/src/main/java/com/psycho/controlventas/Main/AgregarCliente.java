@@ -43,13 +43,6 @@ public class AgregarCliente extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        /*Button button = (Button) findViewById(R.id.cliente_agregarcliente);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });*/
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,9 +54,9 @@ public class AgregarCliente extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
+            case android.R.id.home: {
                 onBackPressed();
+            }break;
             case R.id.agregar_cliente_agregar:
             {
                 String nombre = TextNombre.getText().toString();
@@ -87,8 +80,7 @@ public class AgregarCliente extends AppCompatActivity {
                 returnIntent.putExtra("Cliente",cliente);
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
-            }
-                return true;
+            }break;
         }
 
         return super.onOptionsItemSelected(item);

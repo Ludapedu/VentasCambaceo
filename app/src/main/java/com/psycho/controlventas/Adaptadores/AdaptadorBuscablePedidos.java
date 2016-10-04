@@ -48,17 +48,12 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
 
-        // When convertView is not null, we can reuse it directly, there is no need
-        // to reinflate it. We only inflate a new View when the convertView supplied
-        // by ListView is null.
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.layout_list_pedidos, null);
 
-            // Creates a ViewHolder and store references to the two children views
-            // we want to bind data to.
             holder = new ViewHolder();
             holder.Marca = (TextView) convertView.findViewById(R.id.list_pedidos_marca);
             holder.ID = (TextView) convertView.findViewById(R.id.list_pedidos_ID);
@@ -69,14 +64,24 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
             holder.lblNumero = (TextView) convertView.findViewById(R.id.list_pedidos_lblNumero);
             holder.lblCosto = (TextView) convertView.findViewById(R.id.list_pedidos_lblCosto);
             holder.lblPrecio = (TextView) convertView.findViewById(R.id.list_pedidos_lblPrecio);
+            //holder.Entreago = (CheckBox)convertView.findViewById(R.id.CheckEntregado);
+            //holder.fondo = (LinearLayout)convertView.findViewById(R.id.fondo);
 
-
-            // Bind the data efficiently with the holder.
+            /*holder.Entreago.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked) {
+                        holder.fondo.setBackgroundColor(getContext().getResources().getColor(R.color.Green));
+                    }
+                    else
+                    {
+                        holder.fondo.setBackgroundColor(getContext().getResources().getColor(R.color.White));
+                    }
+                }
+            });*/
 
             convertView.setTag(holder);
         } else {
-            // Get the ViewHolder back to get fast access to the TextView
-            // and the ImageView.
             holder = (ViewHolder) convertView.getTag();
         }
 
@@ -96,11 +101,12 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
         holder.NombreCliente.setText(filteredData.get(position).getCliente());
         holder.Costo.setText(String.valueOf(filteredData.get(position).getCosto()));
         holder.Precio.setText(String.valueOf(filteredData.get(position).getPrecio()));
-
+        //holder.Entreago.setTypeface(font);
         return convertView;
     }
 
     static class ViewHolder {
+        //LinearLayout fondo;
         TextView Marca;
         TextView ID;
         TextView Numero;
@@ -110,6 +116,7 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
         TextView lblNumero;
         TextView lblCosto;
         TextView lblPrecio;
+        //CheckBox Entreago;
     }
 
     @Override

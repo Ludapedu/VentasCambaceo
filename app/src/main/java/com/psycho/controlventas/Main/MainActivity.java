@@ -86,9 +86,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_delete) {
+       /* if (id == R.id.action_delete) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

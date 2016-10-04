@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.psycho.controlventas.Adaptadores.AdaptadorBuscable;
+import com.psycho.controlventas.Adaptadores.AdaptadorBuscableCliente;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Cliente;
 import com.psycho.controlventas.R;
@@ -39,7 +39,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
     private OnFragmentInteractionListener mListener;
     private ArrayList<Cliente> ListaDeClientes = new ArrayList<>();
     private Cliente RegistroCliente;
-    private AdaptadorBuscable clientesadapter;
+    private AdaptadorBuscableCliente clientesadapter;
     private ListView Lista_Clientes;
 
 
@@ -96,7 +96,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         }
         fila.close();
         db.close();
-        clientesadapter = new AdaptadorBuscable(getContext(), ListaDeClientes);
+        clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
         Lista_Clientes.setAdapter(clientesadapter);
 
         Lista_Clientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,7 +156,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                 }
                 fila.close();
                 db.close();
-                clientesadapter = new AdaptadorBuscable(getContext(), ListaDeClientes);
+                clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
                 Lista_Clientes.setAdapter(clientesadapter);
             }
         }
@@ -185,7 +185,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                 }
                 fila.close();
                 db.close();
-                clientesadapter = new AdaptadorBuscable(getContext(), ListaDeClientes);
+                clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
                 Lista_Clientes.setAdapter(clientesadapter);
             }
         }

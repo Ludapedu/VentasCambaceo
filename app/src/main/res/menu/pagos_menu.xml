@@ -4,16 +4,9 @@
 
     <item
         android:id="@+id/pagos_borrar"
-        android:icon="@android:drawable/ic_menu_delete"
+        android:icon="@android:drawable/ic_menu_add"
         android:orderInCategory="100"
         android:title="Delete"
-        app:showAsAction="always"/>
-
-    <item
-        android:id="@+id/pagos_buscar"
-        android:icon="@android:drawable/ic_menu_search"
-        android:orderInCategory="100"
-        android:title="Buscar"
         app:showAsAction="always"/>
 
 </menu>

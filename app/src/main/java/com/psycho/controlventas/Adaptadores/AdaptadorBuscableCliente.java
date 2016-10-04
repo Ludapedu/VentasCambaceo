@@ -21,7 +21,7 @@ import java.util.List;
  * Created by luis.perez on 27/09/2016.
  */
 
-public class AdaptadorBuscable extends ArrayAdapter<Cliente> implements Filterable {
+public class AdaptadorBuscableCliente extends ArrayAdapter<Cliente> implements Filterable {
 
     private List<Cliente> originalData = null;
     private List<Cliente> filteredData = null;
@@ -29,7 +29,7 @@ public class AdaptadorBuscable extends ArrayAdapter<Cliente> implements Filterab
     private ItemFilter mFilter = new ItemFilter();
     private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
 
-    public AdaptadorBuscable(Context context, ArrayList<Cliente> data) {
+    public AdaptadorBuscableCliente(Context context, ArrayList<Cliente> data) {
         super(context,-1,data);
         this.filteredData = data;
         this.originalData = data;

@@ -2,6 +2,7 @@ package com.psycho.controlventas.Main;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -126,6 +127,12 @@ public class Ventas extends Fragment {
         db.close();
         spinner_Venta_Clientes.setAdapter(new AdaptadorSpinnerCliente(getContext(),ListaDeClientes));
 
+        if(ListaDeClientes.size() == 0)
+        {
+            Toast.makeText(getContext(), "Se requiere agregar primero a un cliente", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getActivity(), AgregarCliente.class);
+            startActivity(intent);
+        }
 
         CargarMarcas();
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -170,6 +177,13 @@ public class Ventas extends Fragment {
                 }
 
                 Cliente c = (Cliente) spinner_Venta_Clientes.getSelectedItem();
+                if(c == null)
+                {
+                    Toast.makeText(getContext(), "Se requiere agregar primero a un cliente", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), AgregarCliente.class);
+                    startActivity(intent);
+                    return;
+                }
                 Catalogo cat = (Catalogo) spinner_Venta_Catalogos.getSelectedItem();
                 ContentValues datos = new ContentValues();
                 datos.put("Cliente", c.getNombre());

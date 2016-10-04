@@ -10,9 +10,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class DetallesCliente extends AppCompatActivity {
     public EditText TextApellidoMaterno;
     public EditText TextDireccion;
     public EditText TextTelefono;
+    public Button BotonDetalleVentas;
     public Cliente cliente;
 
 
@@ -52,13 +55,23 @@ public class DetallesCliente extends AppCompatActivity {
         TextTelefono = (EditText)findViewById(R.id.detalles_cliente_telefono);
         final FloatingActionButton editar = (FloatingActionButton) findViewById(R.id.detalle_cliente_editar);
         final FloatingActionButton guardar = (FloatingActionButton) findViewById(R.id.detalle_cliente_guardar);
-        final FloatingActionButton eliminar = (FloatingActionButton) findViewById(R.id.detalle_cliente_eliminar);
+        BotonDetalleVentas = (Button) findViewById(R.id.btn_detalle_cliente_detalles);
 
         TextNombre.setTypeface(font);
         TextApellidoPaterno.setTypeface(font);
         TextApellidoMaterno.setTypeface(font);
         TextDireccion.setTypeface(font);
         TextTelefono.setTypeface(font);
+        BotonDetalleVentas.setTypeface(font);
+
+        BotonDetalleVentas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent d = new Intent(getApplicationContext(), Detalle_Ventas_Cliente.class);
+                d.putExtra("Cliente", cliente);
+                startActivity(d);
+            }
+        });
 
 
         Bundle bundle = getIntent().getExtras();
@@ -112,9 +125,16 @@ public class DetallesCliente extends AppCompatActivity {
             }
         });
 
-        eliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home: {
+                onBackPressed();
+                return true;
+            }
+            case R.id.btn_detalle_cliente_eliminar: {
                 BaseDatos db = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
                 SQLiteDatabase clientes = db.getWritableDatabase();
                 clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
@@ -122,21 +142,17 @@ public class DetallesCliente extends AppCompatActivity {
                 setResult(Activity.RESULT_OK, returnIntent);
                 Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
                 finish();
-            }
-        });
-
-
-
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                onBackPressed();
                 return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detalles_cliente, menu);
+        return true;
     }
 }
