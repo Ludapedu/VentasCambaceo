@@ -1,12 +1,17 @@
 package com.psycho.controlventas.Main;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +26,8 @@ import com.psycho.controlventas.R;
 import java.util.ArrayList;
 
 public class Detalle_Ventas_Cliente extends AppCompatActivity {
+
+    private final int EDIT_VENTA = 60;
 
     TextView lbl_Cliente_Monto_Abonado;
     TextView lbl_Cliente_Monto_Pendiente;
@@ -55,6 +62,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         tool.setTitle("Detalle de ventas");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle("Detalle de ventas");
+        Typeface font = Typeface.createFromAsset(getAssets(), "gloriahallelujah.ttf");
 
         Bundle bundle = getIntent().getExtras();
         cliente = (Cliente) bundle.getSerializable("Cliente");
@@ -70,8 +78,48 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         ListView_Cambios = (ListView) findViewById(R.id.Lista_Clientes_Cambios);
         ListView_Pagos = (ListView) findViewById(R.id.Lista_Clientes_Pagos);
 
+        lbl_Cliente_Monto_Abonado.setTypeface(font);
+        lbl_Cliente_Monto_Pendiente.setTypeface(font);
+        lbl_Cliente_Compras.setTypeface(font);
+        lbl_Cliente_Cambios.setTypeface(font);
+        lbl_Cliente_Pagos.setTypeface(font);
+        txt_Cliente_Monto_Pendiente.setTypeface(font);
+        txt_Cliente_Monto_Abonado.setTypeface(font);
+
+
         ActualizarListViews();
 
+        ListView_Compras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Venta v = adaptadorpedidos.getItem(position);
+                Intent intent = new Intent(getApplicationContext(),DetallesVenta.class);
+                intent.putExtra("Venta", v);
+                startActivityForResult(intent, EDIT_VENTA);
+            }
+        });
+
+        ListView_Cambios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Venta v = adaptadorcambios.getItem(position);
+                Intent intent = new Intent(getApplicationContext(),DetallesVenta.class);
+                intent.putExtra("Venta", v);
+                startActivityForResult(intent, EDIT_VENTA);
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EDIT_VENTA)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListViews();
+            }
+        }
     }
 
     private void ActualizarListViews() {
@@ -80,7 +128,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         int MontoCompras = 0;
         BaseDatos BDVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
         SQLiteDatabase TablaVentas = BDVentas.getReadableDatabase();
-        Cursor pedidos = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 2 AND IdCliente = " + cliente.getIdCliente(), null);
+        Cursor pedidos = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado != 3 AND IdCliente = " + cliente.getIdCliente(), null);
         ListaCompras.clear();
         if (pedidos.moveToFirst()) {
             do {
@@ -162,6 +210,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         }
 
         txt_Cliente_Monto_Pendiente.setText("$ " + MontoPendiente);
+        txt_Cliente_Monto_Abonado.setText("$ " + MontoAbonado);
     }
 
     @Override
