@@ -1,7 +1,10 @@
 package com.psycho.controlventas.Main;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -31,6 +34,7 @@ public class DetallesCliente extends AppCompatActivity {
     public EditText TextTelefono;
     public Button BotonDetalleVentas;
     public Cliente cliente;
+    Context contexto = this;
 
 
     @Override
@@ -135,18 +139,55 @@ public class DetallesCliente extends AppCompatActivity {
                 return true;
             }
             case R.id.btn_detalle_cliente_eliminar: {
-                BaseDatos db = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
-                SQLiteDatabase clientes = db.getWritableDatabase();
-                clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK, returnIntent);
-                Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
-                finish();
+                Eliminar();
                 return true;
             }
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void Eliminar()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(contexto);
+        builder.setMessage("¿Desea eliminar el cliente?, esto borrara todos sus movimientos")
+                .setTitle("Confirmar")
+                .setCancelable(false)
+                .setNegativeButton("Cancelar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                .setPositiveButton("Confirmar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                BaseDatos dbClientes = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
+                                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
+                                BaseDatos dbPagos = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
+
+                                SQLiteDatabase clientes = dbClientes.getWritableDatabase();
+                                SQLiteDatabase ventas = dbVentas.getWritableDatabase();
+                                SQLiteDatabase pagos = dbPagos.getWritableDatabase();
+
+                                clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
+                                ventas.delete("Ventas", "IDREG = " + cliente.getIdCliente(), null);
+                                pagos.delete("Pagos", "IDREG = " + cliente.getIdCliente(), null);
+
+                                dbClientes.close();
+                                dbVentas.close();
+                                dbPagos.close();
+
+                                Intent returnIntent = new Intent();
+                                setResult(Activity.RESULT_OK, returnIntent);
+                                Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override

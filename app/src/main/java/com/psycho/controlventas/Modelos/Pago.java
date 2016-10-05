@@ -1,7 +1,6 @@
 package com.psycho.controlventas.Modelos;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by luis.perez on 04/10/2016.
@@ -9,11 +8,19 @@ import java.util.Date;
 
 public class Pago implements Serializable {
 
+    int IDREG;
     String Cliente;
     int IdCliente;
-    Date FechaPago;
+    String FechaPago;
     int Monto;
 
+    public int getIDREG() {
+        return IDREG;
+    }
+
+    public void setIDREG(int IDREG) {
+        this.IDREG = IDREG;
+    }
     public String getCliente() {
         return Cliente;
     }
@@ -30,11 +37,11 @@ public class Pago implements Serializable {
         IdCliente = idCliente;
     }
 
-    public Date getFechaPago() {
+    public String getFechaPago() {
         return FechaPago;
     }
 
-    public void setFechaPago(Date fechaPago) {
+    public void setFechaPago(String fechaPago) {
         FechaPago = fechaPago;
     }
 

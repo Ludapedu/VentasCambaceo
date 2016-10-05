@@ -12,7 +12,7 @@ public class BaseDatos extends SQLiteOpenHelper{
 
     String TablaClientes = "CREATE TABLE Clientes (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Nombre text, ApellidoPaterno text, ApellidoMaterno text, Direccion text, Telefono text, IdCliente int)";
     String TablaMarcas = "CREATE TABLE Marcas (IDMARCA INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Marca text)";
-    String TablaPagos = "CREATE TABLE Pagos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Cliente text, IdCliente, Fecha text, Monto int)";
+    String TablaPagos = "CREATE TABLE Pagos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Cliente text, IdCliente int, Fecha text, Monto int)";
     String TablaVentas = "CREATE TABLE Ventas (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, Entregado int)";
 
     public BaseDatos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

@@ -1,13 +1,16 @@
 package com.psycho.controlventas.Adaptadores;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.psycho.controlventas.Modelos.Pago;
+import com.psycho.controlventas.R;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ public class AdaptadorPagos extends ArrayAdapter<Pago> {
 
     ArrayList<Pago> pagos = null;
     LayoutInflater mInflater;
+    private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
 
     public AdaptadorPagos(Context context, ArrayList<Pago> data) {
         super(context, -1, data);
@@ -29,6 +33,31 @@ public class AdaptadorPagos extends ArrayAdapter<Pago> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+        final ViewHolder holder;
+
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.layout_list_pagos, null);
+
+            holder = new ViewHolder();
+            holder.Fecha = (TextView) convertView.findViewById(R.id.list_pago_fecha);
+            holder.Monto = (TextView) convertView.findViewById(R.id.list_pago_monto);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        // If weren't re-ordering this you could rely on what you set last time
+        holder.Fecha.setTypeface(font);
+        holder.Monto.setTypeface(font);
+
+        holder.Fecha.setText(pagos.get(position).getFechaPago());
+        holder.Monto.setText("$ "+ pagos.get(position).getMonto());
+
+        return convertView;
+    }
+
+    static class ViewHolder {
+        TextView Fecha;
+        TextView Monto;
     }
 }

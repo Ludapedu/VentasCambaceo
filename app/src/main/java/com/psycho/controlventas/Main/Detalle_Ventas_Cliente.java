@@ -11,8 +11,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.psycho.controlventas.Adaptadores.AdaptadorBuscablePedidos;
+import com.psycho.controlventas.Adaptadores.AdaptadorPagos;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Cliente;
+import com.psycho.controlventas.Modelos.Pago;
 import com.psycho.controlventas.Modelos.Venta;
 import com.psycho.controlventas.R;
 
@@ -33,10 +35,13 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     Cliente cliente;
     AdaptadorBuscablePedidos adaptadorpedidos;
     AdaptadorBuscablePedidos adaptadorcambios;
+    AdaptadorPagos adaptadorpagos;
     Venta RegistroCompras;
     Venta RegistroCambios;
+    Pago RegistroPago;
     ArrayList<Venta> ListaCompras = new ArrayList<>();
     ArrayList<Venta> ListaCambios = new ArrayList<>();
+    ArrayList<Pago> ListaPagos = new ArrayList<>();
 
 
     @Override
@@ -70,8 +75,9 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     }
 
     private void ActualizarListViews() {
-        int MontoAvonado = 0;
+        int MontoAbonado = 0;
         int MontoPendiente = 0;
+        int MontoCompras = 0;
         BaseDatos BDVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
         SQLiteDatabase TablaVentas = BDVentas.getReadableDatabase();
         Cursor pedidos = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 2 AND IdCliente = " + cliente.getIdCliente(), null);
@@ -89,14 +95,13 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
                 RegistroCompras.setNumero(pedidos.getFloat(7));
                 RegistroCompras.setCosto(pedidos.getInt(8));
                 RegistroCompras.setPrecio(pedidos.getInt(9));
-                MontoPendiente += pedidos.getInt(9);
+                MontoCompras += pedidos.getInt(9);
                 RegistroCompras.setEntregado(pedidos.getInt(10));
                 ListaCompras.add(RegistroCompras);
             } while (pedidos.moveToNext());
         }
         pedidos.close();
 
-        txt_Cliente_Monto_Pendiente.setText("$ " + MontoPendiente);
         adaptadorpedidos = new AdaptadorBuscablePedidos(getApplicationContext(), ListaCompras);
         ListView_Compras.setAdapter(adaptadorpedidos);
 
@@ -123,6 +128,40 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         adaptadorcambios = new AdaptadorBuscablePedidos(getApplicationContext(), ListaCambios);
         ListView_Cambios.setAdapter(adaptadorcambios);
         BDVentas.close();
+
+        ListaPagos.clear();
+        BaseDatos BDPagos = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
+        SQLiteDatabase TablaPagos = BDPagos.getReadableDatabase();
+        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto FROM Pagos WHERE IdCliente = " + cliente.getIdCliente(), null);
+        if (pagos.moveToFirst()) {
+            do {
+                RegistroPago = new Pago();
+                RegistroPago.setCliente(pagos.getString(1));
+                RegistroPago.setIdCliente(pagos.getInt(2));
+                RegistroPago.setFechaPago(pagos.getString(3));
+                RegistroPago.setMonto(pagos.getInt(4));
+                MontoAbonado += pagos.getInt(4);
+                ListaPagos.add(RegistroPago);
+            } while (pagos.moveToNext());
+        }
+        pagos.close();
+        adaptadorpagos = new AdaptadorPagos(getApplicationContext(), ListaPagos);
+        ListView_Pagos.setAdapter(adaptadorpagos);
+        BDPagos.close();
+
+        MontoPendiente = MontoCompras - MontoAbonado;
+
+        if(MontoPendiente < 0)
+        {
+            MontoPendiente = MontoPendiente * -1;
+            lbl_Cliente_Monto_Pendiente.setText("Saldo a favor");
+        }
+        else
+        {
+            lbl_Cliente_Monto_Pendiente.setText("Monto Pendiente");
+        }
+
+        txt_Cliente_Monto_Pendiente.setText("$ " + MontoPendiente);
     }
 
     @Override
