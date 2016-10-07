@@ -1,6 +1,6 @@
 package com.psycho.controlventas.Main;
 
-import android.content.ContentValues;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,33 +12,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
-import com.psycho.controlventas.Adaptadores.AdaptadorSpinnerCliente;
+import com.psycho.controlventas.Adaptadores.AdaptadorPagos;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
-import com.psycho.controlventas.Modelos.Cliente;
 import com.psycho.controlventas.Modelos.Pago;
 import com.psycho.controlventas.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class Pagos extends Fragment {
 
-    Calendar cal;
-    TextView lbl_Pagos_Cliente;
-    EditText txt_Pagos_Monto;
-    DatePicker DatePicker_Pagos_Fecha;
-    Spinner SpinnerCliente;
+    private final int AGREGAR_PAGO = 30;
     FloatingActionButton Agregar;
-    AdaptadorSpinnerCliente adaptadorclientes;
-    Cliente RegistroCliente;
-    ArrayList<Cliente> Lista_De_Clientes = new ArrayList<>();
-    Pago pago;
+    ListView Lista_Pagos;
+    AdaptadorPagos adaptadorpagos;
+    ArrayList<Pago> ListaPagos = new ArrayList<>();
+    Pago RegistroPago;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,82 +52,43 @@ public class Pagos extends Fragment {
         final View view = inflater.inflate(R.layout.pagos, container, false);
         getActivity().setTitle("Pagos");
 
-        lbl_Pagos_Cliente = (TextView) view.findViewById(R.id.lbl_Cliente_Pagos);
-        txt_Pagos_Monto = (EditText) view.findViewById(R.id.txt_Pagos_Monto);
-        DatePicker_Pagos_Fecha = (DatePicker) view.findViewById(R.id.Pagos_Picker);
-        SpinnerCliente = (Spinner) view.findViewById(R.id.Pagos_Spinner_Clientes);
-        Agregar = (FloatingActionButton)view.findViewById(R.id.btn_Pagos_Agregar);
 
-        ActualizarSpinnerClientes();
+        Agregar = (FloatingActionButton)view.findViewById(R.id.btn_Pagos_Agregar);
+        Lista_Pagos = (ListView) view.findViewById(R.id.Lista_Pagos);
+
+        ActualizarListView();
 
         Agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                int Dia = DatePicker_Pagos_Fecha.getDayOfMonth();
-                int Mes = DatePicker_Pagos_Fecha.getMonth() + 1;
-                int ano = DatePicker_Pagos_Fecha.getYear();
-                if(txt_Pagos_Monto.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getContext(),"Falta espcificar el monto del pago", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-
-                Cliente c = (Cliente) SpinnerCliente.getSelectedItem();
-                if(c == null) {
-                    Toast.makeText(getContext(), "Se requiere agregar primero a un cliente", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getActivity(), AgregarCliente.class);
-                    startActivity(intent);
-                    return;
-                }
-                ContentValues datos = new ContentValues();
-                datos.put("Cliente", c.getNombre());
-                datos.put("IdCliente", c.getIdCliente());
-                datos.put("Fecha", "" + Dia + "-" + Mes + "-" + ano);
-                datos.put("Monto", Integer.parseInt(txt_Pagos_Monto.getText().toString()));
-                BaseDatos db = new BaseDatos(getContext(), "Pagos", null, 1);
-                SQLiteDatabase pagos = db.getWritableDatabase();
-                pagos.insert("Pagos", null, datos);
-                db.close();
-                Toast.makeText(getContext(),"Pago agregado correctamente", Toast.LENGTH_SHORT).show();
-                cal = Calendar.getInstance();
-                LimpiarControles();
+                Intent agregarpago = new Intent(getActivity(), AgregarPago.class);
+                startActivityForResult(agregarpago, AGREGAR_PAGO);
             }
         });
 
         return view;
     }
 
-    private void LimpiarControles()
+    private void ActualizarListView()
     {
-        txt_Pagos_Monto.setText("");
-    }
-
-    private void ActualizarSpinnerClientes() {
-
-        BaseDatos dbClientes = new BaseDatos(getContext(), "Clientes", null, 1);
-        SQLiteDatabase clientes = dbClientes.getWritableDatabase();
-        Lista_De_Clientes.clear();
-
-        Cursor filacliente = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes", null);
-        if (filacliente.moveToFirst()) {
+        ListaPagos.clear();
+        BaseDatos BDPagos = new BaseDatos(getContext(), "Pagos", null, 1);
+        SQLiteDatabase TablaPagos = BDPagos.getReadableDatabase();
+        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto FROM Pagos", null);
+        if (pagos.moveToFirst()) {
             do {
-                RegistroCliente = new Cliente();
-                RegistroCliente.setIdCliente(filacliente.getInt(0));
-                RegistroCliente.setNombre(filacliente.getString(1));
-                RegistroCliente.setApellidoPaterno(filacliente.getString(2));
-                RegistroCliente.setApellidoMaterno(filacliente.getString(3));
-                RegistroCliente.setDireccion(filacliente.getString(4));
-                RegistroCliente.setTelefono(filacliente.getString(5));
-                Lista_De_Clientes.add(RegistroCliente);
-            } while (filacliente.moveToNext());
+                RegistroPago = new Pago();
+                RegistroPago.setCliente(pagos.getString(1));
+                RegistroPago.setIdCliente(pagos.getInt(2));
+                RegistroPago.setFechaPago(pagos.getString(3));
+                RegistroPago.setMonto(pagos.getInt(4));
+                ListaPagos.add(RegistroPago);
+            } while (pagos.moveToNext());
         }
-        filacliente.close();
-        dbClientes.close();
-
-        adaptadorclientes = new AdaptadorSpinnerCliente(getContext(), Lista_De_Clientes);
-        SpinnerCliente.setAdapter(adaptadorclientes);
+        pagos.close();
+        adaptadorpagos = new AdaptadorPagos(getContext(), ListaPagos);
+        Lista_Pagos.setAdapter(adaptadorpagos);
+        BDPagos.close();
     }
 
     public void onButtonPressed(Uri uri) {
@@ -165,5 +116,16 @@ public class Pagos extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == AGREGAR_PAGO)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
     }
 }

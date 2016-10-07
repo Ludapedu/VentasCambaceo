@@ -1,7 +1,9 @@
 package com.psycho.controlventas.Main;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Cliente;
 import com.psycho.controlventas.R;
 
@@ -60,30 +63,35 @@ public class AgregarCliente extends AppCompatActivity {
             case R.id.agregar_cliente_agregar:
             {
                 String nombre = TextNombre.getText().toString();
-                String apellidopaterno = TextApellidoPaterno.getText().toString();
-                String apellidomaterno = TextApellidoMaterno.getText().toString();
-                String direccion = TextDireccion.getText().toString();
-                String telefono = TextTelefono.getText().toString();
-                cliente = new Cliente();
-                cliente.setNombre(nombre);
-                cliente.setApellidoPaterno(apellidopaterno);
-                cliente.setApellidoMaterno(apellidomaterno);
-                cliente.setDireccion(direccion);
-                cliente.setTelefono(telefono);
-                cliente.setIdCliente(0);
-                if(cliente.nombre.isEmpty())
+                if(nombre.isEmpty())
                 {
                     Toast.makeText(getApplicationContext(),"El cliente no puede ser vacío", Toast.LENGTH_SHORT).show();
                     return false;
                 }
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("Cliente",cliente);
-                setResult(Activity.RESULT_OK, returnIntent);
+                AgregarCliente();
                 finish();
             }break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void AgregarCliente()
+    {
+        ContentValues datos = new ContentValues();
+        datos.put("Nombre", cliente.getNombre());
+        datos.put("ApellidoPaterno", cliente.getApellidoPaterno());
+        datos.put("ApellidoMaterno", cliente.getApellidoMaterno());
+        datos.put("Direccion", cliente.getDireccion());
+        datos.put("Telefono", cliente.getTelefono());
+        datos.put("IdCliente", cliente.getIdCliente());
+        BaseDatos db = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
+        SQLiteDatabase clientes = db.getWritableDatabase();
+        clientes.insert("Clientes",null,datos);
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("Cliente",cliente);
+        setResult(Activity.RESULT_OK, returnIntent);
+        Toast.makeText(getApplicationContext(),"Cliente agregado correctamente", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -1,7 +1,6 @@
 package com.psycho.controlventas.Main;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -34,6 +33,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
     private final int ADD_NEW_CLIENT = 100;
     private final int EDIT_CLIENT = 50;
+    private final int VIEW_RESUME = 80;
 
 
     private OnFragmentInteractionListener mListener;
@@ -54,10 +54,8 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         // Required empty public constructor
     }
 
-    public static Clientes newInstance(String param1, String param2) {
+    public static Clientes newInstance() {
         Clientes fragment = new Clientes();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -103,9 +101,9 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cliente selectedclient = clientesadapter.getItem(i);
-                Intent intent = new Intent(getActivity(), DetallesCliente.class);
+                Intent intent = new Intent(getActivity(), Detalle_Ventas_Cliente.class);
                 intent.putExtra("Cliente", selectedclient);
-                startActivityForResult(intent, EDIT_CLIENT);
+                startActivityForResult(intent, VIEW_RESUME);
             }
         });
 
@@ -124,71 +122,40 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == ADD_NEW_CLIENT) {
-            if (resultCode == Activity.RESULT_OK) {
-                Cliente cliente = (Cliente) data.getExtras().getSerializable("Cliente");
-                ContentValues datos = new ContentValues();
-                datos.put("Nombre", cliente.getNombre());
-                datos.put("ApellidoPaterno", cliente.getApellidoPaterno());
-                datos.put("ApellidoMaterno", cliente.getApellidoMaterno());
-                datos.put("Direccion", cliente.getDireccion());
-                datos.put("Telefono", cliente.getTelefono());
-                datos.put("IdCliente", cliente.getIdCliente());
-                BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
-                SQLiteDatabase clientes = db.getWritableDatabase();
-                clientes.insert("Clientes",null,datos);
-
-                ListaDeClientes.clear();
-
-                Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
-                if(fila.moveToFirst())
-                {
-                    do {
-                        RegistroCliente = new Cliente();
-                        RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
-                        RegistroCliente.setNombre(fila.getString(1));
-                        RegistroCliente.setApellidoPaterno(fila.getString(2));
-                        RegistroCliente.setApellidoMaterno(fila.getString(3));
-                        RegistroCliente.setDireccion(fila.getString(4));
-                        RegistroCliente.setTelefono(fila.getString(5));
-                        ListaDeClientes.add(RegistroCliente);
-                    }while (fila.moveToNext());
-                }
-                fila.close();
-                db.close();
-                clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
-                Lista_Clientes.setAdapter(clientesadapter);
-            }
-        }
-        else if(requestCode == EDIT_CLIENT)
+        if(requestCode == VIEW_RESUME)
         {
             if(resultCode == Activity.RESULT_OK)
             {
-                BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
-                SQLiteDatabase clientes = db.getWritableDatabase();
-
-                ListaDeClientes.clear();
-
-                Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
-                if(fila.moveToFirst())
-                {
-                    do {
-                        RegistroCliente = new Cliente();
-                        RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
-                        RegistroCliente.setNombre(fila.getString(1));
-                        RegistroCliente.setApellidoPaterno(fila.getString(2));
-                        RegistroCliente.setApellidoMaterno(fila.getString(3));
-                        RegistroCliente.setDireccion(fila.getString(4));
-                        RegistroCliente.setTelefono(fila.getString(5));
-                        ListaDeClientes.add(RegistroCliente);
-                    }while (fila.moveToNext());
-                }
-                fila.close();
-                db.close();
-                clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
-                Lista_Clientes.setAdapter(clientesadapter);
+                ActualizarListView();
             }
         }
+    }
+
+    private void ActualizarListView()
+    {
+        BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
+        SQLiteDatabase clientes = db.getWritableDatabase();
+
+        ListaDeClientes.clear();
+
+        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
+        if(fila.moveToFirst())
+        {
+            do {
+                RegistroCliente = new Cliente();
+                RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
+                RegistroCliente.setNombre(fila.getString(1));
+                RegistroCliente.setApellidoPaterno(fila.getString(2));
+                RegistroCliente.setApellidoMaterno(fila.getString(3));
+                RegistroCliente.setDireccion(fila.getString(4));
+                RegistroCliente.setTelefono(fila.getString(5));
+                ListaDeClientes.add(RegistroCliente);
+            }while (fila.moveToNext());
+        }
+        fila.close();
+        db.close();
+        clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
+        Lista_Clientes.setAdapter(clientesadapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

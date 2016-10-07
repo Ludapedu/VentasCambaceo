@@ -19,6 +19,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            }
         </activity>
         <activity
             android:name=".Main.AgregarCliente"
@@ -42,6 +43,10 @@
         <activity
             android:name=".Main.DetalleCambio"
             android:label="@string/title_activity_detalle_cambio"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Main.AgregarPago"
+            android:label="@string/title_activity_agregar_pago"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -112,17 +112,6 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == EDIT_VENTA)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
-                ActualizarListViews();
-            }
-        }
-    }
-
     private void ActualizarListViews() {
         int MontoAbonado = 0;
         int MontoPendiente = 0;
@@ -218,17 +207,17 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
+                Intent i = new Intent();
+                setResult(Activity.RESULT_OK, i);
                 onBackPressed();
-            }
+            }break;
             case R.id.btn_detalle_ventas_editar:
             {
                 Intent i = new Intent(getApplicationContext(), DetallesCliente.class);
                 i.putExtra("Cliente", cliente);
-                startActivity(i);
-            }
-            return true;
+                startActivityForResult(i, 70);
+            }break;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -237,5 +226,16 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_detalle__ventas__cliente, menu);
         return true;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == EDIT_VENTA)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListViews();
+            }
+        }
     }
 }

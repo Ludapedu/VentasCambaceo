@@ -5,62 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.psycho.controlventas.Main.Pagos">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Cliente"
-                android:textSize="18sp"
-                android:gravity="center_horizontal"
-                android:id="@+id/Pagos_lbl_Cliente"/>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Pagos_Spinner_Clientes"/>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Importe"
-                    android:textSize="15sp"
-                    android:inputType="numberDecimal"
-                    android:id="@+id/txt_Pagos_Monto"/>
-                </android.support.design.widget.TextInputLayout>
-
-                <DatePicker
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/Pagos_Picker"
-                    />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-
-    </LinearLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,5 +13,10 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:id="@+id/btn_Pagos_Agregar"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/Lista_Pagos"/>
 
 </FrameLayout>

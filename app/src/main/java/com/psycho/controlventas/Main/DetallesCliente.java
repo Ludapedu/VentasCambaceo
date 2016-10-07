@@ -1,11 +1,9 @@
 package com.psycho.controlventas.Main;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -17,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -32,7 +29,6 @@ public class DetallesCliente extends AppCompatActivity {
     public EditText TextApellidoMaterno;
     public EditText TextDireccion;
     public EditText TextTelefono;
-    public Button BotonDetalleVentas;
     public Cliente cliente;
     Context contexto = this;
 
@@ -59,24 +55,12 @@ public class DetallesCliente extends AppCompatActivity {
         TextTelefono = (EditText)findViewById(R.id.detalles_cliente_telefono);
         final FloatingActionButton editar = (FloatingActionButton) findViewById(R.id.detalle_cliente_editar);
         final FloatingActionButton guardar = (FloatingActionButton) findViewById(R.id.detalle_cliente_guardar);
-        BotonDetalleVentas = (Button) findViewById(R.id.btn_detalle_cliente_detalles);
 
         TextNombre.setTypeface(font);
         TextApellidoPaterno.setTypeface(font);
         TextApellidoMaterno.setTypeface(font);
         TextDireccion.setTypeface(font);
         TextTelefono.setTypeface(font);
-        BotonDetalleVentas.setTypeface(font);
-
-        BotonDetalleVentas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent d = new Intent(getApplicationContext(), Detalle_Ventas_Cliente.class);
-                d.putExtra("Cliente", cliente);
-                startActivity(d);
-            }
-        });
-
 
         Bundle bundle = getIntent().getExtras();
         cliente = (Cliente) bundle.getSerializable("Cliente");
@@ -123,8 +107,6 @@ public class DetallesCliente extends AppCompatActivity {
                 guardar.setVisibility(View.INVISIBLE);
 
                 Toast.makeText(getApplicationContext(),"Cliente guardado", Toast.LENGTH_SHORT).show();
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
         });
@@ -136,12 +118,10 @@ public class DetallesCliente extends AppCompatActivity {
             // Respond to the action bar's Up/Home button
             case android.R.id.home: {
                 onBackPressed();
-                return true;
-            }
+            }break;
             case R.id.btn_detalle_cliente_eliminar: {
                 Eliminar();
-                return true;
-            }
+            }break;
         }
 
         return super.onOptionsItemSelected(item);
@@ -183,8 +163,6 @@ public class DetallesCliente extends AppCompatActivity {
                                 dbVentas.close();
                                 dbPagos.close();
 
-                                Intent returnIntent = new Intent();
-                                setResult(Activity.RESULT_OK, returnIntent);
                                 Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
