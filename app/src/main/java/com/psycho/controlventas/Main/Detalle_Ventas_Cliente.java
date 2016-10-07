@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -55,17 +56,17 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle__ventas__cliente);
+        Bundle bundle = getIntent().getExtras();
+        cliente = (Cliente) bundle.getSerializable("Cliente");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_ventas_cliente);
         CollapsingToolbarLayout tool = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout_ventas_cliente);
         setSupportActionBar(toolbar);
         tool.setTitleEnabled(true);
-        tool.setTitle("Detalle de ventas");
+        tool.setTitle(cliente.getNombre());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitle("Detalle de ventas");
+        toolbar.setTitle(cliente.getNombre());
         Typeface font = Typeface.createFromAsset(getAssets(), "gloriahallelujah.ttf");
 
-        Bundle bundle = getIntent().getExtras();
-        cliente = (Cliente) bundle.getSerializable("Cliente");
 
         lbl_Cliente_Monto_Abonado = (TextView) findViewById(R.id.lbl_Cliente_Monto_Abonado);
         lbl_Cliente_Monto_Pendiente = (TextView) findViewById(R.id.lbl_Cliente_Monto_Pendiente);
@@ -219,9 +220,22 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
             case android.R.id.home: {
                 onBackPressed();
             }
+            case R.id.btn_detalle_ventas_editar:
+            {
+                Intent i = new Intent(getApplicationContext(), DetallesCliente.class);
+                i.putExtra("Cliente", cliente);
+                startActivity(i);
+            }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_detalle__ventas__cliente, menu);
+        return true;
     }
 }

@@ -18,21 +18,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Pedido Original" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Cliente" />
-
-        <Spinner
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Pedido Original"
+            android:textSize="20sp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,14 +37,434 @@
 
         <Spinner
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></Spinner>
+            android:layout_height="wrap_content"
+            android:id="@+id/Cambios_Spinner_Catalogo"
+            />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/Cambios_Pagina"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número"
-            android:textSize="15sp" />
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="130dp"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/txt_Cambios_Pagina"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:hint="Página"
+                        android:textSize="15sp"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:inputType="number"
+                        android:enabled="false"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <EditText
+                        android:id="@+id/txt_Cambios_Numero"
+                        android:layout_width="80dp"
+                        android:layout_height="match_parent"
+                        android:hint="Número"
+                        android:textSize="15sp"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:inputType="numberDecimal"
+                        android:enabled="false"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txt_Ventas_Marca"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="Marca"
+                            android:inputType="textAutoComplete"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txt_Ventas_ID"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="ID"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp"
+                            android:inputType="number"
+                            android:maxLength="6" >
+
+                            <requestFocus />
+                        </EditText>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_Cambios_Marca"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="Marca"
+                        android:inputType="textAutoComplete"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:enabled="false"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_ID"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="ID"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:inputType="number"
+                        android:maxLength="6"
+                        android:enabled="false">
+
+                        <requestFocus />
+                    </EditText>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_Costo"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:hint="Costo"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:enabled="false"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_Precio"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:hint="Precio"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:inputType="number"
+                        android:enabled="false"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Cambio"
+                android:textSize="20sp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Catalogo" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/Cambios_Spinner_Catalogo2"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="130dp"
+                android:layout_height="wrap_content" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/txt_Cambios_Pagina2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Página"
+                        android:textSize="15sp"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:inputType="number" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/txt_Cambios_Numero2"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:hint="Número"
+                        android:textSize="15sp"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:inputType="numberDecimal" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <LinearLayout
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/txt_Ventas_Marca2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="Marca"
+                            android:inputType="textAutoComplete"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" >
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/txt_Ventas_ID2"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:hint="ID"
+                            android:textColorHint="@android:color/darker_gray"
+                            android:textSize="15sp"
+                            android:inputType="number"
+                            android:maxLength="6" >
+
+                            <requestFocus />
+                        </EditText>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="160dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/txt_Cambios_Marca2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="Marca"
+                        android:inputType="textAutoComplete"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_ID2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:hint="ID"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:inputType="number"
+                        android:maxLength="6" >
+
+                        <requestFocus />
+                    </EditText>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_Costo2"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:inputType="number"
+                        android:hint="Costo"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"/>
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent" >
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/txt_Cambios_Precio2"
+                        android:layout_width="120dp"
+                        android:layout_height="40dp"
+                        android:hint="Precio"
+                        android:textColorHint="@android:color/darker_gray"
+                        android:textSize="15sp"
+                        android:inputType="number" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
     </LinearLayout>
 
 </RelativeLayout>

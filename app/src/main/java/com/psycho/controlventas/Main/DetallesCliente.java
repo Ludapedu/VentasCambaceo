@@ -167,14 +167,17 @@ public class DetallesCliente extends AppCompatActivity {
                                 BaseDatos dbClientes = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
                                 BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
                                 BaseDatos dbPagos = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
+                                BaseDatos dbCambios = new BaseDatos(getApplicationContext(), "Cambios", null, 1);
 
                                 SQLiteDatabase clientes = dbClientes.getWritableDatabase();
                                 SQLiteDatabase ventas = dbVentas.getWritableDatabase();
                                 SQLiteDatabase pagos = dbPagos.getWritableDatabase();
+                                SQLiteDatabase cambios = dbCambios.getWritableDatabase();
 
-                                clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
-                                ventas.delete("Ventas", "IDREG = " + cliente.getIdCliente(), null);
-                                pagos.delete("Pagos", "IDREG = " + cliente.getIdCliente(), null);
+                                clientes.delete("Clientes", "IdCliente = " + cliente.getIdCliente(), null);
+                                ventas.delete("Ventas", "IdCliente = " + cliente.getIdCliente(), null);
+                                pagos.delete("Pagos", "IdCliente = " + cliente.getIdCliente(), null);
+                                cambios.delete("Cambios", "IdCliente = " + cliente.getIdCliente(), null);
 
                                 dbClientes.close();
                                 dbVentas.close();

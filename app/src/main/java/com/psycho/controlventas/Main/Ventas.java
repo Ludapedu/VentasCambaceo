@@ -43,7 +43,6 @@ public class Ventas extends Fragment {
     private Cliente RegistroCliente;
     ArrayList<Cliente> ListaDeClientes = new ArrayList<Cliente>();
     private ArrayList<String> ListaMarcas = new ArrayList<String>();
-    AdaptadorSpinnerCliente clientesadapter;
 
 
     private OnFragmentInteractionListener mListener;

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class Cambios extends Fragment {
-    private final int EDIT_VENTA = 60;
+    private final int ELIMINAR_CAMBIO = 70;
     ListView ListViewCambios;
     ArrayList<Venta> Lista_De_Cambios = new ArrayList<Venta>();
     private AdaptadorBuscablePedidos cambiosadapter;
@@ -68,9 +68,9 @@ public class Cambios extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CambioSeleccionado = cambiosadapter.getItem(i);
-                Intent intent = new Intent(getActivity(),DetallesVenta.class);
+                Intent intent = new Intent(getActivity(),DetalleCambio.class);
                 intent.putExtra("Venta", CambioSeleccionado);
-                startActivityForResult(intent, EDIT_VENTA);
+                startActivityForResult(intent, ELIMINAR_CAMBIO);
             }
         });
 
@@ -138,7 +138,7 @@ public class Cambios extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == EDIT_VENTA)
+        if(requestCode == ELIMINAR_CAMBIO)
         {
             if(resultCode == Activity.RESULT_OK)
             {
