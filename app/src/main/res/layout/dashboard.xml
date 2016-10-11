@@ -35,7 +35,8 @@
                         android:layout_marginTop="16dp"
                         android:text="Ventas completadas"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:id="@+id/txt_Dashboard_Ventas_Completadas"/>
 
                     <ProgressBar
                         android:id="@+id/progressBar"
@@ -83,7 +84,8 @@
                         android:layout_marginTop="16dp"
                         android:text="Ventas por cobrar"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:id="@+id/txt_Dashboard_Ventas_PorCobrar"/>
 
 
                     <ProgressBar
@@ -137,7 +139,8 @@
                         android:layout_marginTop="16dp"
                         android:text="Pedidos por comprar"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:id="@+id/txt_Dashboard_Pedidos_PorCobrar"/>
 
                     <ProgressBar
                         android:id="@+id/progressBar3"
@@ -185,7 +188,8 @@
                         android:layout_marginTop="16dp"
                         android:text="Compras por realizar"
                         android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:id="@+id/txt_Dashboard_Compras_Realizadas"/>
 
 
                     <ProgressBar

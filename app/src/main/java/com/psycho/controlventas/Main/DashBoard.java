@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.R;
 
 
@@ -20,6 +21,11 @@ public class DashBoard extends Fragment {
     Handler progressHandler = new Handler();
     ProgressBar myprogressBar;
     TextView progressingTextView;
+    TextView VentasCompletadas;
+    TextView VentasPorCobrar;
+    TextView PedidosPorComprar;
+    TextView ComprasRealizadas;
+    Font font = new Font();
 
 
     private OnFragmentInteractionListener mListener;
@@ -28,7 +34,7 @@ public class DashBoard extends Fragment {
     }
 
 
-    public static DashBoard newInstance(String param1, String param2) {
+    public static DashBoard newInstance() {
         DashBoard fragment = new DashBoard();
         return fragment;
     }
@@ -47,6 +53,14 @@ public class DashBoard extends Fragment {
 
         myprogressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressingTextView = (TextView)view.findViewById(R.id.progress_circle_text);
+        VentasCompletadas = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_Completadas);
+        VentasPorCobrar = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_PorCobrar);
+        PedidosPorComprar = (TextView)view.findViewById(R.id.txt_Dashboard_Pedidos_PorCobrar);
+        ComprasRealizadas = (TextView)view.findViewById(R.id.txt_Dashboard_Compras_Realizadas);
+
+        VentasCompletadas.setTypeface(font.setAsset(getContext()));
+        VentasPorCobrar.setTypeface(font.setAsset(getContext()));
+        PedidosPorComprar.setTypeface(font.setAsset(getContext()));
 
         myprogressBar.setProgress(20);
         progressingTextView.setText("20");
