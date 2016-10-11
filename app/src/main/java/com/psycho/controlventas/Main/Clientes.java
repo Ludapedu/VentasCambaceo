@@ -129,6 +129,20 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                 ActualizarListView();
             }
         }
+        if(requestCode == ADD_NEW_CLIENT)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
+        if(requestCode == EDIT_CLIENT)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
     }
 
     private void ActualizarListView()
