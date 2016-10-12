@@ -59,26 +59,7 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
             holder.ID = (TextView) convertView.findViewById(R.id.list_pedidos_ID);
             holder.Numero = (TextView) convertView.findViewById(R.id.list_pedidos_numero);
             holder.NombreCliente = (TextView) convertView.findViewById(R.id.list_pedidos_Cliente);
-            holder.Costo = (TextView) convertView.findViewById(R.id.list_pedidos_costo);
-            holder.Precio = (TextView) convertView.findViewById(R.id.list_pedidos_precio);
             holder.lblNumero = (TextView) convertView.findViewById(R.id.list_pedidos_lblNumero);
-            holder.lblCosto = (TextView) convertView.findViewById(R.id.list_pedidos_lblCosto);
-            holder.lblPrecio = (TextView) convertView.findViewById(R.id.list_pedidos_lblPrecio);
-            //holder.Entreago = (CheckBox)convertView.findViewById(R.id.CheckEntregado);
-            //holder.fondo = (LinearLayout)convertView.findViewById(R.id.fondo);
-
-            /*holder.Entreago.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked) {
-                        holder.fondo.setBackgroundColor(getContext().getResources().getColor(R.color.Green));
-                    }
-                    else
-                    {
-                        holder.fondo.setBackgroundColor(getContext().getResources().getColor(R.color.White));
-                    }
-                }
-            });*/
 
             convertView.setTag(holder);
         } else {
@@ -90,18 +71,11 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
         holder.ID.setTypeface(font);
         holder.Numero.setTypeface(font);
         holder.NombreCliente.setTypeface(font);
-        holder.Costo.setTypeface(font);
-        holder.Precio.setTypeface(font);
         holder.lblNumero.setTypeface(font);
-        holder.lblCosto.setTypeface(font);
-        holder.lblPrecio.setTypeface(font);
         holder.Marca.setText(filteredData.get(position).getMarca());
         holder.ID.setText(String.valueOf(filteredData.get(position).getID()));
         holder.Numero.setText(String.valueOf(filteredData.get(position).getNumero()));
         holder.NombreCliente.setText(filteredData.get(position).getCliente());
-        holder.Costo.setText(String.valueOf(filteredData.get(position).getCosto()));
-        holder.Precio.setText(String.valueOf(filteredData.get(position).getPrecio()));
-        //holder.Entreago.setTypeface(font);
         return convertView;
     }
 
@@ -111,12 +85,7 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
         TextView ID;
         TextView Numero;
         TextView NombreCliente;
-        TextView Costo;
-        TextView Precio;
         TextView lblNumero;
-        TextView lblCosto;
-        TextView lblPrecio;
-        //CheckBox Entreago;
     }
 
     @Override

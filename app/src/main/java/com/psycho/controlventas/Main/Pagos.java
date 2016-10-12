@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.psycho.controlventas.Adaptadores.AdaptadorPagos;
@@ -24,6 +25,7 @@ import java.util.ArrayList;
 public class Pagos extends Fragment {
 
     private final int AGREGAR_PAGO = 30;
+    private final int EDIT_PAGO = 35;
     FloatingActionButton Agregar;
     ListView Lista_Pagos;
     AdaptadorPagos adaptadorpagos;
@@ -58,10 +60,22 @@ public class Pagos extends Fragment {
 
         ActualizarListView();
 
+        Lista_Pagos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pago pagoselected = adaptadorpagos.getItem(position);
+                Intent editarpago = new Intent(getActivity(), AgregarPago.class);
+                editarpago.putExtra("Pago", pagoselected);
+                editarpago.putExtra("Visible", true);
+                startActivityForResult(editarpago, EDIT_PAGO);
+            }
+        });
+
         Agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent agregarpago = new Intent(getActivity(), AgregarPago.class);
+                agregarpago.putExtra("Visible", false);
                 startActivityForResult(agregarpago, AGREGAR_PAGO);
             }
         });
@@ -78,6 +92,7 @@ public class Pagos extends Fragment {
         if (pagos.moveToFirst()) {
             do {
                 RegistroPago = new Pago();
+                RegistroPago.setIDREG(pagos.getInt(0));
                 RegistroPago.setCliente(pagos.getString(1));
                 RegistroPago.setIdCliente(pagos.getInt(2));
                 RegistroPago.setFechaPago(pagos.getString(3));
@@ -121,6 +136,13 @@ public class Pagos extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == AGREGAR_PAGO)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListView();
+            }
+        }
+        if(requestCode == EDIT_PAGO)
         {
             if(resultCode == Activity.RESULT_OK)
             {

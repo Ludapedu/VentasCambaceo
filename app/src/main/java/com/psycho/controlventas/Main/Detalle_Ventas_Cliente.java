@@ -29,6 +29,7 @@ import java.util.ArrayList;
 public class Detalle_Ventas_Cliente extends AppCompatActivity {
 
     private final int EDIT_VENTA = 60;
+    private final int EDIT_PAGO = 35;
 
     TextView lbl_Cliente_Monto_Abonado;
     TextView lbl_Cliente_Monto_Pendiente;
@@ -110,6 +111,17 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
             }
         });
 
+        ListView_Pagos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Pago pagoselected = adaptadorpagos.getItem(position);
+                Intent editarpago = new Intent(getApplicationContext(), AgregarPago.class);
+                editarpago.putExtra("Pago", pagoselected);
+                editarpago.putExtra("Visible", true);
+                startActivityForResult(editarpago, EDIT_PAGO);
+            }
+        });
+
     }
 
     private void ActualizarListViews() {
@@ -174,6 +186,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         if (pagos.moveToFirst()) {
             do {
                 RegistroPago = new Pago();
+                RegistroPago.setIDREG(pagos.getInt(0));
                 RegistroPago.setCliente(pagos.getString(1));
                 RegistroPago.setIdCliente(pagos.getInt(2));
                 RegistroPago.setFechaPago(pagos.getString(3));
@@ -231,6 +244,13 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == EDIT_VENTA)
+        {
+            if(resultCode == Activity.RESULT_OK)
+            {
+                ActualizarListViews();
+            }
+        }
+        if(requestCode == EDIT_PAGO)
         {
             if(resultCode == Activity.RESULT_OK)
             {
