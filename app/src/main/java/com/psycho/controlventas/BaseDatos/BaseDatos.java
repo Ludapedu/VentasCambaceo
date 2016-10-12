@@ -16,6 +16,7 @@ public class BaseDatos extends SQLiteOpenHelper{
     String TablaVentas = "CREATE TABLE Ventas (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, Entregado int)";
     String TablaCambios = "CREATE TABLE Cambios (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, IDREGVenta int)";
     String TablaCatalogos = "CREATE TABLE Catalogos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Catalogo text, IdCatalogo int)";
+    String TablaCompras = "CREATE TABLE Compras (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,IDREGVenta int, IdComprado int, Ubicacion text)";
 
     public BaseDatos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -28,6 +29,7 @@ public class BaseDatos extends SQLiteOpenHelper{
         db.execSQL(TablaVentas);
         db.execSQL(TablaCambios);
         db.execSQL(TablaCatalogos);
+        db.execSQL(TablaCompras);
     }
 
     @Override
@@ -38,5 +40,6 @@ public class BaseDatos extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS Ventas");
         db.execSQL("DROP TABLE IF EXISTS Cambios");
         db.execSQL("DROP TABLE IF EXISTS Catalogos");
+        db.execSQL("DROP TABLE IF EXISTS Cambios");
     }
 }

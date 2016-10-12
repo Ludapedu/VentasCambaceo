@@ -106,4 +106,5 @@
     <string name="title_activity_detalle__ventas__cliente">Detalle_Ventas_Cliente</string>
     <string name="title_activity_detalle_cambio">DetalleCambio</string>
     <string name="title_activity_agregar_pago">AgregarPago</string>
+    <string name="title_activity_detalle__compra">Detalle_Compra</string>
 </resources>
