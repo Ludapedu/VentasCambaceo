@@ -16,7 +16,7 @@ public class BaseDatos extends SQLiteOpenHelper{
     String TablaVentas = "CREATE TABLE Ventas (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, Entregado int)";
     String TablaCambios = "CREATE TABLE Cambios (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, IDREGVenta int)";
     String TablaCatalogos = "CREATE TABLE Catalogos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Catalogo text, IdCatalogo int)";
-    String TablaCompras = "CREATE TABLE Compras (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,IDREGVenta int, IdComprado int, Ubicacion text)";
+    String TablaCompras = "CREATE TABLE Compras (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,IDREGVenta int, Ubicacion text)";
 
     public BaseDatos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);

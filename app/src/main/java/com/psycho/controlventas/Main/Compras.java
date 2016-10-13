@@ -57,7 +57,7 @@ public class Compras extends Fragment{
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CompraSeleccionada = comprasadapter.getItem(i);
-                Intent intent = new Intent(getActivity(),DetallesVenta.class);
+                Intent intent = new Intent(getActivity(),Detalle_Compra.class);
                 intent.putExtra("Venta", CompraSeleccionada);
                 startActivityForResult(intent, EDIT_VENTA);
             }

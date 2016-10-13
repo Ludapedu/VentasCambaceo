@@ -241,6 +241,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextPrecio.setEnabled(false);
         modificar.setVisibility(View.VISIBLE);
         aceptar.setVisibility(View.INVISIBLE);
+        cancelar.setVisibility(View.VISIBLE);
     }
 
     private void HabilitarControles() {
@@ -256,7 +257,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextPrecio.setEnabled(true);
         modificar.setVisibility(View.INVISIBLE);
         aceptar.setVisibility(View.VISIBLE);
-        cancelar.setVisibility(View.VISIBLE);
+        cancelar.setVisibility(View.INVISIBLE);
     }
 
     private int PositionSpinnerClientes(Cliente item) {

@@ -23,14 +23,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Cliente" />
+            android:text="Cliente"
+            android:textSize="15sp"/>
 
         <TextView
             android:id="@+id/lbl_compras_catalogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Catalogo" />
+            android:text="Catalogo"
+            android:textSize="15sp"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -162,7 +165,8 @@
             android:layout_height="wrap_content"
             android:text="Comprado"
             android:paddingTop="10dp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="right"
+            android:textSize="15sp"/>
 
     </LinearLayout>
 
