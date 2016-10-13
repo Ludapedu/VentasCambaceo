@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.psycho.controlventas.Adaptadores.AdaptadorBuscablePedidos;
 import com.psycho.controlventas.Adaptadores.AdaptadorPagos;
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Cliente;
 import com.psycho.controlventas.Modelos.Pago;
@@ -51,6 +51,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     ArrayList<Venta> ListaCompras = new ArrayList<>();
     ArrayList<Venta> ListaCambios = new ArrayList<>();
     ArrayList<Pago> ListaPagos = new ArrayList<>();
+    Font font = new Font();
 
 
     @Override
@@ -66,7 +67,6 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         tool.setTitle(cliente.getNombre());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitle(cliente.getNombre());
-        Typeface font = Typeface.createFromAsset(getAssets(), "gloriahallelujah.ttf");
 
 
         lbl_Cliente_Monto_Abonado = (TextView) findViewById(R.id.lbl_Cliente_Monto_Abonado);
@@ -80,13 +80,13 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         ListView_Cambios = (ListView) findViewById(R.id.Lista_Clientes_Cambios);
         ListView_Pagos = (ListView) findViewById(R.id.Lista_Clientes_Pagos);
 
-        lbl_Cliente_Monto_Abonado.setTypeface(font);
-        lbl_Cliente_Monto_Pendiente.setTypeface(font);
-        lbl_Cliente_Compras.setTypeface(font);
-        lbl_Cliente_Cambios.setTypeface(font);
-        lbl_Cliente_Pagos.setTypeface(font);
-        txt_Cliente_Monto_Pendiente.setTypeface(font);
-        txt_Cliente_Monto_Abonado.setTypeface(font);
+        lbl_Cliente_Monto_Abonado.setTypeface(font.setAsset(this));
+        lbl_Cliente_Monto_Pendiente.setTypeface(font.setAsset(this));
+        lbl_Cliente_Compras.setTypeface(font.setAsset(this));
+        lbl_Cliente_Cambios.setTypeface(font.setAsset(this));
+        lbl_Cliente_Pagos.setTypeface(font.setAsset(this));
+        txt_Cliente_Monto_Pendiente.setTypeface(font.setAsset(this));
+        txt_Cliente_Monto_Abonado.setTypeface(font.setAsset(this));
 
 
         ActualizarListViews();

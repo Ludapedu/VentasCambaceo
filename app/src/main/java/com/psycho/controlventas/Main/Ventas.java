@@ -17,10 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.psycho.controlventas.Adaptadores.AdaptadorSpinnerCatalogo;
 import com.psycho.controlventas.Adaptadores.AdaptadorSpinnerCliente;
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Catalogo;
 import com.psycho.controlventas.Modelos.Cliente;
@@ -40,9 +42,12 @@ public class Ventas extends Fragment {
     EditText txt_Ventas_ID;
     EditText txt_Ventas_Costo;
     EditText txt_Ventas_Precio;
+    TextView lblCliente;
+    TextView lblCatalogo;
     private Cliente RegistroCliente;
     ArrayList<Cliente> ListaDeClientes = new ArrayList<Cliente>();
     private ArrayList<String> ListaMarcas = new ArrayList<String>();
+    Font font = new Font();
 
 
     private OnFragmentInteractionListener mListener;
@@ -89,12 +94,23 @@ public class Ventas extends Fragment {
         txt_Ventas_ID = (EditText) view.findViewById(R.id.txt_Ventas_ID);
         txt_Ventas_Costo = (EditText) view.findViewById(R.id.txt_Ventas_Costo);
         txt_Ventas_Precio = (EditText) view.findViewById(R.id.txt_Ventas_Precio);
+        lblCliente = (TextView) view.findViewById(R.id.lbl_Ventas_Cliente);
+        lblCatalogo = (TextView) view.findViewById(R.id.lbl_Ventas_Catalogo);
+
+        txt_Ventas_Pagina.setTypeface(font.setAsset(getContext()));
+        txt_Ventas_Numero.setTypeface(font.setAsset(getContext()));
+        txt_Ventas_Marca.setTypeface(font.setAsset(getContext()));
+        txt_Ventas_ID.setTypeface(font.setAsset(getContext()));
+        txt_Ventas_Costo.setTypeface(font.setAsset(getContext()));
+        txt_Ventas_Precio.setTypeface(font.setAsset(getContext()));
+        lblCliente.setTypeface(font.setAsset(getContext()));
+        lblCatalogo.setTypeface(font.setAsset(getContext()));
 
         ArrayList<Catalogo> catalogos = new ArrayList<Catalogo>();
         catalogos.add(new Catalogo("Caballeros"));
         catalogos.add(new Catalogo("Vestir Dama"));
         catalogos.add(new Catalogo("Botas Dama"));
-        catalogos.add(new Catalogo("Comfort"));
+        catalogos.add(new Catalogo("Confort"));
         catalogos.add(new Catalogo("Infantiles"));
         catalogos.add(new Catalogo("Importados"));
         catalogos.add(new Catalogo("Ropa Caballeros"));
@@ -103,14 +119,12 @@ public class Ventas extends Fragment {
         spinner_Venta_Catalogos.setAdapter(new AdaptadorSpinnerCatalogo(getContext(), catalogos));
 
 
-
         BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
         SQLiteDatabase clientes = db.getWritableDatabase();
         ListaDeClientes.clear();
 
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
-        if(fila.moveToFirst())
-        {
+        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes", null);
+        if (fila.moveToFirst()) {
             do {
                 RegistroCliente = new Cliente();
                 RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
@@ -120,14 +134,13 @@ public class Ventas extends Fragment {
                 RegistroCliente.setDireccion(fila.getString(4));
                 RegistroCliente.setTelefono(fila.getString(5));
                 ListaDeClientes.add(RegistroCliente);
-            }while (fila.moveToNext());
+            } while (fila.moveToNext());
         }
         fila.close();
         db.close();
-        spinner_Venta_Clientes.setAdapter(new AdaptadorSpinnerCliente(getContext(),ListaDeClientes));
+        spinner_Venta_Clientes.setAdapter(new AdaptadorSpinnerCliente(getContext(), ListaDeClientes));
 
-        if(ListaDeClientes.size() == 0)
-        {
+        if (ListaDeClientes.size() == 0) {
             Toast.makeText(getContext(), "Se requiere agregar primero a un cliente", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getActivity(), AgregarCliente.class);
             startActivity(intent);
@@ -145,39 +158,32 @@ public class Ventas extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(txt_Ventas_ID.getText().toString().isEmpty())
-                {
-                    Toast.makeText(getContext(),"El ID no puede ser vacío", Toast.LENGTH_SHORT).show();
+                if (txt_Ventas_ID.getText().toString().isEmpty()) {
+                    Toast.makeText(getContext(), "El ID no puede ser vacío", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(txt_Ventas_Pagina.getText().toString().matches(""))
-                {
+                if (txt_Ventas_Pagina.getText().toString().matches("")) {
                     txt_Ventas_Pagina.setText("0");
                 }
-                if(txt_Ventas_Numero.getText().toString().matches(""))
-                {
+                if (txt_Ventas_Numero.getText().toString().matches("")) {
                     txt_Ventas_Numero.setText("0");
                 }
-                if(txt_Ventas_Costo.getText().toString().matches(""))
-                {
+                if (txt_Ventas_Costo.getText().toString().matches("")) {
                     txt_Ventas_Costo.setText("0");
                 }
-                if(txt_Ventas_Precio.getText().toString().matches(""))
-                {
+                if (txt_Ventas_Precio.getText().toString().matches("")) {
                     txt_Ventas_Precio.setText("0");
                 }
                 String Marca = txt_Ventas_Marca.getText().toString();
-                if(!ListaMarcas.contains(Marca))
-                {
+                if (!ListaMarcas.contains(Marca)) {
                     BaseDatos BDMarcas = new BaseDatos(getContext(), "Marcas", null, 1);
                     SQLiteDatabase Marcas = BDMarcas.getWritableDatabase();
-                    Marcas.execSQL("INSERT INTO Marcas(Marca) VALUES(" + "'" + Marca + "'" +")");
+                    Marcas.execSQL("INSERT INTO Marcas(Marca) VALUES(" + "'" + Marca + "'" + ")");
                     BDMarcas.close();
                 }
 
                 Cliente c = (Cliente) spinner_Venta_Clientes.getSelectedItem();
-                if(c == null)
-                {
+                if (c == null) {
                     Toast.makeText(getContext(), "Se requiere agregar primero a un cliente", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getActivity(), AgregarCliente.class);
                     startActivity(intent);
@@ -201,30 +207,27 @@ public class Ventas extends Fragment {
                 db.close();
                 LimpiarCampos();
                 CargarMarcas();
-                Toast.makeText(getContext(),"Venta agregada correctamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Venta agregada correctamente", Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
     }
 
-    protected void CargarMarcas()
-    {
+    protected void CargarMarcas() {
         BaseDatos BDMarcas = new BaseDatos(getContext(), "Marcas", null, 1);
         SQLiteDatabase Marcas = BDMarcas.getWritableDatabase();
-        Cursor filaMarcas = Marcas.rawQuery("SELECT Marca FROM Marcas",null);
+        Cursor filaMarcas = Marcas.rawQuery("SELECT Marca FROM Marcas", null);
         ListaMarcas.clear();
-        if(filaMarcas.moveToFirst())
-        {
-            do
-            {
+        if (filaMarcas.moveToFirst()) {
+            do {
                 ListaMarcas.add(filaMarcas.getString(0));
-            }while(filaMarcas.moveToNext());
+            } while (filaMarcas.moveToNext());
         }
         filaMarcas.close();
         BDMarcas.close();
 
-        ArrayAdapter<String> adaptadorMarcas = new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,ListaMarcas);
+        ArrayAdapter<String> adaptadorMarcas = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ListaMarcas);
 
         txt_Ventas_Marca.setAdapter(adaptadorMarcas);
         txt_Ventas_Marca.setThreshold(1);
@@ -254,8 +257,7 @@ public class Ventas extends Fragment {
         mListener = null;
     }
 
-    public void LimpiarCampos()
-    {
+    public void LimpiarCampos() {
         txt_Ventas_Pagina.setText("");
         txt_Ventas_Numero.setText("");
         txt_Ventas_Marca.setText("");

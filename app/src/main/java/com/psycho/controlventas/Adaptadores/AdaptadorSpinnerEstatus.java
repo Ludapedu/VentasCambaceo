@@ -1,13 +1,13 @@
 package com.psycho.controlventas.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.Modelos.Estatus;
 import com.psycho.controlventas.R;
 
@@ -21,7 +21,7 @@ public class AdaptadorSpinnerEstatus extends ArrayAdapter<Estatus> {
 
     private LayoutInflater inflater;
     private ArrayList<Estatus> filteredData = null;
-    private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
+    Font font = new Font();
     TextView text1;
 
     public AdaptadorSpinnerEstatus(Context context, ArrayList<Estatus> data) {
@@ -45,7 +45,7 @@ public class AdaptadorSpinnerEstatus extends ArrayAdapter<Estatus> {
 
         View layout = inflater.inflate(R.layout.layout_spinner, null);
         text1 = (TextView) layout.findViewById(R.id.text_spinner);
-        text1.setTypeface(font);
+        text1.setTypeface(font.setAsset(getContext()));
         text1.setText(filteredData.get(position).getEstatus());
 
         return layout;

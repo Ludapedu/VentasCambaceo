@@ -19,6 +19,15 @@ public class Venta implements Serializable {
     public  int IdCliente;
     public  String Cliente;
     public int Entregado;
+    public String Ubicacion;
+
+    public String getUbicacion() {
+        return Ubicacion;
+    }
+
+    public void setUbicacion(String ubicacion) {
+        Ubicacion = ubicacion;
+    }
 
     public int getEntregado() {
         return Entregado;

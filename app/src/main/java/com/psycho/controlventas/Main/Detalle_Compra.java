@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -36,6 +37,14 @@ public class Detalle_Compra extends AppCompatActivity {
     TextView txtID;
     TextView txtCosto;
     TextView txtPrecio;
+    TextView lblCliente;
+    TextView lblCatalogo;
+    TextView lblPagina;
+    TextView lblNumero;
+    TextView lblMarca;
+    TextView lblID;
+    TextView lblCosto;
+    TextView lblPrecio;
     EditText txtubicacion;
     CheckBox comprado;
     Venta venta;
@@ -51,6 +60,8 @@ public class Detalle_Compra extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         Bundle bundle = getIntent().getExtras();
         venta = (Venta) bundle.getSerializable("Venta");
@@ -64,8 +75,18 @@ public class Detalle_Compra extends AppCompatActivity {
         txtID = (TextView) findViewById(R.id.lbl_compras_id);
         txtCosto = (TextView) findViewById(R.id.lbl_compras_costo);
         txtPrecio = (TextView) findViewById(R.id.lbl_compras_precio);
+        lblCliente = (TextView) findViewById(R.id.lbl_compras_lblcliente);
+        lblCatalogo = (TextView) findViewById(R.id.lbl_compras_lblcatalogo);
+        lblPagina = (TextView) findViewById(R.id.lbl_compras_lblpagina);
+        lblNumero = (TextView) findViewById(R.id.lbl_compras_lblnumero);
+        lblMarca = (TextView) findViewById(R.id.lbl_compras_lblmarca);
+        lblID = (TextView) findViewById(R.id.lbl_compras_lblid);
+        lblCosto = (TextView) findViewById(R.id.lbl_compras_lblcosto);
+        lblPrecio = (TextView) findViewById(R.id.lbl_compras_lblprecio);
+
         txtubicacion = (EditText) findViewById(R.id.txt_compras_ubicacion);
         comprado = (CheckBox) findViewById(R.id.check_compras_comprado);
+
 
         txtCliente.setTypeface(font.setAsset(this));
         txtCatalogo.setTypeface(font.setAsset(this));
@@ -76,18 +97,25 @@ public class Detalle_Compra extends AppCompatActivity {
         txtCosto.setTypeface(font.setAsset(this));
         txtPrecio.setTypeface(font.setAsset(this));
         txtubicacion.setTypeface(font.setAsset(this));
+        lblCliente.setTypeface(font.setAsset(this));
+        lblCatalogo.setTypeface(font.setAsset(this));
+        lblPagina.setTypeface(font.setAsset(this));
+        lblNumero.setTypeface(font.setAsset(this));
+        lblMarca.setTypeface(font.setAsset(this));
+        lblID.setTypeface(font.setAsset(this));
+        lblCosto.setTypeface(font.setAsset(this));
+        lblPrecio.setTypeface(font.setAsset(this));
 
-        BaseDatos dbCompras = new BaseDatos(getApplicationContext(), "Compras", null, 1);
-        SQLiteDatabase TablaCompras = dbCompras.getWritableDatabase();
-        Cursor ubicacion = TablaCompras.rawQuery("SELECT Ubicacion FROM Compras WHERE IDREGVenta = " + venta.getIDREG(), null);
+        BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
+        SQLiteDatabase TablaVentas = dbVentas.getReadableDatabase();
+        Cursor ubicacion = TablaVentas.rawQuery("SELECT Ubicacion FROM Ventas WHERE IDREG = " + venta.getIDREG(), null);
         if (ubicacion.moveToFirst()) {
             do {
                 txtubicacion.setText(ubicacion.getString(0));
             } while (ubicacion.moveToNext());
         }
         ubicacion.close();
-        dbCompras.close();
-
+        dbVentas.close();
 
         txtCliente.setText(venta.getCliente());
         txtCatalogo.setText(venta.getCatalogo());
@@ -101,13 +129,12 @@ public class Detalle_Compra extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BaseDatos dbCompras = new BaseDatos(getApplicationContext(), "Compras", null, 1);
-                SQLiteDatabase TablaCompras = dbCompras.getWritableDatabase();
+                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
+                SQLiteDatabase TablaCompras = dbVentas.getWritableDatabase();
                 ContentValues datos = new ContentValues();
-                datos.put("IDREGVenta", venta.getIDREG());
                 datos.put("Ubicacion", txtubicacion.getText().toString());
-                TablaCompras.insert("Compras", null, datos);
-                Toast.makeText(getApplicationContext(), "Ubicación Guardada", Toast.LENGTH_SHORT).show();
+                TablaCompras.update("Ventas", datos, "IDREG = " + venta.getIDREG(), null);
+                Toast.makeText(getApplicationContext(), "Guardado", Toast.LENGTH_SHORT).show();
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();

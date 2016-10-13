@@ -60,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
-                    android:text="Número: "
+                    android:text="Numero: "
                     android:textColor="@android:color/black"
                     android:textSize="18sp" />
 
@@ -85,7 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Ubicación: "
+            android:text="Ubicacion: "
             android:textColor="@android:color/black"
             android:textSize="18sp" />
         <TextView

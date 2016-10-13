@@ -1,7 +1,6 @@
 package com.psycho.controlventas.Adaptadores;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.Modelos.Venta;
 import com.psycho.controlventas.R;
 
@@ -26,7 +26,7 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
     private List<Venta> filteredData = null;
     private LayoutInflater mInflater;
     private ItemFilter mFilter = new ItemFilter();
-    private Typeface font = Typeface.createFromAsset(getContext().getAssets(), "gloriahallelujah.ttf");
+    Font font = new Font();
 
     public AdaptadorBuscablePedidos(Context context, ArrayList<Venta> data) {
         super(context, -1, data);
@@ -67,11 +67,11 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
         }
 
         // If weren't re-ordering this you could rely on what you set last time
-        holder.Marca.setTypeface(font);
-        holder.ID.setTypeface(font);
-        holder.Numero.setTypeface(font);
-        holder.NombreCliente.setTypeface(font);
-        holder.lblNumero.setTypeface(font);
+        holder.Marca.setTypeface(font.setAsset(getContext()));
+        holder.ID.setTypeface(font.setAsset(getContext()));
+        holder.Numero.setTypeface(font.setAsset(getContext()));
+        holder.NombreCliente.setTypeface(font.setAsset(getContext()));
+        holder.lblNumero.setTypeface(font.setAsset(getContext()));
         holder.Marca.setText(filteredData.get(position).getMarca());
         holder.ID.setText(String.valueOf(filteredData.get(position).getID()));
         holder.Numero.setText(String.valueOf(filteredData.get(position).getNumero()));

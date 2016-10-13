@@ -13,10 +13,9 @@ public class BaseDatos extends SQLiteOpenHelper{
     String TablaClientes = "CREATE TABLE Clientes (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Nombre text, ApellidoPaterno text, ApellidoMaterno text, Direccion text, Telefono text, IdCliente int)";
     String TablaMarcas = "CREATE TABLE Marcas (IDMARCA INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Marca text)";
     String TablaPagos = "CREATE TABLE Pagos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, Cliente text, IdCliente int, Fecha text, Monto int)";
-    String TablaVentas = "CREATE TABLE Ventas (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, Entregado int)";
+    String TablaVentas = "CREATE TABLE Ventas (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, Entregado int, Ubicacion text)";
     String TablaCambios = "CREATE TABLE Cambios (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Cliente text, IdCliente int ,Catalogo text, Pagina int, Marca text, ID int, Numero float, Costo int, Precio int, IDREGVenta int)";
     String TablaCatalogos = "CREATE TABLE Catalogos (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,Catalogo text, IdCatalogo int)";
-    String TablaCompras = "CREATE TABLE Compras (IDREG INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,IDREGVenta int, Ubicacion text)";
 
     public BaseDatos(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -29,7 +28,6 @@ public class BaseDatos extends SQLiteOpenHelper{
         db.execSQL(TablaVentas);
         db.execSQL(TablaCambios);
         db.execSQL(TablaCatalogos);
-        db.execSQL(TablaCompras);
     }
 
     @Override
@@ -40,6 +38,5 @@ public class BaseDatos extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS Ventas");
         db.execSQL("DROP TABLE IF EXISTS Cambios");
         db.execSQL("DROP TABLE IF EXISTS Catalogos");
-        db.execSQL("DROP TABLE IF EXISTS Cambios");
     }
 }

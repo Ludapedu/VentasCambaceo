@@ -54,7 +54,7 @@
                     android:inputType="textCapWords"
                     android:hint="Nombre(s)"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp">
+                    android:textSize="18sp">
                     <requestFocus />
                     </EditText>
                 </android.support.design.widget.TextInputLayout>
@@ -76,7 +76,7 @@
                     android:inputType="textCapWords"
                     android:hint="Apellido Paterno"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -97,7 +97,7 @@
                     android:inputType="textCapWords"
                     android:hint="Apellido Materno"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp" />
+                    android:textSize="18sp" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -118,7 +118,7 @@
                     android:gravity="top"
                     android:hint="Dirección"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
             <LinearLayout
@@ -137,7 +137,7 @@
                     android:inputType="phone"
                     android:hint="Teléfono"
                     android:textColorHint="@android:color/darker_gray"
-                    android:textSize="15sp"/>
+                    android:textSize="18sp"/>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
         </LinearLayout>

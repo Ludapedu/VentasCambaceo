@@ -29,14 +29,16 @@
                     android:layout_height="wrap_content"
                     android:text="Monto Abonado"
                     android:gravity="center"
-                    android:id="@+id/lbl_Cliente_Monto_Abonado"/>
+                    android:id="@+id/lbl_Cliente_Monto_Abonado"
+                    android:textSize="18sp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:gravity="center"
-                    android:id="@+id/txt_Cliente_Monto_Abonado"/>
+                    android:id="@+id/txt_Cliente_Monto_Abonado"
+                    android:textSize="18sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -50,34 +52,54 @@
                     android:layout_height="wrap_content"
                     android:text="Monto Pendiente"
                     android:gravity="center"
-                    android:id="@+id/lbl_Cliente_Monto_Pendiente"/>
+                    android:id="@+id/lbl_Cliente_Monto_Pendiente"
+                    android:textSize="18sp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="0"
                     android:gravity="center"
-                    android:id="@+id/txt_Cliente_Monto_Pendiente"/>
+                    android:id="@+id/txt_Cliente_Monto_Pendiente"
+                    android:textSize="18sp"/>
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:orientation="vertical"
+            android:paddingTop="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Compras"
+            android:id="@+id/lbl_Cliente_Compras"
+            android:textSize="18sp"/>
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_Ventas_Aceptar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                app:layout_anchorGravity="right"
+                app:srcCompat="@drawable/ic_done_white_24dp" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/Lista_Cliente_Compras"/>
+
+
+
         </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Compras"
-            android:id="@+id/lbl_Cliente_Compras"/>
-
-
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/Lista_Cliente_Compras"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:text="Cambios"
-            android:id="@+id/lbl_Cliente_Cambios"/>
+            android:id="@+id/lbl_Cliente_Cambios"
+            android:textSize="18sp"/>
 
         <ListView
             android:layout_width="match_parent"
@@ -88,7 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pagos"
-            android:id="@+id/lbl_Cliente_Pagos"/>
+            android:id="@+id/lbl_Cliente_Pagos"
+            android:textSize="18sp"/>
 
         <ListView
             android:layout_width="match_parent"

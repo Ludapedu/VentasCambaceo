@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.psycho.controlventas.Adaptadores.AdaptadorBuscablePedidos;
+import com.psycho.controlventas.Adaptadores.AdaptadorCompras;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Venta;
 import com.psycho.controlventas.R;
@@ -28,7 +28,7 @@ public class Compras extends Fragment{
     private final int EDIT_VENTA = 60;
     ListView ListViewCompras;
     ArrayList<Venta> Lista_De_Compras = new ArrayList<Venta>();
-    private AdaptadorBuscablePedidos comprasadapter;
+    private AdaptadorCompras comprasadapter;
     Venta CompraSeleccionada;
     Venta RegistroVenta;
 
@@ -106,7 +106,7 @@ public class Compras extends Fragment{
         Lista_De_Compras.clear();
         BaseDatos db = new BaseDatos(getContext(), "Ventas", null, 1);
         SQLiteDatabase TablaVentas = db.getWritableDatabase();
-        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 1", null);
+        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado, Ubicacion FROM Ventas WHERE Entregado = 1", null);
         if (fila.moveToFirst()) {
             do {
                 RegistroVenta = new Venta();
@@ -121,12 +121,13 @@ public class Compras extends Fragment{
                 RegistroVenta.setCosto(fila.getInt(8));
                 RegistroVenta.setPrecio(fila.getInt(9));
                 RegistroVenta.setEntregado(fila.getInt(10));
+                RegistroVenta.setUbicacion(fila.getString(11));
                 Lista_De_Compras.add(RegistroVenta);
             } while (fila.moveToNext());
         }
         fila.close();
         db.close();
-        comprasadapter = new AdaptadorBuscablePedidos(getContext(), Lista_De_Compras);
+        comprasadapter = new AdaptadorCompras(getContext(), Lista_De_Compras);
         ListViewCompras.setAdapter(comprasadapter);
 
     }
