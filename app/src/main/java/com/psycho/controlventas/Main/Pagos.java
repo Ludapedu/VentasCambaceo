@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.psycho.controlventas.Adaptadores.AdaptadorPagos;
+import com.psycho.controlventas.Assets.Font;
 import com.psycho.controlventas.BaseDatos.BaseDatos;
 import com.psycho.controlventas.Modelos.Pago;
 import com.psycho.controlventas.R;
@@ -24,13 +26,23 @@ import java.util.ArrayList;
 
 public class Pagos extends Fragment {
 
+    public int montopendiente;
+    public int montoabonado;
+
     private final int AGREGAR_PAGO = 30;
     private final int EDIT_PAGO = 35;
     FloatingActionButton Agregar;
+    TextView lblmontopendiente;
+    TextView lblmontoabonado;
+    TextView txtmontopendiente;
+    TextView txtmontoabonado;
+
     ListView Lista_Pagos;
     AdaptadorPagos adaptadorpagos;
     ArrayList<Pago> ListaPagos = new ArrayList<>();
     Pago RegistroPago;
+
+    Font font = new Font();
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,8 +67,18 @@ public class Pagos extends Fragment {
         getActivity().setTitle("Pagos");
 
 
-        Agregar = (FloatingActionButton)view.findViewById(R.id.btn_Pagos_Agregar);
+        Agregar = (FloatingActionButton) view.findViewById(R.id.btn_Pagos_Agregar);
         Lista_Pagos = (ListView) view.findViewById(R.id.Lista_Pagos);
+        lblmontopendiente = (TextView) view.findViewById(R.id.pagos_lblmontopendiente);
+        lblmontoabonado = (TextView) view.findViewById(R.id.pagos_lblmontoabonado);
+        txtmontopendiente = (TextView) view.findViewById(R.id.pagos_montopendiente);
+        txtmontoabonado = (TextView) view.findViewById(R.id.pagos_montoabonado);
+
+        lblmontopendiente.setTypeface(font.setAsset(getContext()));
+        lblmontoabonado.setTypeface(font.setAsset(getContext()));
+        txtmontopendiente.setTypeface(font.setAsset(getContext()));
+        txtmontoabonado.setTypeface(font.setAsset(getContext()));
+
 
         ActualizarListView();
 
@@ -83,8 +105,9 @@ public class Pagos extends Fragment {
         return view;
     }
 
-    private void ActualizarListView()
-    {
+    private void ActualizarListView() {
+        montopendiente = 0;
+        montoabonado = 0;
         ListaPagos.clear();
         BaseDatos BDPagos = new BaseDatos(getContext(), "Pagos", null, 1);
         SQLiteDatabase TablaPagos = BDPagos.getReadableDatabase();
@@ -97,6 +120,7 @@ public class Pagos extends Fragment {
                 RegistroPago.setIdCliente(pagos.getInt(2));
                 RegistroPago.setFechaPago(pagos.getString(3));
                 RegistroPago.setMonto(pagos.getInt(4));
+                montoabonado += pagos.getInt(4);
                 ListaPagos.add(RegistroPago);
             } while (pagos.moveToNext());
         }
@@ -104,6 +128,22 @@ public class Pagos extends Fragment {
         adaptadorpagos = new AdaptadorPagos(getContext(), ListaPagos);
         Lista_Pagos.setAdapter(adaptadorpagos);
         BDPagos.close();
+
+        BaseDatos BDVentas = new BaseDatos(getContext(), "Ventas", null, 1);
+        SQLiteDatabase TablaVentas = BDVentas.getReadableDatabase();
+        Cursor ventas = TablaVentas.rawQuery("SELECT Precio FROM Ventas", null);
+        if (ventas.moveToFirst()) {
+            do {
+                montopendiente += ventas.getInt(0);
+            } while (ventas.moveToNext());
+        }
+        ventas.close();
+        BDVentas.close();
+
+        montopendiente = montopendiente - montoabonado;
+
+        txtmontopendiente.setText("" + montopendiente);
+        txtmontoabonado.setText("" + montoabonado);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -135,17 +175,13 @@ public class Pagos extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == AGREGAR_PAGO)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
+        if (requestCode == AGREGAR_PAGO) {
+            if (resultCode == Activity.RESULT_OK) {
                 ActualizarListView();
             }
         }
-        if(requestCode == EDIT_PAGO)
-        {
-            if(resultCode == Activity.RESULT_OK)
-            {
+        if (requestCode == EDIT_PAGO) {
+            if (resultCode == Activity.RESULT_OK) {
                 ActualizarListView();
             }
         }

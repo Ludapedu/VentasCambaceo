@@ -106,7 +106,7 @@ public class Compras extends Fragment{
         Lista_De_Compras.clear();
         BaseDatos db = new BaseDatos(getContext(), "Ventas", null, 1);
         SQLiteDatabase TablaVentas = db.getWritableDatabase();
-        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado, Ubicacion FROM Ventas WHERE Entregado = 1", null);
+        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado, Ubicacion FROM Ventas WHERE Entregado = 1 ORDER BY Ubicacion", null);
         if (fila.moveToFirst()) {
             do {
                 RegistroVenta = new Venta();
