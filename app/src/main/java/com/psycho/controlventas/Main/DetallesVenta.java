@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -125,13 +126,6 @@ public class DetallesVenta extends AppCompatActivity {
                 Catalogo catalogo = (Catalogo) SpinnerCatalogos.getSelectedItem();
                 Estatus entregado = (Estatus) SpinnerEstatus.getSelectedItem();
 
-                if (entregado.getIdEstatus() == 5)
-                {
-                    BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
-                    SQLiteDatabase TablaVentas = dbVentas.getWritableDatabase();
-                    TablaVentas.delete("Ventas", "IDREG = " + RegistroVenta.getIDREG(), null);
-                    dbVentas.close();
-                }
 
                 ContentValues datos = new ContentValues();
                 datos.put("Cliente", cliente.getNombre());
@@ -175,7 +169,6 @@ public class DetallesVenta extends AppCompatActivity {
         estatus.add(new Estatus("Entregar", 2));
         estatus.add(new Estatus("Cambiar", 3));
         estatus.add(new Estatus("Cancelar", 4));
-        estatus.add(new Estatus("Eliminar", 5));
 
         BaseDatos dbClientes = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
         SQLiteDatabase clientes = dbClientes.getWritableDatabase();
@@ -221,8 +214,20 @@ public class DetallesVenta extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 onBackPressed();
+            }break;
+            case R.id.btn_detalle_venta_eliminar:
+            {
+                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
+                SQLiteDatabase TablaVentas = dbVentas.getWritableDatabase();
+                TablaVentas.delete("Ventas", "IDREG = " + RegistroVenta.getIDREG(), null);
+                dbVentas.close();
+                Toast.makeText(getApplicationContext(),"Venta borrada", Toast.LENGTH_SHORT).show();
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
                 return true;
         }
 
@@ -241,7 +246,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextPrecio.setEnabled(false);
         modificar.setVisibility(View.VISIBLE);
         aceptar.setVisibility(View.INVISIBLE);
-        cancelar.setVisibility(View.VISIBLE);
+        cancelar.setVisibility(View.INVISIBLE);
     }
 
     private void HabilitarControles() {
@@ -257,7 +262,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextPrecio.setEnabled(true);
         modificar.setVisibility(View.INVISIBLE);
         aceptar.setVisibility(View.VISIBLE);
-        cancelar.setVisibility(View.INVISIBLE);
+        cancelar.setVisibility(View.VISIBLE);
     }
 
     private int PositionSpinnerClientes(Cliente item) {
@@ -321,4 +326,12 @@ public class DetallesVenta extends AppCompatActivity {
         }
         return est;
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_detalle_venta, menu);
+        return true;
+    }
+
+
 }

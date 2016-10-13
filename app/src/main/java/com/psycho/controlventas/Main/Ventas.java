@@ -56,16 +56,7 @@ public class Ventas extends Fragment {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Ventas.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Ventas newInstance(String param1, String param2, Context context) {
+    public static Ventas newInstance() {
         Ventas fragment = new Ventas();
         return fragment;
     }
@@ -83,6 +74,8 @@ public class Ventas extends Fragment {
         getActivity().setTitle("Ventas");
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+
 
         spinner_Venta_Catalogos = (Spinner) view.findViewById(R.id.spinner_Ventas_Catalogos);
         spinner_Venta_Clientes = (Spinner) view.findViewById(R.id.spinner_Ventas_Clientes);
@@ -117,7 +110,6 @@ public class Ventas extends Fragment {
         catalogos.add(new Catalogo("Ropa Ninos"));
 
         spinner_Venta_Catalogos.setAdapter(new AdaptadorSpinnerCatalogo(getContext(), catalogos));
-
 
         BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
         SQLiteDatabase clientes = db.getWritableDatabase();
@@ -268,18 +260,10 @@ public class Ventas extends Fragment {
         spinner_Venta_Catalogos.setSelection(0);
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

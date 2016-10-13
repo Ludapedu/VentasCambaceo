@@ -10,8 +10,9 @@
         android:layout_weight=".3">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Fecha"
+            android:gravity="center"
             android:textSize="15sp"
             android:id="@+id/list_pago_fecha"
             android:textColor="@android:color/black"/>
@@ -24,9 +25,10 @@
         android:layout_weight=".3">
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:text="Monto"
             android:textSize="15sp"
+            android:gravity="center"
             android:id="@+id/list_pago_monto"
             android:textColor="@android:color/black"/>
     </LinearLayout>

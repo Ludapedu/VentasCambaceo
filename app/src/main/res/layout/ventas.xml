@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:hint="Marca"
-                android:inputType="textAutoComplete"
+                android:inputType="textAutoComplete|textCapWords"
                 android:textColorHint="@android:color/darker_gray"
                 android:textSize="18sp"/>
             </android.support.design.widget.TextInputLayout>

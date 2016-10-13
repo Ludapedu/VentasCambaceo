@@ -20,7 +20,8 @@
             <TextView
                 android:id="@+id/list_pedidos_marca"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:layout_gravity="left"
                 android:text="Marca"
                 android:textColor="@android:color/black"
@@ -29,7 +30,8 @@
             <TextView
                 android:id="@+id/list_pedidos_ID"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:text="ID"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
@@ -45,7 +47,8 @@
             <TextView
                 android:id="@+id/list_pedidos_Cliente"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:text="Cliente"
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
@@ -58,7 +61,8 @@
                 <TextView
                     android:id="@+id/list_pedidos_lblNumero"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
                     android:layout_gravity="left"
                     android:text="Número: "
                     android:textColor="@android:color/black"
@@ -67,7 +71,8 @@
                 <TextView
                     android:id="@+id/list_pedidos_numero"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center"
                     android:layout_gravity="left"
                     android:text="5"
                     android:textColor="@android:color/black"
