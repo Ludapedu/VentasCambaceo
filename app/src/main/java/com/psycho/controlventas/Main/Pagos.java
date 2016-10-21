@@ -111,7 +111,7 @@ public class Pagos extends Fragment {
         ListaPagos.clear();
         BaseDatos BDPagos = new BaseDatos(getContext(), "Pagos", null, 1);
         SQLiteDatabase TablaPagos = BDPagos.getReadableDatabase();
-        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto FROM Pagos", null);
+        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto FROM Pagos ORDER BY Fecha", null);
         if (pagos.moveToFirst()) {
             do {
                 RegistroPago = new Pago();

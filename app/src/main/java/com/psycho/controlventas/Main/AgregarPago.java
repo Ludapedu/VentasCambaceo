@@ -65,17 +65,17 @@ public class AgregarPago extends AppCompatActivity {
         DatePicker_Pagos_Fecha = (DatePicker) findViewById(R.id.Pagos_Picker);
         SpinnerCliente = (Spinner) findViewById(R.id.Pagos_Spinner_Clientes);
         Agregar = (FloatingActionButton) findViewById(R.id.btn_Pago_Agregar);
+        CargarSpinnerClientes();
 
         if (pago != null) {
             this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             Agregar.setVisibility(View.INVISIBLE);
             txt_Pagos_Monto.setEnabled(false);
+            SpinnerCliente.setSelection(PositionSpinnerClientes(GetClienteFromPago(pago, Lista_De_Clientes)));
             SpinnerCliente.setEnabled(false);
             txt_Pagos_Monto.setText("" + pago.getMonto());
             toolbar.setTitle("Editar Pago");
         }
-
-        CargarSpinnerClientes();
 
         Agregar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +136,8 @@ public class AgregarPago extends AppCompatActivity {
         }
         fila.close();
         db.close();
-        SpinnerCliente.setAdapter(new AdaptadorSpinnerCliente(getApplicationContext(), Lista_De_Clientes));
+        adaptadorclientes = new AdaptadorSpinnerCliente(getApplicationContext(), Lista_De_Clientes);
+        SpinnerCliente.setAdapter(adaptadorclientes);
     }
 
     @Override
@@ -202,6 +203,26 @@ public class AgregarPago extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private Cliente GetClienteFromPago(Pago pago, ArrayList<Cliente> clientes)
+    {
+        Cliente cliente = new Cliente();
+        for(int x=0; x< clientes.size(); x++) {
+            if (pago.getIdCliente() == clientes.get(x).getIdCliente())
+            {
+                cliente = clientes.get(x);
+            }
+        }
+        return cliente;
+    }
+
+    private int PositionSpinnerClientes(Cliente item) {
+        int position;
+
+        position = adaptadorclientes.getPosition(item);
+
+        return position;
     }
 
 }

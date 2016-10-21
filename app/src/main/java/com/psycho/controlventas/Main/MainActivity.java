@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity
         FotoGoogle = (RoundedImageView) headerLayout.findViewById(R.id.imageView_Google);
         LeyendaControlVentas = (TextView) headerLayout.findViewById(R.id.Menu_ControlDeVentas);
         progreslogin = (ProgressBar) headerLayout.findViewById(R.id.progres_login);
-        logout = (ImageButton) headerLayout.findViewById(R.id.logout); 
+        logout = (ImageButton) headerLayout.findViewById(R.id.logout);
 
         FotoGoogle.setVisibility(View.GONE);
         LeyendaControlVentas.setVisibility(View.GONE);
@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
-        
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,28 +198,26 @@ public class MainActivity extends AppCompatActivity
         String IdGoogle = sharedPreferences.getString("IdGoogle", "");
         if (IdGoogle.isEmpty()) {
             signinButton.setVisibility(View.VISIBLE);
-        }
-        else
-        {
+        } else {
             logout.setVisibility(View.VISIBLE);
             signinButton.setVisibility(View.GONE);
             progreslogin.setVisibility(View.GONE);
             LeyendaControlVentas.setVisibility(View.VISIBLE);
-            NombreGoogle.setText(sharedPreferences.getString("NombreGoogle",""));
-            CorreoGoogle.setText(sharedPreferences.getString("CorreoGoogle",""));
-            String RutaImagen = sharedPreferences.getString("RutaImagenGoogle","");
-            if(RutaImagen.isEmpty()) {
-                url = sharedPreferences.getString("PhotoURL","");
-                ObtenerImagenGoogle();
+            NombreGoogle.setText(sharedPreferences.getString("NombreGoogle", ""));
+            CorreoGoogle.setText(sharedPreferences.getString("CorreoGoogle", ""));
+            String RutaImagen = sharedPreferences.getString("RutaImagenGoogle", "");
+            if (RutaImagen.isEmpty()) {
+                url = sharedPreferences.getString("PhotoURL", "");
+                if (!url.isEmpty())
+                    ObtenerImagenGoogle();
             }
             Bitmap bit = imgen.ObtenerImagen(RutaImagen);
-            if(bit != null) {
+            if (bit != null) {
                 FotoGoogle.setImageBitmap(bit);
                 FotoGoogle.setVisibility(View.VISIBLE);
-            }
-            else {
-                url = sharedPreferences.getString("PhotoURL","");
-                ObtenerImagenGoogle();
+            } else {
+                FotoGoogle.setImageDrawable(getDrawable(R.drawable.ic_account_circle_white_24dp));
+                FotoGoogle.setVisibility(View.VISIBLE);
             }
         }
 
@@ -323,8 +321,12 @@ public class MainActivity extends AppCompatActivity
 
             GoogleSignInAccount acct = result.getSignInAccount();
 
-
-            url = acct.getPhotoUrl().toString();
+            if (acct.getPhotoUrl() != null) {
+                url = acct.getPhotoUrl().toString();
+                ObtenerImagenGoogle();
+            } else {
+                FotoGoogle.setImageDrawable(getDrawable(R.drawable.ic_account_circle_white_24dp));
+            }
             NombreGoogle.setText(acct.getDisplayName());
             CorreoGoogle.setText(acct.getEmail());
 
@@ -336,14 +338,12 @@ public class MainActivity extends AppCompatActivity
             editSharedPreferences.putString("TokenGoogle", acct.getIdToken());
             editSharedPreferences.putString("IdGoogle", acct.getId());
             editSharedPreferences.commit();
-            ObtenerImagenGoogle();
         } else {
             signinButton.setVisibility(View.VISIBLE);
         }
     }
 
-    private void ObtenerImagenGoogle()
-    {
+    private void ObtenerImagenGoogle() {
         runOnUiThread(new Runnable() {
             public void run() {
                 try {

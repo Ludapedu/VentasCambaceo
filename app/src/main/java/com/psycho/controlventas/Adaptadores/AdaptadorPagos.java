@@ -41,6 +41,7 @@ public class AdaptadorPagos extends ArrayAdapter<Pago> {
             holder = new ViewHolder();
             holder.Fecha = (TextView) convertView.findViewById(R.id.list_pago_fecha);
             holder.Monto = (TextView) convertView.findViewById(R.id.list_pago_monto);
+            holder.Cliente = (TextView) convertView.findViewById(R.id.list_pago_cliente);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -49,9 +50,11 @@ public class AdaptadorPagos extends ArrayAdapter<Pago> {
         // If weren't re-ordering this you could rely on what you set last time
         holder.Fecha.setTypeface(font.setAsset(getContext()));
         holder.Monto.setTypeface(font.setAsset(getContext()));
+        holder.Cliente.setTypeface(font.setAsset(getContext()));
 
         holder.Fecha.setText(pagos.get(position).getFechaPago());
         holder.Monto.setText("$ "+ pagos.get(position).getMonto());
+        holder.Cliente.setText(pagos.get(position).getCliente());
 
         return convertView;
     }
@@ -59,5 +62,6 @@ public class AdaptadorPagos extends ArrayAdapter<Pago> {
     static class ViewHolder {
         TextView Fecha;
         TextView Monto;
+        TextView Cliente;
     }
 }

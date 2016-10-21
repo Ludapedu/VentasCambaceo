@@ -78,7 +78,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         SQLiteDatabase clientes = db.getWritableDatabase();
         ListaDeClientes.clear();
 
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
+        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes ORDER BY Nombre",null);
         if(fila.moveToFirst())
         {
             do {
