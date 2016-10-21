@@ -34,6 +34,8 @@
             android:id="@+id/pagos"
             android:icon="@drawable/pagos"
             android:title="Pagos" />
+
+
     </group>
 
     <!--<item android:title="Communicate">

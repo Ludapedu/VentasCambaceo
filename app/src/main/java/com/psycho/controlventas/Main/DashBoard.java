@@ -17,6 +17,7 @@ import com.psycho.controlventas.R;
 
 public class DashBoard extends Fragment {
 
+
     public int i = 0;
     Handler progressHandler = new Handler();
     ProgressBar myprogressBar;
@@ -51,6 +52,7 @@ public class DashBoard extends Fragment {
 
         getActivity().setTitle("Inicio");
 
+
         myprogressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         progressingTextView = (TextView)view.findViewById(R.id.progress_circle_text);
         VentasCompletadas = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_Completadas);
@@ -65,7 +67,8 @@ public class DashBoard extends Fragment {
         myprogressBar.setProgress(20);
         progressingTextView.setText("20");
 
-        /*new Thread(new Runnable() {
+
+        new Thread(new Runnable() {
             public void run() {
                 while (i < 100) {
                     i += 2;
@@ -76,16 +79,17 @@ public class DashBoard extends Fragment {
                         }
                     });
                     try {
-                        Thread.sleep(300);
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        }).start();*/
+        }).start();
 
         return view;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -114,4 +118,5 @@ public class DashBoard extends Fragment {
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
+
 }

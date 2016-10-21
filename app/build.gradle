@@ -22,6 +22,7 @@ dependencies {
         force = true;
     }
     compile 'com.android.support:design:23.4.0'
-    compile 'com.google.android.gms:play-services-gcm:9.6.1'
-    compile 'com.google.android.gms:play-services-appindexing:9.6.1'
+    compile 'com.google.android.gms:play-services-auth:9.6.1'
+    //compile 'com.google.android.gms:play-services-gcm:9.6.1'
+    //compile 'com.google.android.gms:play-services-appindexing:9.6.1'
 }
