@@ -13,6 +13,33 @@ public class Pago implements Serializable {
     int IdCliente;
     String FechaPago;
     int Monto;
+    int Dia;
+    int Mes;
+    int Anio;
+
+    public int getDia() {
+        return Dia;
+    }
+
+    public void setDia(int dia) {
+        Dia = dia;
+    }
+
+    public int getMes() {
+        return Mes;
+    }
+
+    public void setMes(int mes) {
+        Mes = mes;
+    }
+
+    public int getAnio() {
+        return Anio;
+    }
+
+    public void setAnio(int anio) {
+        Anio = anio;
+    }
 
     public int getIDREG() {
         return IDREG;

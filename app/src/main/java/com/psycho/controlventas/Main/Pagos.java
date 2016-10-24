@@ -111,7 +111,7 @@ public class Pagos extends Fragment {
         ListaPagos.clear();
         BaseDatos BDPagos = new BaseDatos(getContext(), "Pagos", null, 1);
         SQLiteDatabase TablaPagos = BDPagos.getReadableDatabase();
-        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto FROM Pagos ORDER BY Fecha", null);
+        Cursor pagos = TablaPagos.rawQuery("SELECT IDREG, Cliente, IdCliente, Fecha, Monto, Dia, Mes, Anio FROM Pagos ORDER BY Fecha", null);
         if (pagos.moveToFirst()) {
             do {
                 RegistroPago = new Pago();
@@ -120,6 +120,9 @@ public class Pagos extends Fragment {
                 RegistroPago.setIdCliente(pagos.getInt(2));
                 RegistroPago.setFechaPago(pagos.getString(3));
                 RegistroPago.setMonto(pagos.getInt(4));
+                RegistroPago.setDia(pagos.getInt(5));
+                RegistroPago.setMes(pagos.getInt(6));
+                RegistroPago.setAnio(pagos.getInt(7));
                 montoabonado += pagos.getInt(4);
                 ListaPagos.add(RegistroPago);
             } while (pagos.moveToNext());

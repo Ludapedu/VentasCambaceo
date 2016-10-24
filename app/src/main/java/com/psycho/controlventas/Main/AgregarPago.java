@@ -101,16 +101,17 @@ public class AgregarPago extends AppCompatActivity {
                 datos.put("IdCliente", c.getIdCliente());
                 datos.put("Fecha", "" + Dia + "-" + Mes + "-" + ano);
                 datos.put("Monto", Integer.parseInt(txt_Pagos_Monto.getText().toString()));
+                datos.put("Dia", Dia);
+                datos.put("Mes", Mes);
+                datos.put("Anio", ano);
                 BaseDatos db = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
                 SQLiteDatabase pagos = db.getWritableDatabase();
                 pagos.insert("Pagos", null, datos);
                 db.close();
                 Toast.makeText(getApplicationContext(), "Pago agregado correctamente", Toast.LENGTH_SHORT).show();
-                cal = Calendar.getInstance();
 
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
-                Toast.makeText(getApplicationContext(), "Pago agregado correctamente", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -121,7 +122,7 @@ public class AgregarPago extends AppCompatActivity {
         SQLiteDatabase clientes = db.getWritableDatabase();
         Lista_De_Clientes.clear();
 
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes", null);
+        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes ORDER BY Nombre", null);
         if (fila.moveToFirst()) {
             do {
                 RegistroCliente = new Cliente();
@@ -186,10 +187,12 @@ public class AgregarPago extends AppCompatActivity {
                 int Dia = DatePicker_Pagos_Fecha.getDayOfMonth();
                 int Mes = DatePicker_Pagos_Fecha.getMonth() + 1;
                 int ano = DatePicker_Pagos_Fecha.getYear();
-                Cliente c = (Cliente) SpinnerCliente.getSelectedItem();
                 ContentValues datos = new ContentValues();
                 datos.put("Fecha", "" + Dia + "-" + Mes + "-" + ano);
                 datos.put("Monto", Integer.parseInt(txt_Pagos_Monto.getText().toString()));
+                datos.put("Dia", Dia);
+                datos.put("Mes", Mes);
+                datos.put("Anio", ano);
                 BaseDatos db = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
                 SQLiteDatabase pagos = db.getWritableDatabase();
                 pagos.update("Pagos", datos, "IDREG = " + pago.getIDREG(), null);
