@@ -30,6 +30,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
 
     private final int EDIT_VENTA = 60;
     private final int EDIT_PAGO = 35;
+    private final int EDIT_CLIENTE = 70;
 
     TextView lbl_Cliente_Monto_Abonado;
     TextView lbl_Cliente_Monto_Pendiente;
@@ -228,7 +229,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
             {
                 Intent i = new Intent(getApplicationContext(), DetallesCliente.class);
                 i.putExtra("Cliente", cliente);
-                startActivityForResult(i, 70);
+                startActivityForResult(i, EDIT_CLIENTE);
             }break;
         }
         return super.onOptionsItemSelected(item);
@@ -248,6 +249,19 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
             if(resultCode == Activity.RESULT_OK)
             {
                 ActualizarListViews();
+            }
+        }
+        if(requestCode == EDIT_CLIENTE)
+        {
+            if(resultCode == 0)
+            {
+                ActualizarListViews();
+            }
+            if(resultCode == 1)
+            {
+                Intent i = new Intent();
+                setResult(Activity.RESULT_OK);
+                finish();
             }
         }
         if(requestCode == EDIT_PAGO)

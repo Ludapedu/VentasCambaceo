@@ -10,7 +10,7 @@ import android.graphics.Typeface;
 public class Font {
     public Typeface setAsset(Context context)
     {
-        Typeface font = Typeface.createFromAsset(context.getAssets(), "abeakrg.ttf");
+        Typeface font = Typeface.createFromAsset(context.getAssets(), "ABEAKRG.TTF");
         return font;
     }
 }

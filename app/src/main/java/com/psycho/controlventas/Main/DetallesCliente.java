@@ -1,9 +1,11 @@
 package com.psycho.controlventas.Main;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -106,6 +108,8 @@ public class DetallesCliente extends AppCompatActivity {
                 editar.setVisibility(View.VISIBLE);
                 guardar.setVisibility(View.INVISIBLE);
 
+                Intent returnIntent = new Intent();
+                setResult(0, returnIntent);
                 Toast.makeText(getApplicationContext(),"Cliente guardado", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -154,16 +158,25 @@ public class DetallesCliente extends AppCompatActivity {
                                 SQLiteDatabase pagos = dbPagos.getWritableDatabase();
                                 SQLiteDatabase cambios = dbCambios.getWritableDatabase();
 
-                                clientes.delete("Clientes", "IdCliente = " + cliente.getIdCliente(), null);
-                                ventas.delete("Ventas", "IdCliente = " + cliente.getIdCliente(), null);
-                                pagos.delete("Pagos", "IdCliente = " + cliente.getIdCliente(), null);
-                                cambios.delete("Cambios", "IdCliente = " + cliente.getIdCliente(), null);
+                                try {
+
+                                    clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
+                                    ventas.delete("Ventas", "IdCliente = " + cliente.getIdCliente(), null);
+                                    pagos.delete("Pagos", "IdCliente = " + cliente.getIdCliente(), null);
+                                    cambios.delete("Cambios", "IdCliente = " + cliente.getIdCliente(), null);
+
+                                }catch(Exception e)
+                                {
+                                    e.printStackTrace();
+                                }
 
                                 dbClientes.close();
                                 dbVentas.close();
                                 dbPagos.close();
 
                                 Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
+                                Intent returnIntent = new Intent();
+                                setResult(1, returnIntent);
                                 finish();
                             }
                         });
