@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.psycho.controlventas.Main.Entregas">
+    tools:context="com.upiicsa.cambaceo.Main.Entregas">
 
     <ListView
         android:layout_width="match_parent"

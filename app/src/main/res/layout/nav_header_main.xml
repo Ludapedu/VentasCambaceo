@@ -23,7 +23,7 @@
             android:layout_height="60dp"
             android:indeterminate="true" />
 
-        <com.psycho.controlventas.Main.RoundedImageView
+        <com.upiicsa.cambaceo.Main.RoundedImageView
             android:id="@+id/imageView_Google"
             android:layout_width="70dp"
             android:layout_height="70dp" />
