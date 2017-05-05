@@ -1,8 +1,11 @@
 package com.upiicsa.cambaceo.Main;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -22,12 +25,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableCliente;
+import com.upiicsa.cambaceo.AsynkTask.getClientes;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Cliente;
 import com.upiicsa.cambaceo.R;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.concurrent.ExecutionException;
 
 public class Clientes extends Fragment implements SearchView.OnQueryTextListener{
 
@@ -35,12 +40,16 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
     private final int EDIT_CLIENT = 50;
     private final int VIEW_RESUME = 80;
 
+    private getClientes obtenerClientes;
+
 
     private OnFragmentInteractionListener mListener;
     private ArrayList<Cliente> ListaDeClientes = new ArrayList<>();
     private Cliente RegistroCliente;
     private AdaptadorBuscableCliente clientesadapter;
     private ListView Lista_Clientes;
+    BroadcastReceiver receiverClientes;
+    IntentFilter filtroCLientes = new IntentFilter();
 
 
     private static final Comparator<Cliente> ALPHABETICAL_COMPARATOR = new Comparator<Cliente>() {
@@ -59,6 +68,24 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         return fragment;
     }
 
+    private void BroadCastReceiverClientes() {
+        filtroCLientes.addAction("ListaClientes");
+
+        receiverClientes = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("ListaClientes")) {
+                    ListaDeClientes.clear();
+                    ListaDeClientes = (ArrayList<Cliente>) intent.getExtras().get("ListaDeClientes");
+                    if (getActivity() != null) {
+                        clientesadapter = new AdaptadorBuscableCliente(getActivity(), ListaDeClientes);
+                        Lista_Clientes.setAdapter(clientesadapter);
+                    }
+
+                }
+            }
+        };
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,28 +101,10 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
         getActivity().setTitle("Clientes");
 
-        BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
-        SQLiteDatabase clientes = db.getWritableDatabase();
-        ListaDeClientes.clear();
-
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes ORDER BY Nombre",null);
-        if(fila.moveToFirst())
-        {
-            do {
-                RegistroCliente = new Cliente();
-                RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
-                RegistroCliente.setNombre(fila.getString(1));
-                RegistroCliente.setApellidoPaterno(fila.getString(2));
-                RegistroCliente.setApellidoMaterno(fila.getString(3));
-                RegistroCliente.setDireccion(fila.getString(4));
-                RegistroCliente.setTelefono(fila.getString(5));
-                ListaDeClientes.add(RegistroCliente);
-            }while (fila.moveToNext());
-        }
-        fila.close();
-        db.close();
-        clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
-        Lista_Clientes.setAdapter(clientesadapter);
+        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes.execute();
+        BroadCastReceiverClientes();
+        getActivity().registerReceiver(receiverClientes, filtroCLientes);
 
         Lista_Clientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,29 +156,8 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
     private void ActualizarListView()
     {
-        BaseDatos db = new BaseDatos(getContext(), "Clientes", null, 1);
-        SQLiteDatabase clientes = db.getWritableDatabase();
-
-        ListaDeClientes.clear();
-
-        Cursor fila = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
-        if(fila.moveToFirst())
-        {
-            do {
-                RegistroCliente = new Cliente();
-                RegistroCliente.setIdCliente(Integer.parseInt(fila.getString(0)));
-                RegistroCliente.setNombre(fila.getString(1));
-                RegistroCliente.setApellidoPaterno(fila.getString(2));
-                RegistroCliente.setApellidoMaterno(fila.getString(3));
-                RegistroCliente.setDireccion(fila.getString(4));
-                RegistroCliente.setTelefono(fila.getString(5));
-                ListaDeClientes.add(RegistroCliente);
-            }while (fila.moveToNext());
-        }
-        fila.close();
-        db.close();
-        clientesadapter = new AdaptadorBuscableCliente(getContext(), ListaDeClientes);
-        Lista_Clientes.setAdapter(clientesadapter);
+        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes.execute();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
