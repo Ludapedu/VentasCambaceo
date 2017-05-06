@@ -84,16 +84,6 @@ public class AgregarCliente extends AppCompatActivity {
     }
 
     private void AgregarCliente() {
-        ContentValues datos = new ContentValues();
-        datos.put("Nombre", TextNombre.getText().toString());
-        datos.put("ApellidoPaterno", TextApellidoPaterno.getText().toString());
-        datos.put("ApellidoMaterno", TextApellidoMaterno.getText().toString());
-        datos.put("Direccion", TextDireccion.getText().toString());
-        datos.put("Telefono", TextTelefono.getText().toString());
-        datos.put("IdCliente", 0);
-        BaseDatos db = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
-        SQLiteDatabase clientes = db.getWritableDatabase();
-        clientes.insert("Clientes", null, datos);
         String[] reg = new String[5];
         reg[0] = TextNombre.getText().toString();
         reg[1] = TextApellidoPaterno.getText().toString();

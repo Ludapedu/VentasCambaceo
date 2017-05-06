@@ -1,5 +1,7 @@
 package com.upiicsa.cambaceo.AsynkTask;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,40 +14,26 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by C on 03/05/2017.
+ * Created by C on 05/05/2017.
  */
 
-public class AltaCliente extends AsyncTask<String, Void, String> {
-    @Override
-    protected String doInBackground(String... params) {
-        String ApellidoMaterno = params[1];
-        String ApellidoPaterno = params[2];
-        String Direccion = params[3];
-        String Telefono = params[4];
-        if(ApellidoPaterno.isEmpty())
-        {
-            ApellidoPaterno = null;
-        }
-        if(ApellidoMaterno.isEmpty())
-        {
-            ApellidoMaterno = null;
-        }
-        if(Direccion.isEmpty())
-        {
-            Direccion = null;
-        }
-        if(Telefono.isEmpty())
-        {
-            Telefono = null;
-        }
+public class EditarCliente extends AsyncTask<String, Void, Void> {
+    Context context;
 
-        String Stringurl =  Constantes.URL +
-                "clientes/nuevo" +
-                "?Nombre=" + params[0].replace(" ", "%20") +
-                "&ApellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
-                "&ApellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
-                "&Direccion=" + Direccion.replace(" ", "%20") +
-                "&Telefono=" + Telefono.replace(" ", "%20");
+    public EditarCliente(Context ctx) {
+        context = ctx;
+    }
+
+    @Override
+    protected Void doInBackground(String... strings) {
+        String Stringurl = Constantes.URL +
+                "clientes/actualizar?" +
+                "IDREG=" + strings[0] +
+                "&Nombre" + strings[1].replace(" ", "%20") +
+                "&ApellidoPaterno" + strings[2].replace(" ", "%20") +
+                "&ApellidoMaterno" + strings[3].replace(" ", "%20") +
+                "&Direccion" + strings[4].replace(" ", "%20") +
+                "&Telefono" + strings[5].replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 
@@ -68,9 +56,11 @@ public class AltaCliente extends AsyncTask<String, Void, String> {
             bufferedReader.close();
             inputstream.close();
             Log.v("Registro en servidor: ", respuesta);
+            Intent i = new Intent("EditarCliente");
+            context.sendBroadcast(i);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "OK";
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.upiicsa.cambaceo.AsynkTask;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -12,40 +14,24 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by C on 03/05/2017.
+ * Created by C on 05/05/2017.
  */
 
-public class AltaCliente extends AsyncTask<String, Void, String> {
+public class EliminarCliente extends AsyncTask<String,Void,Void> {
+
+    Context context;
+
+    public EliminarCliente(Context ctx)
+    {
+        context = ctx;
+    }
+
     @Override
-    protected String doInBackground(String... params) {
-        String ApellidoMaterno = params[1];
-        String ApellidoPaterno = params[2];
-        String Direccion = params[3];
-        String Telefono = params[4];
-        if(ApellidoPaterno.isEmpty())
-        {
-            ApellidoPaterno = null;
-        }
-        if(ApellidoMaterno.isEmpty())
-        {
-            ApellidoMaterno = null;
-        }
-        if(Direccion.isEmpty())
-        {
-            Direccion = null;
-        }
-        if(Telefono.isEmpty())
-        {
-            Telefono = null;
-        }
+    protected Void doInBackground(String... params) {
 
         String Stringurl =  Constantes.URL +
-                "clientes/nuevo" +
-                "?Nombre=" + params[0].replace(" ", "%20") +
-                "&ApellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
-                "&ApellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
-                "&Direccion=" + Direccion.replace(" ", "%20") +
-                "&Telefono=" + Telefono.replace(" ", "%20");
+                "clientes/eliminar" +
+                "?IDREG=" + params[0];
         try {
             URL url = new URL(Stringurl);
 
@@ -68,9 +54,11 @@ public class AltaCliente extends AsyncTask<String, Void, String> {
             bufferedReader.close();
             inputstream.close();
             Log.v("Registro en servidor: ", respuesta);
+            Intent i = new Intent("EliminarCliente");
+            context.sendBroadcast(i);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "OK";
+        return null;
     }
 }

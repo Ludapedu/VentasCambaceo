@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableCliente;
 import com.upiicsa.cambaceo.AsynkTask.getClientes;
@@ -70,6 +71,8 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
     private void BroadCastReceiverClientes() {
         filtroCLientes.addAction("ListaClientes");
+        filtroCLientes.addAction("EliminarCliente");
+        filtroCLientes.addAction("EditarCliente");
 
         receiverClientes = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
@@ -81,6 +84,13 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
                         Lista_Clientes.setAdapter(clientesadapter);
                     }
 
+                }
+                if (intent.getAction().equals("EliminarCliente")) {
+                    Toast.makeText(getActivity(),"Cliente Eliminado",Toast.LENGTH_SHORT).show();
+                    ActualizarListView();
+                }
+                if (intent.getAction().equals("EditarCliente")) {
+                    ActualizarListView();
                 }
             }
         };

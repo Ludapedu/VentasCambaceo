@@ -19,6 +19,8 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.upiicsa.cambaceo.AsynkTask.EditarCliente;
+import com.upiicsa.cambaceo.AsynkTask.EliminarCliente;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Cliente;
 import com.upiicsa.cambaceo.R;
@@ -88,17 +90,20 @@ public class DetallesCliente extends AppCompatActivity {
         guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContentValues datos = new ContentValues();
-                datos.put("Nombre", TextNombre.getText().toString());
-                datos.put("ApellidoPaterno", TextApellidoPaterno.getText().toString());
-                datos.put("ApellidoMaterno", TextApellidoMaterno.getText().toString());
-                datos.put("Direccion", TextDireccion.getText().toString());
-                datos.put("Telefono", TextTelefono.getText().toString());
-
-                BaseDatos db = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
-                SQLiteDatabase clientes = db.getWritableDatabase();
-                clientes.update("Clientes", datos, "IDREG = " + cliente.getIdCliente(), null);
-                db.close();
+                String[] params = new String[6];
+                EditarCliente edit = new EditarCliente(DetallesCliente.this);
+                params[0] = String.valueOf(cliente.getIdCliente());
+                params[1] = TextNombre.getText().toString();
+                params[2] = TextApellidoPaterno.getText().toString();
+                params[3] = TextApellidoMaterno.getText().toString();
+                params[4] = TextDireccion.getText().toString();
+                params[5] = TextTelefono.getText().toString();
+                cliente.setNombre(TextNombre.getText().toString());
+                cliente.setApellidoPaterno(TextApellidoPaterno.getText().toString());
+                cliente.setApellidoMaterno(TextApellidoMaterno.getText().toString());
+                cliente.setDireccion(TextDireccion.getText().toString());
+                cliente.setTelefono(TextTelefono.getText().toString());
+                edit.execute(params);
                 TextNombre.setEnabled(false);
                 TextApellidoPaterno.setEnabled(false);
                 TextApellidoMaterno.setEnabled(false);
@@ -108,8 +113,8 @@ public class DetallesCliente extends AppCompatActivity {
                 guardar.setVisibility(View.INVISIBLE);
 
                 Intent returnIntent = new Intent();
+                returnIntent.putExtra("Cliente", cliente);
                 setResult(0, returnIntent);
-                Toast.makeText(getApplicationContext(),"Cliente guardado", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -147,33 +152,11 @@ public class DetallesCliente extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                BaseDatos dbClientes = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
-                                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
-                                BaseDatos dbPagos = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
-                                BaseDatos dbCambios = new BaseDatos(getApplicationContext(), "Cambios", null, 1);
-
-                                SQLiteDatabase clientes = dbClientes.getWritableDatabase();
-                                SQLiteDatabase ventas = dbVentas.getWritableDatabase();
-                                SQLiteDatabase pagos = dbPagos.getWritableDatabase();
-                                SQLiteDatabase cambios = dbCambios.getWritableDatabase();
-
-                                try {
-
-                                    clientes.delete("Clientes", "IDREG = " + cliente.getIdCliente(), null);
-                                    ventas.delete("Ventas", "IdCliente = " + cliente.getIdCliente(), null);
-                                    pagos.delete("Pagos", "IdCliente = " + cliente.getIdCliente(), null);
-                                    cambios.delete("Cambios", "IdCliente = " + cliente.getIdCliente(), null);
-
-                                }catch(Exception e)
-                                {
-                                    e.printStackTrace();
-                                }
-
-                                dbClientes.close();
-                                dbVentas.close();
-                                dbPagos.close();
-
-                                Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
+                                String[] params = new String[1];
+                                EliminarCliente elim = new EliminarCliente(DetallesCliente.this);
+                                params[0] = String.valueOf(cliente.getIdCliente());
+                                elim.execute(params);
+                                //Toast.makeText(getApplicationContext(),"Cliente eliminado", Toast.LENGTH_SHORT).show();
                                 Intent returnIntent = new Intent();
                                 setResult(1, returnIntent);
                                 finish();

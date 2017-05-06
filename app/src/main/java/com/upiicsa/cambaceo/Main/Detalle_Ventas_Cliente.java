@@ -53,6 +53,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     ArrayList<Venta> ListaCambios = new ArrayList<>();
     ArrayList<Pago> ListaPagos = new ArrayList<>();
     Font font = new Font();
+    CollapsingToolbarLayout tool;
 
 
     @Override
@@ -62,7 +63,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         cliente = (Cliente) bundle.getSerializable("Cliente");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_ventas_cliente);
-        CollapsingToolbarLayout tool = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout_ventas_cliente);
+        tool = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout_ventas_cliente);
         setSupportActionBar(toolbar);
         tool.setTitleEnabled(true);
         tool.setTitle(cliente.getNombre());
@@ -126,6 +127,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     }
 
     private void ActualizarListViews() {
+        tool.setTitle(cliente.getNombre());
         int MontoAbonado = 0;
         int MontoPendiente = 0;
         int MontoCompras = 0;
@@ -255,6 +257,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         {
             if(resultCode == 0)
             {
+                cliente = (Cliente) data.getExtras().get("Cliente");
                 ActualizarListViews();
             }
             if(resultCode == 1)
