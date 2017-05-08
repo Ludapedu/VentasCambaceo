@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -51,6 +53,23 @@ public class AgregarCliente extends AppCompatActivity {
         TextDireccion.setTypeface(font.setAsset(this));
         TextTelefono.setTypeface(font.setAsset(this));
 
+        TextNombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                TextNombre.setError(null);
+            }
+        });
+
 
     }
 
@@ -71,7 +90,7 @@ public class AgregarCliente extends AppCompatActivity {
             case R.id.agregar_cliente_agregar: {
                 String nombre = TextNombre.getText().toString();
                 if (nombre.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "El cliente no puede ser vacío", Toast.LENGTH_SHORT).show();
+                    TextNombre.setError("El nombre del cliente no puede ser vacío");
                     return false;
                 }
                 AgregarCliente();

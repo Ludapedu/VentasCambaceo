@@ -102,6 +102,22 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            getActivity().registerReceiver(receiverClientes, filtroCLientes);
+            obtenerClientes = new getClientes(getActivity());
+            obtenerClientes.execute();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -111,10 +127,11 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
         getActivity().setTitle("Clientes");
 
-        obtenerClientes = new getClientes(getActivity());
-        obtenerClientes.execute();
         BroadCastReceiverClientes();
         getActivity().registerReceiver(receiverClientes, filtroCLientes);
+
+        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes.execute();
 
         Lista_Clientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -228,5 +245,16 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(receiverClientes);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

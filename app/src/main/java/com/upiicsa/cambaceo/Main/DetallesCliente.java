@@ -125,6 +125,9 @@ public class DetallesCliente extends AppCompatActivity {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home: {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("Cliente", cliente);
+                setResult(0, returnIntent);
                 onBackPressed();
             }break;
             case R.id.btn_detalle_cliente_eliminar: {

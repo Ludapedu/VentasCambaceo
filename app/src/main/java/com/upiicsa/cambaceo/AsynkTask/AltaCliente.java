@@ -18,25 +18,25 @@ import java.net.URL;
 public class AltaCliente extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
-        String ApellidoMaterno = params[1];
-        String ApellidoPaterno = params[2];
+        String ApellidoPaterno = params[1];
+        String ApellidoMaterno = params[2];
         String Direccion = params[3];
         String Telefono = params[4];
         if(ApellidoPaterno.isEmpty())
         {
-            ApellidoPaterno = null;
+            ApellidoPaterno = "vacio";
         }
         if(ApellidoMaterno.isEmpty())
         {
-            ApellidoMaterno = null;
+            ApellidoMaterno = "vacio";
         }
         if(Direccion.isEmpty())
         {
-            Direccion = null;
+            Direccion = "vacio";
         }
         if(Telefono.isEmpty())
         {
-            Telefono = null;
+            Telefono = "vacio";
         }
 
         String Stringurl =  Constantes.URL +

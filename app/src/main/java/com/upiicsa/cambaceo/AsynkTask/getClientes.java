@@ -65,10 +65,26 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
                 Cliente cli = new Cliente();
                 cli.setIdCliente(jsonunitario.getInt("IDREG"));
                 cli.setNombre(jsonunitario.getString("Nombre"));
-                cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
-                cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
-                cli.setDireccion(jsonunitario.getString("Direccion"));
-                cli.setTelefono(jsonunitario.getString("Telefono"));
+                if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
+                    cli.setApellidoPaterno("");
+                }else {
+                    cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
+                }
+                if(jsonunitario.getString("ApellidoMaterno").equals("vacio")) {
+                    cli.setApellidoMaterno("");
+                }else {
+                    cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
+                }
+                if(jsonunitario.getString("Direccion").equals("vacio")) {
+                    cli.setDireccion("");
+                }else {
+                    cli.setDireccion(jsonunitario.getString("Direccion"));
+                }
+                if(jsonunitario.getString("Telefono").equals("vacio")) {
+                    cli.setTelefono("");
+                }else {
+                    cli.setTelefono(jsonunitario.getString("Telefono"));
+                }
                 listaClientes.add(cli);
             }
 

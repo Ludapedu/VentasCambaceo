@@ -26,14 +26,34 @@ public class EditarCliente extends AsyncTask<String, Void, Void> {
 
     @Override
     protected Void doInBackground(String... strings) {
+        String ApellidoPaterno = strings[2];
+        String ApellidoMaterno = strings[3];
+        String Direccion = strings[4];
+        String Telefono = strings[5];
+        if(ApellidoPaterno.isEmpty())
+        {
+            ApellidoPaterno = "vacio";
+        }
+        if(ApellidoMaterno.isEmpty())
+        {
+            ApellidoMaterno = "vacio";
+        }
+        if(Direccion.isEmpty())
+        {
+            Direccion = "vacio";
+        }
+        if(Telefono.isEmpty())
+        {
+            Telefono = "vacio";
+        }
         String Stringurl = Constantes.URL +
                 "clientes/actualizar?" +
                 "IDREG=" + strings[0] +
-                "&Nombre" + strings[1].replace(" ", "%20") +
-                "&ApellidoPaterno" + strings[2].replace(" ", "%20") +
-                "&ApellidoMaterno" + strings[3].replace(" ", "%20") +
-                "&Direccion" + strings[4].replace(" ", "%20") +
-                "&Telefono" + strings[5].replace(" ", "%20");
+                "&Nombre=" + strings[1].replace(" ", "%20") +
+                "&ApellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
+                "&ApellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
+                "&Direccion=" + Direccion.replace(" ", "%20") +
+                "&Telefono=" + Telefono.replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 
