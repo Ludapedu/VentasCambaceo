@@ -1,8 +1,11 @@
 package com.upiicsa.cambaceo.Main;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCatalogo;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCliente;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerEstatus;
+import com.upiicsa.cambaceo.AsynkTask.getCatalogos;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Catalogo;
 import com.upiicsa.cambaceo.Modelos.Cliente;
@@ -60,6 +64,9 @@ public class DetallesVenta extends AppCompatActivity {
     public FloatingActionButton modificar;
     public FloatingActionButton aceptar;
     public FloatingActionButton cancelar;
+    private BroadcastReceiver receiverCatalogos;
+    private IntentFilter filtroCatalogos = new IntentFilter();
+    private getCatalogos obtenerCatalogos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +108,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextCosto.setTypeface(font);
         TextPrecio.setTypeface(font);
 
+        BroadCastReceiverCatalogos();
         EstadoInicial();
         InhabilitarControles();
 
@@ -153,16 +161,22 @@ public class DetallesVenta extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            registerReceiver(receiverCatalogos, filtroCatalogos);
+            obtenerCatalogos = new getCatalogos(DetallesVenta.this);
+            obtenerCatalogos.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void EstadoInicial()
     {
-        catalogos.add(new Catalogo("Caballeros"));
-        catalogos.add(new Catalogo("Vestir Dama"));
-        catalogos.add(new Catalogo("Botas Dama"));
-        catalogos.add(new Catalogo("Comfort"));
-        catalogos.add(new Catalogo("Infantiles"));
-        catalogos.add(new Catalogo("Importados"));
-        catalogos.add(new Catalogo("Ropa Caballeros"));
-        catalogos.add(new Catalogo("Ropa Ninos"));
+        obtenerCatalogos = new getCatalogos(DetallesVenta.this);
+        obtenerCatalogos.execute();
 
         estatus.add(new Estatus("Pedido", 0));
         estatus.add(new Estatus("Comprar", 1));
@@ -209,6 +223,21 @@ public class DetallesVenta extends AppCompatActivity {
         SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(RegistroVenta, catalogos)));
         SpinnerEstatus.setSelection(PositionSpinnerEstatus(GetEstatusFromPedido(RegistroVenta, estatus)));
         SpinnerClientes.setSelection(PositionSpinnerClientes(GetClienteFromPedido(RegistroVenta, ListaDeClientes)));
+    }
+
+    private void BroadCastReceiverCatalogos() {
+        filtroCatalogos.addAction("ListaCatalogos");
+
+        receiverCatalogos = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("ListaCatalogos")) {
+                    catalogos.clear();
+                    catalogos = (ArrayList<Catalogo>) intent.getExtras().get("ListaDeCatalogos");
+                    catalogoadapter = new AdaptadorSpinnerCatalogo(DetallesVenta.this, catalogos);
+                    SpinnerCatalogos.setAdapter(catalogoadapter);
+                }
+            }
+        };
     }
 
     @Override
@@ -289,7 +318,6 @@ public class DetallesVenta extends AppCompatActivity {
         return position;
     }
 
-
     private Cliente GetClienteFromPedido(Venta venta, ArrayList<Cliente> clientes)
     {
         Cliente cliente = new Cliente();
@@ -301,11 +329,9 @@ public class DetallesVenta extends AppCompatActivity {
         }
         return cliente;
     }
-
-
     private Catalogo GetCatalogoFromPedido(Venta venta, ArrayList<Catalogo> catalogos)
     {
-        Catalogo cat = new Catalogo("");
+        Catalogo cat = new Catalogo();
         for(int x=0; x< catalogos.size(); x++) {
             if (venta.getCatalogo().equals(catalogos.get(x).getNombre()))
             {
@@ -331,6 +357,16 @@ public class DetallesVenta extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detalle_venta, menu);
         return true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            unregisterReceiver(receiverCatalogos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

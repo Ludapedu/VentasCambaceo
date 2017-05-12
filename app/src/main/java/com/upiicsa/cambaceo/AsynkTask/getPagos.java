@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.upiicsa.cambaceo.Constantes.Constantes;
 import com.upiicsa.cambaceo.Modelos.Cliente;
+import com.upiicsa.cambaceo.Modelos.Pago;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,14 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by C on 04/05/2017.
+ * Created by C on 07/05/2017.
  */
 
-public class getClientes extends AsyncTask<Void, Void, Void> {
+public class getPagos extends AsyncTask<Void, Void, Void> {
     Context context;
-    ArrayList<Cliente> listaClientes = new ArrayList<>();
+    ArrayList<Pago> listaPagos = new ArrayList<>();
 
-    public getClientes(Context ctx)
+    public getPagos(Context ctx)
     {
         context = ctx;
     }
@@ -34,7 +35,7 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        String Stringurl =  Constantes.URL + "clientes";
+        String Stringurl =  Constantes.URL + "pagos";
         try {
             URL url = new URL(Stringurl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -56,49 +57,33 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
             bufferedReader.close();
             inputstream.close();
 
-            String jsonOk = "{ clientes:" + respuesta + "}";
+            String jsonOk = "{ pagos:" + respuesta + "}";
 
             JSONObject json = new JSONObject(jsonOk);
-            JSONArray array = json.getJSONArray("clientes");
+            JSONArray array = json.getJSONArray("pagos");
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
-                Cliente cli = new Cliente();
-                cli.setIdCliente(jsonunitario.getInt("IDREG"));
-                cli.setNombre(jsonunitario.getString("Nombre"));
-                if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
-                    cli.setApellidoPaterno("");
-                }else {
-                    cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
-                }
-                if(jsonunitario.getString("ApellidoMaterno").equals("vacio")) {
-                    cli.setApellidoMaterno("");
-                }else {
-                    cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
-                }
-                if(jsonunitario.getString("Direccion").equals("vacio")) {
-                    cli.setDireccion("");
-                }else {
-                    cli.setDireccion(jsonunitario.getString("Direccion"));
-                }
-                if(jsonunitario.getString("Telefono").equals("vacio")) {
-                    cli.setTelefono("");
-                }else {
-                    cli.setTelefono(jsonunitario.getString("Telefono"));
-                }
-                listaClientes.add(cli);
+                Pago pago = new Pago();
+                pago.setIDREG(jsonunitario.getInt("IDREG"));
+                pago.setCliente(jsonunitario.getString("Cliente"));
+                pago.setIdCliente(jsonunitario.getInt("IdCliente"));
+                pago.setCliente(jsonunitario.getString("Cliente"));
+                pago.setFechaPago(jsonunitario.getString("Fecha"));
+                pago.setMonto(jsonunitario.getInt("Monto"));
+                pago.setDia(jsonunitario.getInt("Dia"));
+                pago.setMes(jsonunitario.getInt("Mes"));
+                pago.setAnio(jsonunitario.getInt("Anio"));
+
+                listaPagos.add(pago);
             }
 
             Log.v("Registro en servidor: ", respuesta);
         } catch (Exception e) {
-            Intent i = new Intent("Error");
-            i.putExtra("Exception", e.getMessage());
-            context.sendBroadcast(i);
             e.printStackTrace();
         }
-        Intent i = new Intent("ListaClientes");
-        i.putExtra("ListaDeClientes", listaClientes);
+        Intent i = new Intent("ListaPagos");
+        i.putExtra("ListaDePagos", listaPagos);
         context.sendBroadcast(i);
         return null;
     }
 }
-

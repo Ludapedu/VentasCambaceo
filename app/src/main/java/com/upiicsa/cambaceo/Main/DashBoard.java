@@ -17,15 +17,17 @@ import com.upiicsa.cambaceo.R;
 
 public class DashBoard extends Fragment {
 
-
-    public int i = 0;
+    public int a = 0;
+    public int b = 0;
+    public int c = 0;
+    public int d = 0;
     Handler progressHandler = new Handler();
-    ProgressBar myprogressBar;
-    TextView progressingTextView;
-    TextView VentasCompletadas;
-    TextView VentasPorCobrar;
-    TextView PedidosPorComprar;
-    TextView ComprasRealizadas;
+    ProgressBar progressVentas, progressVentasPorCobrar, progressMontoRecabado, progressMontoPendiente;
+    TextView TextViewProgresoVentas, TextViewProgresoVentasPorCobrar, TextViewProgresoMontoRecabado, TextViewProgresoMontoPendiente;
+    TextView txtVentas;
+    TextView txtVentasPorCobrar;
+    TextView txtMontoRecabado;
+    TextView txtMontoPendiente;
     Font font = new Font();
 
 
@@ -53,33 +55,101 @@ public class DashBoard extends Fragment {
         getActivity().setTitle("Inicio");
 
 
-        myprogressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        progressingTextView = (TextView)view.findViewById(R.id.progress_circle_text);
-        VentasCompletadas = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_Completadas);
-        VentasPorCobrar = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_PorCobrar);
-        PedidosPorComprar = (TextView)view.findViewById(R.id.txt_Dashboard_Pedidos_PorCobrar);
-        ComprasRealizadas = (TextView)view.findViewById(R.id.txt_Dashboard_Compras_Realizadas);
+        progressVentas = (ProgressBar) view.findViewById(R.id.progressBarVentas);
+        progressVentasPorCobrar = (ProgressBar) view.findViewById(R.id.progressBarVentasPendientes);
+        progressMontoPendiente = (ProgressBar) view.findViewById(R.id.progressBarMontoPendiente);
+        progressMontoRecabado = (ProgressBar) view.findViewById(R.id.progressBarMontoAbonado);
+        TextViewProgresoVentas = (TextView)view.findViewById(R.id.progresoVentas);
+        TextViewProgresoVentasPorCobrar = (TextView)view.findViewById(R.id.progresoVentasPorCobrar);
+        TextViewProgresoMontoRecabado = (TextView)view.findViewById(R.id.progresoMontoRecabado);
+        TextViewProgresoMontoPendiente = (TextView)view.findViewById(R.id.progresoMontoPendiente);
+        txtVentas = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_Completadas);
+        txtVentasPorCobrar = (TextView)view.findViewById(R.id.txt_Dashboard_Ventas_PorCobrar);
+        txtMontoPendiente = (TextView)view.findViewById(R.id.txt_Dashboard_Pedidos_PorCobrar);
+        txtMontoRecabado = (TextView)view.findViewById(R.id.txt_Dashboard_Compras_Realizadas);
 
-        VentasCompletadas.setTypeface(font.setAsset(getContext()));
-        VentasPorCobrar.setTypeface(font.setAsset(getContext()));
-        PedidosPorComprar.setTypeface(font.setAsset(getContext()));
+        txtVentas.setTypeface(font.setAsset(getContext()));
+        txtVentasPorCobrar.setTypeface(font.setAsset(getContext()));
+        txtMontoRecabado.setTypeface(font.setAsset(getContext()));
+        txtMontoPendiente.setTypeface(font.setAsset(getContext()));
 
-        myprogressBar.setProgress(20);
-        progressingTextView.setText("20");
+        progressVentas.setProgress(0);
+        progressVentasPorCobrar.setProgress(0);
+        progressMontoRecabado.setProgress(0);
+        progressMontoPendiente.setProgress(0);
 
+        progressVentas.setMax(50);
+        progressVentasPorCobrar.setMax(50);
+        progressMontoRecabado.setMax(2000);
+        progressMontoPendiente.setMax(2000);
 
         new Thread(new Runnable() {
             public void run() {
-                while (i < 100) {
-                    i += 2;
+                while (a < 50) {
+                    a += 1;
                     progressHandler.post(new Runnable() {
                         public void run() {
-                            myprogressBar.setProgress(i);
-                            progressingTextView.setText("" + i);
+                            progressVentas.setProgress(a);
+                            TextViewProgresoVentas.setText("" + a);
                         }
                     });
                     try {
-                        Thread.sleep(50);
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            public void run() {
+                while (b < 10) {
+                    b += 1;
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            progressVentasPorCobrar.setProgress(b);
+                            TextViewProgresoVentasPorCobrar.setText("" + b);
+                        }
+                    });
+                    try {
+                        Thread.sleep(250);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+        new Thread(new Runnable() {
+            public void run() {
+                while (c < 200) {
+                    c += 10;
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            progressMontoRecabado.setProgress(c);
+                            TextViewProgresoMontoRecabado.setText("$" + c);
+                        }
+                    });
+                    try {
+                        Thread.sleep(10);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            public void run() {
+                while (d < 1800) {
+                    d += 10;
+                    progressHandler.post(new Runnable() {
+                        public void run() {
+                            progressMontoPendiente.setProgress(d);
+                            TextViewProgresoMontoPendiente.setText("$" + d);
+                        }
+                    });
+                    try {
+                        Thread.sleep(10);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

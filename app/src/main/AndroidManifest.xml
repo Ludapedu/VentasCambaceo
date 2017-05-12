@@ -4,23 +4,27 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <permission android:name="com.upiicsa.cambaceo.permission.C2D_MESSAGE" android:protectionLevel="signature"/>
-    <uses-permission android:name="com.psycho.controlventas.permission.C2D_MESSAGE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.upiicsa.cambaceo.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.psycho.controlventas.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-        android:name="com.upiicsa.cambaceo.Main.App"
+        android:name=".Main.App"
         android:allowBackup="true"
         android:icon="@drawable/logonuevo2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.upiicsa.cambaceo.Main.MainActivity"
+            android:name=".Main.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -32,35 +36,40 @@
             }
         </activity>
         <activity
-            android:name="com.upiicsa.cambaceo.Main.AgregarCliente"
+            android:name=".Main.AgregarCliente"
             android:label="@string/title_activity_user"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.DetallesCliente"
+            android:name=".Main.DetallesCliente"
             android:label="@string/title_activity_detalles_cliente"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.DetallesVenta"
+            android:name=".Main.DetallesVenta"
             android:label="Detalles Venta"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.Detalle_Ventas_Cliente"
+            android:name=".Main.Detalle_Ventas_Cliente"
             android:label="@string/title_activity_detalle__ventas__cliente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.DetalleCambio"
+            android:name=".Main.DetalleCambio"
             android:label="@string/title_activity_detalle_cambio"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.AgregarPago"
+            android:name=".Main.AgregarPago"
             android:label="@string/title_activity_agregar_pago"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.upiicsa.cambaceo.Main.Detalle_Compra"
+            android:name=".Main.Detalle_Compra"
             android:label="@string/title_activity_detalle__compra"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Main.AgregarCatalogo"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Main.DetalleCatalogo"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

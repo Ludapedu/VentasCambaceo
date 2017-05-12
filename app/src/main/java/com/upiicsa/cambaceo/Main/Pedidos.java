@@ -1,8 +1,10 @@
 package com.upiicsa.cambaceo.Main;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
@@ -19,9 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscablePedidos;
-import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
+import android.widget.Toast;
+import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableVentas;
+import com.upiicsa.cambaceo.AsynkTask.getVentas;
 import com.upiicsa.cambaceo.Modelos.Venta;
 import com.upiicsa.cambaceo.R;
 
@@ -32,15 +34,33 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
 
     private final int EDIT_VENTA = 60;
 
-    ListView ListView_Pedidos;
-    ArrayList<Venta> Lista_De_Pedidos = new ArrayList<Venta>();
+    ListView ListView_Ventas;
+    ArrayList<Venta> listaVentas= new ArrayList<Venta>();
     Venta RegistroVenta;
     Venta VentaSeleccionada;
-    private AdaptadorBuscablePedidos pedidosadapter;
-
+    private AdaptadorBuscableVentas ventasAdapter;
     private OnFragmentInteractionListener mListener;
 
+    private BroadcastReceiver receiverVentas;
+    private IntentFilter filtroVentas = new IntentFilter();
+    private getVentas obtenerVentas;
+
     public Pedidos() {
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        try
+        {
+            getActivity().registerReceiver(receiverVentas, filtroVentas);
+            obtenerVentas = new getVentas(getActivity());
+            obtenerVentas.execute();
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -63,24 +83,25 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.pedidos, container, false);
-        getActivity().setTitle("Pedidos");
+        getActivity().setTitle("Ventas");
 
+        BroadCastReceiverVentas();
+        getActivity().registerReceiver(receiverVentas, filtroVentas);
 
+        obtenerVentas = new getVentas(getActivity());
+        obtenerVentas.execute();
 
-        ListView_Pedidos = (ListView) view.findViewById(R.id.Lista_Pedidos);
+        ListView_Ventas = (ListView) view.findViewById(R.id.Lista_Pedidos);
         ActualizarListView();
 
-
-        ListView_Pedidos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ListView_Ventas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                VentaSeleccionada = pedidosadapter.getItem(i);
+                VentaSeleccionada = ventasAdapter.getItem(i);
 
                 Intent intent = new Intent(getActivity(),DetallesVenta.class);
                 intent.putExtra("Venta", VentaSeleccionada);
@@ -88,53 +109,40 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
             }
         });
 
-
-
         return view;
     }
+    private void BroadCastReceiverVentas() {
+        filtroVentas.addAction("ListaVentas");
 
-    private void ActualizarListView() {
-
-        Lista_De_Pedidos.clear();
-        BaseDatos db = new BaseDatos(getContext(), "Ventas", null, 1);
-        SQLiteDatabase TablaVentas = db.getWritableDatabase();
-        Cursor fila = TablaVentas.rawQuery("SELECT IDREG, Cliente, IdCliente, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, Entregado FROM Ventas WHERE Entregado = 0", null);
-        if (fila.moveToFirst()) {
-            do {
-                RegistroVenta = new Venta();
-                RegistroVenta.setIDREG(fila.getInt(0));
-                RegistroVenta.setCliente(fila.getString(1));
-                RegistroVenta.setIdCliente(fila.getInt(2));
-                RegistroVenta.setCatalogo(fila.getString(3));
-                RegistroVenta.setPagina(fila.getInt(4));
-                RegistroVenta.setMarca(fila.getString(5));
-                RegistroVenta.setID(fila.getInt(6));
-                RegistroVenta.setNumero(fila.getFloat(7));
-                RegistroVenta.setCosto(fila.getInt(8));
-                RegistroVenta.setPrecio(fila.getInt(9));
-                RegistroVenta.setEntregado(fila.getInt(10));
-                Lista_De_Pedidos.add(RegistroVenta);
-            } while (fila.moveToNext());
-        }
-        fila.close();
-        db.close();
-
-        pedidosadapter = new AdaptadorBuscablePedidos(getContext(), Lista_De_Pedidos);
-        ListView_Pedidos.setAdapter(pedidosadapter);
-
-
+        receiverVentas = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("ListaVentas")) {
+                    listaVentas.clear();
+                    listaVentas = (ArrayList<Venta>) intent.getExtras().get("ListaDeVentas");
+                    if (getActivity() != null) {
+                        ventasAdapter = new AdaptadorBuscableVentas(getActivity(), listaVentas);
+                        ListView_Ventas.setAdapter(ventasAdapter);
+                    }
+                }
+                if (intent.getAction().equals("EliminarCliente")) {
+                    Toast.makeText(getActivity(),"Cliente Eliminado",Toast.LENGTH_SHORT).show();
+                    ActualizarListView();
+                }
+                if (intent.getAction().equals("EditarCliente")) {
+                    ActualizarListView();
+                }
+            }
+        };
     }
-
-
-
-
-    // TODO: Rename method, update argument and hook method into UI event
+    private void ActualizarListView() {
+        obtenerVentas = new getVentas(getActivity());
+        obtenerVentas.execute();
+    }
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -145,48 +153,29 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }
-
     @Override
     public boolean onQueryTextChange(String newText) {
-        pedidosadapter.getFilter().filter(newText);
+        ventasAdapter.getFilter().filter(newText);
         return false;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem item = menu.add("Search");
@@ -197,5 +186,15 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
 
         MenuItemCompat.setActionView(item, searchView);
         searchView.setOnQueryTextListener(this);
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            getActivity().unregisterReceiver(receiverVentas);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 }

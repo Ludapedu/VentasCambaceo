@@ -38,6 +38,7 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.upiicsa.cambaceo.AsynkTask.GetImageFromUrl;
 import com.upiicsa.cambaceo.ImageSaver.ImageSaver;
 import com.upiicsa.cambaceo.InternetConnection.InternetConection;
 import com.upiicsa.cambaceo.R;
@@ -52,10 +53,10 @@ public class MainActivity extends AppCompatActivity
         Compras.OnFragmentInteractionListener,
         Ventas.OnFragmentInteractionListener,
         Pagos.OnFragmentInteractionListener,
-        Cambios.OnFragmentInteractionListener,
         Clientes.OnFragmentInteractionListener,
         DashBoard.OnFragmentInteractionListener,
-        Entregas.OnFragmentInteractionListener {
+        Entregas.OnFragmentInteractionListener,
+        Catalogos.OnFragmentInteractionListener{
 
     InternetConection internet = new InternetConection(this);
     SharedPreferences sharedPreferences;
@@ -373,27 +374,23 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
         Fragment fragment = null;
         Class fragmentClass = null;
-        if (id == R.id.pedidos) {
+        if (id == R.id.ventas) {
             fragmentClass = Pedidos.class;
-        } else if (id == R.id.compras) {
-            fragmentClass = Compras.class;
-        } else if (id == R.id.ventas) {
+        }  else if (id == R.id.agregarVenta) {
             fragmentClass = Ventas.class;
         } else if (id == R.id.pagos) {
             fragmentClass = Pagos.class;
-        } else if (id == R.id.cambios) {
-            fragmentClass = Cambios.class;
         } else if (id == R.id.clientes) {
             fragmentClass = Clientes.class;
         } else if (id == R.id.inicio) {
             fragmentClass = DashBoard.class;
-        } else if (id == R.id.entregas) {
-            fragmentClass = Entregas.class;
+        } else if (id == R.id.catalogos) {
+            fragmentClass = Catalogos.class;
         }
+
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {

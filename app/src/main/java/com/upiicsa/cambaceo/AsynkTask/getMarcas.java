@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.upiicsa.cambaceo.Constantes.Constantes;
 import com.upiicsa.cambaceo.Modelos.Cliente;
+import com.upiicsa.cambaceo.Modelos.Marca;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,14 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by C on 04/05/2017.
+ * Created by C on 07/05/2017.
  */
 
-public class getClientes extends AsyncTask<Void, Void, Void> {
+public class getMarcas extends AsyncTask<Void, Void, Void> {
     Context context;
-    ArrayList<Cliente> listaClientes = new ArrayList<>();
+    ArrayList<String> listaMarcas = new ArrayList<>();
 
-    public getClientes(Context ctx)
+    public getMarcas(Context ctx)
     {
         context = ctx;
     }
@@ -34,7 +35,7 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        String Stringurl =  Constantes.URL + "clientes";
+        String Stringurl =  Constantes.URL + "marcas";
         try {
             URL url = new URL(Stringurl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -62,43 +63,21 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
             JSONArray array = json.getJSONArray("clientes");
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
-                Cliente cli = new Cliente();
-                cli.setIdCliente(jsonunitario.getInt("IDREG"));
-                cli.setNombre(jsonunitario.getString("Nombre"));
-                if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
-                    cli.setApellidoPaterno("");
-                }else {
-                    cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
-                }
-                if(jsonunitario.getString("ApellidoMaterno").equals("vacio")) {
-                    cli.setApellidoMaterno("");
-                }else {
-                    cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
-                }
-                if(jsonunitario.getString("Direccion").equals("vacio")) {
-                    cli.setDireccion("");
-                }else {
-                    cli.setDireccion(jsonunitario.getString("Direccion"));
-                }
-                if(jsonunitario.getString("Telefono").equals("vacio")) {
-                    cli.setTelefono("");
-                }else {
-                    cli.setTelefono(jsonunitario.getString("Telefono"));
-                }
-                listaClientes.add(cli);
+                //Marca marca = new Marca();
+                //marca.setIDREG(jsonunitario.getInt("IDREG"));
+                //marca.setMarca(jsonunitario.getString("Marca"));
+                listaMarcas.add(jsonunitario.getString("Marca"));
             }
 
             Log.v("Registro en servidor: ", respuesta);
         } catch (Exception e) {
-            Intent i = new Intent("Error");
-            i.putExtra("Exception", e.getMessage());
-            context.sendBroadcast(i);
             e.printStackTrace();
         }
-        Intent i = new Intent("ListaClientes");
-        i.putExtra("ListaDeClientes", listaClientes);
+        Intent i = new Intent("ListaMarcas");
+        i.putExtra("ListaDeMarcas", listaMarcas);
         context.sendBroadcast(i);
         return null;
     }
 }
+
 

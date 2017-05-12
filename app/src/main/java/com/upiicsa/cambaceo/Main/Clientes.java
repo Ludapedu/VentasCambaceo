@@ -49,8 +49,8 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
     private Cliente RegistroCliente;
     private AdaptadorBuscableCliente clientesadapter;
     private ListView Lista_Clientes;
-    BroadcastReceiver receiverClientes;
-    IntentFilter filtroCLientes = new IntentFilter();
+    private BroadcastReceiver receiverClientes;
+    private IntentFilter filtroCLientes = new IntentFilter();
 
 
     private static final Comparator<Cliente> ALPHABETICAL_COMPARATOR = new Comparator<Cliente>() {

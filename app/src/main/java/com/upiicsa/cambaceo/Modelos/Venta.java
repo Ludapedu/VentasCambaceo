@@ -12,6 +12,7 @@ public class Venta implements Serializable {
     public  String Marca;
     public  int IDREG;
     public  int ID;
+    public  int IdCatalogo;
     public  int Pagina;
     public  float Numero;
     public  int Costo;
@@ -20,6 +21,14 @@ public class Venta implements Serializable {
     public  String Cliente;
     public int Entregado;
     public String Ubicacion;
+
+    public int getIdCatalogo() {
+        return IdCatalogo;
+    }
+
+    public void setIdCatalogo(int idCatalogo) {
+        IdCatalogo = idCatalogo;
+    }
 
     public String getUbicacion() {
         return Ubicacion;

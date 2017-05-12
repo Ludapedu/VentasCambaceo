@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscablePedidos;
+import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableVentas;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Venta;
 import com.upiicsa.cambaceo.R;
@@ -26,7 +26,7 @@ public class Entregas extends Fragment {
     private final int EDIT_VENTA = 60;
     ListView ListViewEntregas;
     ArrayList<Venta> Lista_De_Entregas = new ArrayList<Venta>();
-    private AdaptadorBuscablePedidos entregasadapter;
+    private AdaptadorBuscableVentas entregasadapter;
     Venta EntregaSeleccionada;
     Venta RegistroVenta;
 
@@ -134,7 +134,7 @@ public class Entregas extends Fragment {
         }
         fila.close();
         db.close();
-        entregasadapter = new AdaptadorBuscablePedidos(getContext(), Lista_De_Entregas);
+        entregasadapter = new AdaptadorBuscableVentas(getContext(), Lista_De_Entregas);
         ListViewEntregas.setAdapter(entregasadapter);
 
     }

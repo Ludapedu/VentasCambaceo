@@ -15,7 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscablePedidos;
+import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableVentas;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorPagos;
 import com.upiicsa.cambaceo.Assets.Font;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
@@ -43,8 +43,8 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
     ListView ListView_Cambios;
     ListView ListView_Pagos;
     Cliente cliente;
-    AdaptadorBuscablePedidos adaptadorpedidos;
-    AdaptadorBuscablePedidos adaptadorcambios;
+    AdaptadorBuscableVentas adaptadorpedidos;
+    AdaptadorBuscableVentas adaptadorcambios;
     AdaptadorPagos adaptadorpagos;
     Venta RegistroCompras;
     Venta RegistroCambios;
@@ -155,7 +155,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
         }
         pedidos.close();
 
-        adaptadorpedidos = new AdaptadorBuscablePedidos(getApplicationContext(), ListaCompras);
+        adaptadorpedidos = new AdaptadorBuscableVentas(getApplicationContext(), ListaCompras);
         ListView_Compras.setAdapter(adaptadorpedidos);
 
         ListaCambios.clear();
@@ -178,7 +178,7 @@ public class Detalle_Ventas_Cliente extends AppCompatActivity {
             } while (cambios.moveToNext());
         }
         cambios.close();
-        adaptadorcambios = new AdaptadorBuscablePedidos(getApplicationContext(), ListaCambios);
+        adaptadorcambios = new AdaptadorBuscableVentas(getApplicationContext(), ListaCambios);
         ListView_Cambios.setAdapter(adaptadorcambios);
         BDVentas.close();
 

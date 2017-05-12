@@ -11,44 +11,21 @@
             android:icon="@drawable/clientes"
             android:title="Clientes" />
         <item
-            android:id="@+id/ventas"
+            android:id="@+id/agregarVenta"
             android:icon="@drawable/ventas"
-            android:title="Ventas" />
+            android:title="Agregar Venta" />
         <item
-            android:id="@+id/pedidos"
+            android:id="@+id/ventas"
             android:icon="@drawable/pedidos"
-            android:title="Pedidos" />
-        <item
-            android:id="@+id/compras"
-            android:icon="@drawable/compras"
-            android:title="Compras" />
-        <item
-            android:id="@+id/entregas"
-            android:icon="@drawable/entregar"
-            android:title="Entregas" />
-        <item
-            android:id="@+id/cambios"
-            android:icon="@drawable/cambios"
-            android:title="Cambios" />
+            android:title="Ventas" />
         <item
             android:id="@+id/pagos"
             android:icon="@drawable/pagos"
             android:title="Pagos" />
-
-
+        <item
+            android:id="@+id/catalogos"
+            android:icon="@drawable/catalogos"
+            android:title="Catalogos" />
     </group>
-
-    <!--<item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>-->
 
 </menu>

@@ -1,8 +1,11 @@
 package com.upiicsa.cambaceo.Main;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -18,10 +21,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.upiicsa.cambaceo.Adaptadores.AdaptadorBuscableCliente;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCatalogo;
+import com.upiicsa.cambaceo.AsynkTask.getCatalogos;
+import com.upiicsa.cambaceo.AsynkTask.getClientes;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Cambio;
 import com.upiicsa.cambaceo.Modelos.Catalogo;
+import com.upiicsa.cambaceo.Modelos.Cliente;
 import com.upiicsa.cambaceo.Modelos.Venta;
 import com.upiicsa.cambaceo.R;
 
@@ -49,6 +56,9 @@ public class DetalleCambio extends AppCompatActivity {
     EditText Precio2;
     FloatingActionButton btn_Agregar_Cambio;
     private ArrayList<String> ListaMarcas = new ArrayList<String>();
+    private BroadcastReceiver receiverCatalogos;
+    private IntentFilter filtroCatalogos = new IntentFilter();
+    private getCatalogos obtenerCatalogos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,18 +68,12 @@ public class DetalleCambio extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        catalogos.add(new Catalogo("Caballeros"));
-        catalogos.add(new Catalogo("Vestir Dama"));
-        catalogos.add(new Catalogo("Botas Dama"));
-        catalogos.add(new Catalogo("Comfort"));
-        catalogos.add(new Catalogo("Infantiles"));
-        catalogos.add(new Catalogo("Importados"));
-        catalogos.add(new Catalogo("Ropa Caballeros"));
-        catalogos.add(new Catalogo("Ropa Ninos"));
-
         Bundle bundle = getIntent().getExtras();
         venta = (Venta) bundle.getSerializable("Venta");
         this.setTitle(venta.getCliente());
+
+        BroadCastReceiverCatalogos();
+        registerReceiver(receiverCatalogos, filtroCatalogos);
 
         SpinnerCatalogos = (Spinner) findViewById(R.id.Cambios_Spinner_Catalogo);
         SpinnerCatalogos2 = (Spinner) findViewById(R.id.Cambios_Spinner_Catalogo2);
@@ -92,9 +96,9 @@ public class DetalleCambio extends AppCompatActivity {
         Pagina.setText("" + venta.getPagina());
         Numero.setText(String.valueOf(venta.getNumero()));
         Marca.setText(venta.getMarca());
-        ID.setText("" +venta.getID());
-        Costo.setText("" +venta.getCosto());
-        Precio.setText("" +venta.getPrecio());
+        ID.setText("" + venta.getID());
+        Costo.setText("" + venta.getCosto());
+        Precio.setText("" + venta.getPrecio());
 
         adaptadorcatalogos = new AdaptadorSpinnerCatalogo(getApplicationContext(), catalogos);
         SpinnerCatalogos.setAdapter(adaptadorcatalogos);
@@ -102,29 +106,13 @@ public class DetalleCambio extends AppCompatActivity {
         SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(venta, catalogos)));
         SpinnerCatalogos.setEnabled(false);
 
-        BaseDatos dbCambios = new BaseDatos(getApplicationContext(), "Cambios", null, 1);
-        SQLiteDatabase TablaCambios = dbCambios.getReadableDatabase();
-        Cursor cambios = TablaCambios.rawQuery("SELECT IDREG, Catalogo, Pagina, Marca, ID, Numero, Costo, Precio, IDREGVenta FROM Cambios WHERE IDREGVenta = " + venta.getIDREG(), null);
-        if (cambios.moveToFirst()) {
-            do {
-                cambio.setIDREG(cambios.getInt(0));
-                cambio.setCatalogo(cambios.getString(1));
-                cambio.setPagina(cambios.getInt(2));
-                cambio.setMarca(cambios.getString(3));
-                cambio.setID(cambios.getInt(4));
-                cambio.setNumero(cambios.getFloat(5));
-                cambio.setCosto(cambios.getInt(6));
-                cambio.setPrecio(cambios.getInt(7));
-                cambio.setIDREGVenta(cambios.getInt(8));
-            } while (cambios.moveToNext());
-        }
-        cambios.close();
-        dbCambios.close();
+        obtenerCatalogos = new getCatalogos(DetalleCambio.this);
+        obtenerCatalogos.execute();
 
         cambio.setCliente(venta.getCliente());
         cambio.setIdCliente(venta.getIdCliente());
 
-        if(cambio.getCatalogo() != null) {
+        if (cambio.getCatalogo() != null) {
             Pagina2.setText("" + cambio.getPagina());
             Numero2.setText("" + cambio.getNumero());
             Marca2.setText(cambio.getMarca());
@@ -146,28 +134,25 @@ public class DetalleCambio extends AppCompatActivity {
         btn_Agregar_Cambio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ID2.getText().toString().isEmpty())
-                {
+                if (ID2.getText().toString().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Es necesario el ID del zapato", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if(ID2.getText().toString().length() < 5)
-                {
+                if (ID2.getText().toString().length() < 5) {
                     Toast.makeText(getApplicationContext(), "El ID del zapato debe de ser minimo de 5 números", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 String Marca = Marca2.getText().toString();
                 {
-                    if(!ListaMarcas.contains(Marca))
-                    {
+                    if (!ListaMarcas.contains(Marca)) {
                         BaseDatos BDMarcas = new BaseDatos(getApplicationContext(), "Marcas", null, 1);
                         SQLiteDatabase Marcas = BDMarcas.getWritableDatabase();
-                        Marcas.execSQL("INSERT INTO Marcas(Marca) VALUES(" + "'" + Marca + "'" +")");
+                        Marcas.execSQL("INSERT INTO Marcas(Marca) VALUES(" + "'" + Marca + "'" + ")");
                         BDMarcas.close();
                     }
                 }
-                Catalogo cat = (Catalogo)SpinnerCatalogos2.getSelectedItem();
-                BaseDatos dbCambios = new BaseDatos(getApplicationContext(),"Cambios",null,1);
+                Catalogo cat = (Catalogo) SpinnerCatalogos2.getSelectedItem();
+                BaseDatos dbCambios = new BaseDatos(getApplicationContext(), "Cambios", null, 1);
                 SQLiteDatabase TablaCambios = dbCambios.getWritableDatabase();
                 ContentValues datos = new ContentValues();
                 datos.put("Cliente", venta.getCliente());
@@ -214,6 +199,34 @@ public class DetalleCambio extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        try {
+            registerReceiver(receiverCatalogos, filtroCatalogos);
+            obtenerCatalogos = new getCatalogos(DetalleCambio.this);
+            obtenerCatalogos.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void BroadCastReceiverCatalogos() {
+        filtroCatalogos.addAction("ListaCatalogos");
+        filtroCatalogos.addAction("EliminarCatalogo");
+        filtroCatalogos.addAction("EditarCatalogo");
+
+        receiverCatalogos = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("ListaCatalogos")) {
+                    catalogos.clear();
+                    catalogos = (ArrayList<Catalogo>) intent.getExtras().get("ListaDeCatalogos");
+                    adaptadorcatalogos = new AdaptadorSpinnerCatalogo(DetalleCambio.this, catalogos);
+                    SpinnerCatalogos.setAdapter(adaptadorcatalogos);
+                }
+            }
+        };
+    }
 
     private int PositionSpinnerCatalogos(Catalogo cat) {
         int position;
@@ -224,7 +237,7 @@ public class DetalleCambio extends AppCompatActivity {
     }
 
     private Catalogo GetCatalogoFromPedido(Venta venta, ArrayList<Catalogo> catalogos) {
-        Catalogo cat = new Catalogo("");
+        Catalogo cat = new Catalogo();
         for (int x = 0; x < catalogos.size(); x++) {
             if (venta.getCatalogo().equals(catalogos.get(x).getNombre())) {
                 cat = catalogos.get(x);
@@ -234,7 +247,7 @@ public class DetalleCambio extends AppCompatActivity {
     }
 
     private Catalogo GetCatalogoFromCambio(Cambio cambio, ArrayList<Catalogo> catalogos) {
-        Catalogo cat = new Catalogo("");
+        Catalogo cat = new Catalogo();
         for (int x = 0; x < catalogos.size(); x++) {
             if (cambio.getCatalogo().equals(catalogos.get(x).getNombre())) {
                 cat = catalogos.get(x);
@@ -250,10 +263,9 @@ public class DetalleCambio extends AppCompatActivity {
                 onBackPressed();
             }
             break;
-            case R.id.btn_cambios_eliminar:
-            {
+            case R.id.btn_cambios_eliminar: {
 
-                BaseDatos dbCambios = new BaseDatos(getApplicationContext(),"Cambios",null,1);
+                BaseDatos dbCambios = new BaseDatos(getApplicationContext(), "Cambios", null, 1);
                 SQLiteDatabase TablaCambios = dbCambios.getWritableDatabase();
                 TablaCambios.delete("Cambios", "IDREG = " + cambio.getIDREG(), null);
                 BaseDatos db = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
@@ -276,26 +288,33 @@ public class DetalleCambio extends AppCompatActivity {
         return true;
     }
 
-    protected void CargarMarcas()
-    {
+    protected void CargarMarcas() {
         BaseDatos BDMarcas = new BaseDatos(getApplicationContext(), "Marcas", null, 1);
         SQLiteDatabase Marcas = BDMarcas.getWritableDatabase();
-        Cursor filaMarcas = Marcas.rawQuery("SELECT Marca FROM Marcas",null);
+        Cursor filaMarcas = Marcas.rawQuery("SELECT Marca FROM Marcas", null);
         ListaMarcas.clear();
-        if(filaMarcas.moveToFirst())
-        {
-            do
-            {
+        if (filaMarcas.moveToFirst()) {
+            do {
                 ListaMarcas.add(filaMarcas.getString(0));
-            }while(filaMarcas.moveToNext());
+            } while (filaMarcas.moveToNext());
         }
         filaMarcas.close();
         BDMarcas.close();
 
-        ArrayAdapter<String> adaptadorMarcas = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,ListaMarcas);
+        ArrayAdapter<String> adaptadorMarcas = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, ListaMarcas);
 
         Marca2.setAdapter(adaptadorMarcas);
         Marca2.setThreshold(1);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        try {
+            unregisterReceiver(receiverCatalogos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.upiicsa.cambaceo.Constantes.Constantes;
 import com.upiicsa.cambaceo.Modelos.Cliente;
+import com.upiicsa.cambaceo.Modelos.Venta;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -19,14 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 /**
- * Created by C on 04/05/2017.
+ * Created by C on 07/05/2017.
  */
 
-public class getClientes extends AsyncTask<Void, Void, Void> {
+public class getVentas extends AsyncTask<Void, Void, Void> {
     Context context;
-    ArrayList<Cliente> listaClientes = new ArrayList<>();
+    ArrayList<Venta> listaVentas = new ArrayList<>();
 
-    public getClientes(Context ctx)
+    public getVentas(Context ctx)
     {
         context = ctx;
     }
@@ -34,7 +35,7 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
     @Override
     protected Void doInBackground(Void... params) {
 
-        String Stringurl =  Constantes.URL + "clientes";
+        String Stringurl =  Constantes.URL + "ventas";
         try {
             URL url = new URL(Stringurl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -56,49 +57,39 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
             bufferedReader.close();
             inputstream.close();
 
-            String jsonOk = "{ clientes:" + respuesta + "}";
+            String jsonOk = "{ ventas:" + respuesta + "}";
 
             JSONObject json = new JSONObject(jsonOk);
-            JSONArray array = json.getJSONArray("clientes");
+            JSONArray array = json.getJSONArray("ventas");
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
-                Cliente cli = new Cliente();
-                cli.setIdCliente(jsonunitario.getInt("IDREG"));
-                cli.setNombre(jsonunitario.getString("Nombre"));
-                if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
-                    cli.setApellidoPaterno("");
-                }else {
-                    cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
-                }
-                if(jsonunitario.getString("ApellidoMaterno").equals("vacio")) {
-                    cli.setApellidoMaterno("");
-                }else {
-                    cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
-                }
-                if(jsonunitario.getString("Direccion").equals("vacio")) {
-                    cli.setDireccion("");
-                }else {
-                    cli.setDireccion(jsonunitario.getString("Direccion"));
-                }
-                if(jsonunitario.getString("Telefono").equals("vacio")) {
-                    cli.setTelefono("");
-                }else {
-                    cli.setTelefono(jsonunitario.getString("Telefono"));
-                }
-                listaClientes.add(cli);
+                Venta venta = new Venta();
+                venta.setIDREG(jsonunitario.getInt("IDREG"));
+                venta.setCliente(jsonunitario.getString("Cliente"));
+                venta.setIdCliente(jsonunitario.getInt("IdCliente"));
+                venta.setIdCatalogo(jsonunitario.getInt("IdCatalogo"));
+                venta.setCatalogo(jsonunitario.getString("Catalogo"));
+                venta.setPagina(jsonunitario.getInt("Pagina"));
+                venta.setMarca(jsonunitario.getString("Marca"));
+                venta.setID(jsonunitario.getInt("ID"));
+                venta.setNumero(Float.valueOf(jsonunitario.getString("Numero")));
+                venta.setCosto(jsonunitario.getInt("Costo"));
+                venta.setPrecio(jsonunitario.getInt("Precio"));
+                venta.setEntregado(jsonunitario.getInt("Entregado"));
+                venta.setUbicacion(jsonunitario.getString("Ubicacion"));
+
+                listaVentas.add(venta);
             }
 
             Log.v("Registro en servidor: ", respuesta);
         } catch (Exception e) {
-            Intent i = new Intent("Error");
-            i.putExtra("Exception", e.getMessage());
-            context.sendBroadcast(i);
             e.printStackTrace();
         }
-        Intent i = new Intent("ListaClientes");
-        i.putExtra("ListaDeClientes", listaClientes);
+        Intent i = new Intent("ListaVentas");
+        i.putExtra("ListaDeVentas", listaVentas);
         context.sendBroadcast(i);
         return null;
     }
 }
+
 

@@ -20,7 +20,7 @@ import java.util.List;
  * Created by luis.perez on 29/09/2016.
  */
 
-public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Filterable {
+public class AdaptadorBuscableVentas extends ArrayAdapter<Venta> implements Filterable {
 
     private List<Venta> originalData = null;
     private List<Venta> filteredData = null;
@@ -28,7 +28,7 @@ public class AdaptadorBuscablePedidos extends ArrayAdapter<Venta> implements Fil
     private ItemFilter mFilter = new ItemFilter();
     Font font = new Font();
 
-    public AdaptadorBuscablePedidos(Context context, ArrayList<Venta> data) {
+    public AdaptadorBuscableVentas(Context context, ArrayList<Venta> data) {
         super(context, -1, data);
         this.filteredData = data;
         this.originalData = data;

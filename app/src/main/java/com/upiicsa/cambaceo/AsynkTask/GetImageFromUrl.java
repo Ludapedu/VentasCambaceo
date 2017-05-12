@@ -1,4 +1,4 @@
-package com.upiicsa.cambaceo.Main;
+package com.upiicsa.cambaceo.AsynkTask;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

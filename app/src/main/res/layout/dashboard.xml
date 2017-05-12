@@ -35,13 +35,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="16dp"
-                        android:text="Ventas completadas"
+                        android:text="Ventas"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:id="@+id/txt_Dashboard_Ventas_Completadas"/>
 
                     <ProgressBar
-                        android:id="@+id/progressBar"
+                        android:id="@+id/progressBarVentas"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
@@ -53,7 +53,7 @@
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
-                        android:id="@+id/progress_circle_text"
+                        android:id="@+id/progresoVentas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -91,7 +91,7 @@
 
 
                     <ProgressBar
-                        android:id="@+id/progressBar1"
+                        android:id="@+id/progressBarVentasPendientes"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
@@ -103,7 +103,7 @@
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
-                        android:id="@+id/progress_circle_text1"
+                        android:id="@+id/progresoVentasPorCobrar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -139,13 +139,13 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="16dp"
-                        android:text="Pedidos por comprar"
+                        android:text="Dinero recabado"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:id="@+id/txt_Dashboard_Pedidos_PorCobrar"/>
 
                     <ProgressBar
-                        android:id="@+id/progressBar3"
+                        android:id="@+id/progressBarMontoAbonado"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
@@ -157,7 +157,7 @@
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
-                        android:id="@+id/progress_circle_text3"
+                        android:id="@+id/progresoMontoRecabado"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -188,14 +188,14 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="16dp"
-                        android:text="Compras por realizar"
+                        android:text="Dinero por cobrar"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:id="@+id/txt_Dashboard_Compras_Realizadas"/>
 
 
                     <ProgressBar
-                        android:id="@+id/progressBar4"
+                        android:id="@+id/progressBarMontoPendiente"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
@@ -207,7 +207,7 @@
                         android:progressDrawable="@drawable/circular_progress_bar" />
 
                     <TextView
-                        android:id="@+id/progress_circle_text4"
+                        android:id="@+id/progresoMontoPendiente"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
