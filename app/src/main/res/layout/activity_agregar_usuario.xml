@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.upiicsa.cambaceo.Main.AgregarUsuario">
+
+    <ScrollView
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/txtUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/txtNombreUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Nombre de Usuario"
+                    android:inputType="textCapWords"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="18sp">
+
+                    <requestFocus />
+                </EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/txtInputCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtUsuario">
+
+                <EditText
+                    android:id="@+id/txtCorreoElectronico"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Correo Electrónico"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="18sp"></EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/txtInputContrasena"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtInputCorreo">
+
+                <EditText
+                    android:id="@+id/txtContrasena"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Contraseña"
+                    android:inputType="textCapWords"
+                    android:textColorHint="@android:color/darker_gray"
+                    android:textSize="18sp"></EditText>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnGuardarUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtInputContrasena"
+                android:layout_centerHorizontal="true"
+                android:background="@color/colorAccent"
+                android:text="Guardar"
+                android:textColor="@color/White" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
