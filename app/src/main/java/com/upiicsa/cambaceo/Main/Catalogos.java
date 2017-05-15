@@ -51,7 +51,7 @@ public class Catalogos extends Fragment implements SearchView.OnQueryTextListene
         super.onResume();
         try {
             getActivity().registerReceiver(receiverCatalogos, filtroCatalogos);
-            obtenerCatalogos = new getCatalogos(getActivity());
+            obtenerCatalogos = new getCatalogos(getActivity(), true);
             obtenerCatalogos.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +78,7 @@ public class Catalogos extends Fragment implements SearchView.OnQueryTextListene
 
         BroadCastReceiverCatalogos();
         getActivity().registerReceiver(receiverCatalogos, filtroCatalogos);
-        obtenerCatalogos = new getCatalogos(getActivity());
+        obtenerCatalogos = new getCatalogos(getActivity(), true);
         obtenerCatalogos.execute();
 
         ListView_Catalogos = (ListView) view.findViewById(R.id.Lista_Catalogos);
@@ -137,7 +137,7 @@ public class Catalogos extends Fragment implements SearchView.OnQueryTextListene
     }
 
     private void ActualizarListView() {
-        obtenerCatalogos = new getCatalogos(getActivity());
+        obtenerCatalogos = new getCatalogos(getActivity(), true);
         obtenerCatalogos.execute();
     }
 

@@ -108,7 +108,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         try
         {
             getActivity().registerReceiver(receiverClientes, filtroCLientes);
-            obtenerClientes = new getClientes(getActivity());
+            obtenerClientes = new getClientes(getActivity(), true);
             obtenerClientes.execute();
         }catch(Exception e)
         {
@@ -130,7 +130,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
         BroadCastReceiverClientes();
         getActivity().registerReceiver(receiverClientes, filtroCLientes);
 
-        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes = new getClientes(getActivity(), true);
         obtenerClientes.execute();
 
         Lista_Clientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -183,7 +183,7 @@ public class Clientes extends Fragment implements SearchView.OnQueryTextListener
 
     private void ActualizarListView()
     {
-        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes = new getClientes(getActivity(), true);
         obtenerClientes.execute();
     }
 

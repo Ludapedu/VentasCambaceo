@@ -54,7 +54,7 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
         try
         {
             getActivity().registerReceiver(receiverVentas, filtroVentas);
-            obtenerVentas = new getVentas(getActivity());
+            obtenerVentas = new getVentas(getActivity(), true);
             obtenerVentas.execute();
         }catch(Exception e)
         {
@@ -88,7 +88,7 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
         BroadCastReceiverVentas();
         getActivity().registerReceiver(receiverVentas, filtroVentas);
 
-        obtenerVentas = new getVentas(getActivity());
+        obtenerVentas = new getVentas(getActivity(), true);
         obtenerVentas.execute();    getActivity().setTitle("Ventas");
 
 
@@ -133,7 +133,7 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
         };
     }
     private void ActualizarListView() {
-        obtenerVentas = new getVentas(getActivity());
+        obtenerVentas = new getVentas(getActivity(), true);
         obtenerVentas.execute();
     }
     public void onButtonPressed(Uri uri) {

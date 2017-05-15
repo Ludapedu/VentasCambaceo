@@ -60,7 +60,7 @@ public class Pagos extends Fragment {
         try
         {
             getActivity().registerReceiver(receiverPagos, filtroPagos);
-            obtenerPagos = new getPagos(getActivity());
+            obtenerPagos = new getPagos(getActivity(), true);
             obtenerPagos.execute();
         }catch(Exception e)
         {
@@ -84,7 +84,7 @@ public class Pagos extends Fragment {
         BroadCastReceiverPagos();
         getActivity().registerReceiver(receiverPagos, filtroPagos);
 
-        obtenerPagos = new getPagos(getActivity());
+        obtenerPagos = new getPagos(getActivity(), true);
         obtenerPagos.execute();
 
 
@@ -126,7 +126,7 @@ public class Pagos extends Fragment {
         return view;
     }
     private void ActualizarListView() {
-        obtenerPagos = new getPagos(getActivity());
+        obtenerPagos = new getPagos(getActivity(), true);
         obtenerPagos.execute();
     }
 

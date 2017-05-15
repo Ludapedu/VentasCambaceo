@@ -166,7 +166,7 @@ public class DetallesVenta extends AppCompatActivity {
         super.onResume();
         try {
             registerReceiver(receiverCatalogos, filtroCatalogos);
-            obtenerCatalogos = new getCatalogos(DetallesVenta.this);
+            obtenerCatalogos = new getCatalogos(DetallesVenta.this, false);
             obtenerCatalogos.execute();
         } catch (Exception e) {
             e.printStackTrace();
@@ -175,7 +175,7 @@ public class DetallesVenta extends AppCompatActivity {
 
     private void EstadoInicial()
     {
-        obtenerCatalogos = new getCatalogos(DetallesVenta.this);
+        obtenerCatalogos = new getCatalogos(DetallesVenta.this, false);
         obtenerCatalogos.execute();
 
         estatus.add(new Estatus("Pedido", 0));

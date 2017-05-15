@@ -1,5 +1,6 @@
 package com.upiicsa.cambaceo.AsynkTask;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,10 +27,25 @@ import java.util.ArrayList;
 public class getCatalogos extends AsyncTask<Void, Void, Void> {
     Context context;
     ArrayList<Catalogo> listaCatalogos = new ArrayList<>();
+    private ProgressDialog progressDialog;
+    boolean mostrar;
 
-    public getCatalogos(Context ctx)
+    public getCatalogos(Context ctx, boolean show)
     {
         context = ctx;
+        progressDialog = new ProgressDialog(ctx);
+        progressDialog.setCancelable(false);
+        mostrar = show;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        if(mostrar) {
+            progressDialog.setTitle("Obteniendo Catalogos");
+            progressDialog.setMessage("Descargando datos...");
+            progressDialog.show();
+        }
     }
 
     @Override
@@ -76,6 +92,14 @@ public class getCatalogos extends AsyncTask<Void, Void, Void> {
         i.putExtra("ListaDeCatalogos", listaCatalogos);
         context.sendBroadcast(i);
         return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void aVoid) {
+        super.onPostExecute(aVoid);
+        if (mostrar) {
+            progressDialog.cancel();
+        }
     }
 }
 

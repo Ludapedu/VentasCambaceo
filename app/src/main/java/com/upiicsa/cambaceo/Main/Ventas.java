@@ -92,9 +92,9 @@ public class Ventas extends Fragment {
             getActivity().registerReceiver(receiverClientes, filtroCLientes);
             getActivity().registerReceiver(receiverMarcas, filtroMarcas);
             getActivity().registerReceiver(receiverError, filtroError);
-            obtenerCatalogos = new getCatalogos(getActivity());
+            obtenerCatalogos = new getCatalogos(getActivity(), false);
             obtenerCatalogos.execute();
-            obtenerClientes = new getClientes(getActivity());
+            obtenerClientes = new getClientes(getActivity(), false);
             obtenerClientes.execute();
             obtenerMarcas = new getMarcas(getActivity());
             obtenerMarcas.execute();
@@ -158,9 +158,9 @@ public class Ventas extends Fragment {
         BroadCastReceiverClientes();
         BroadCastReceiverMarcas();
         BroadCastReceiverError();
-        obtenerCatalogos = new getCatalogos(getActivity());
+        obtenerCatalogos = new getCatalogos(getActivity(), false);
         obtenerCatalogos.execute();
-        obtenerClientes = new getClientes(getActivity());
+        obtenerClientes = new getClientes(getActivity(), false);
         obtenerClientes.execute();
         obtenerMarcas = new getMarcas(getActivity());
         obtenerMarcas.execute();

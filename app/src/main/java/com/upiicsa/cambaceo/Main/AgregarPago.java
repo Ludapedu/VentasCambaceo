@@ -68,7 +68,7 @@ public class AgregarPago extends AppCompatActivity {
 
         registerReceiver(receiverClientes, filtroClientes);
         BroadCastReceiverClientes();
-        obtenerClientes = new getClientes(AgregarPago.this);
+        obtenerClientes = new getClientes(AgregarPago.this, false);
         obtenerClientes.execute();
 
 
@@ -129,7 +129,7 @@ public class AgregarPago extends AppCompatActivity {
         try {
 
             registerReceiver(receiverClientes, filtroClientes);
-            obtenerClientes = new getClientes(AgregarPago.this);
+            obtenerClientes = new getClientes(AgregarPago.this, false);
             obtenerClientes.execute();
         } catch (Exception e) {
             e.printStackTrace();
