@@ -1,17 +1,13 @@
 package com.upiicsa.cambaceo.Main;
 
-import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,39 +19,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.upiicsa.cambaceo.AsynkTask.GetImageFromUrl;
-import com.upiicsa.cambaceo.ImageSaver.ImageSaver;
 import com.upiicsa.cambaceo.InternetConnection.InternetConection;
 import com.upiicsa.cambaceo.R;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class MainActivity extends AppCompatActivity
         implements
         NavigationView.OnNavigationItemSelectedListener,
         Pedidos.OnFragmentInteractionListener,
-        Compras.OnFragmentInteractionListener,
         Ventas.OnFragmentInteractionListener,
         Pagos.OnFragmentInteractionListener,
         Clientes.OnFragmentInteractionListener,
         DashBoard.OnFragmentInteractionListener,
-        Entregas.OnFragmentInteractionListener,
         Catalogos.OnFragmentInteractionListener{
 
     InternetConection internet = new InternetConection(this);
@@ -140,16 +117,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-       /* if (id == R.id.action_delete) {
-            return true;
-        }*/
-
         return super.onOptionsItemSelected(item);
     }
 

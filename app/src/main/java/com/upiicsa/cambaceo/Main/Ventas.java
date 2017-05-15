@@ -55,7 +55,6 @@ public class Ventas extends Fragment {
     EditText txt_Ventas_Precio;
     TextView lblCliente;
     TextView lblCatalogo;
-    private Cliente RegistroCliente;
     ArrayList<Cliente> ListaDeClientes = new ArrayList<Cliente>();
     private ArrayList<String> ListaMarcas = new ArrayList<>();
     Font font = new Font();
@@ -197,9 +196,14 @@ public class Ventas extends Fragment {
                 }
                 String Marca = txt_Ventas_Marca.getText().toString();
                 if (!ListaMarcas.contains(Marca)) {
-                        String[] marca = new String[1];
+                    String[] marca = new String[1];
                     marca[0] = txt_Ventas_Marca.getText().toString();
                     new AltaMarca().execute(marca);
+                }
+                if(ListaDeClientes.size() == 0) {
+                    Toast.makeText(getActivity(), "Se requiere registrar primero un cliente para realizar la venta", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(getContext(), AgregarCliente.class);
+                    getActivity().startActivity(i);
                 }
 
                 Cliente c = (Cliente) spinner_Venta_Clientes.getSelectedItem();
@@ -254,14 +258,8 @@ public class Ventas extends Fragment {
                     ListaDeClientes.clear();
                     ListaDeClientes = (ArrayList<Cliente>) intent.getExtras().get("ListaDeClientes");
                     if (getActivity() != null) {
-                        if (ListaDeClientes.isEmpty()) {
-                            Toast.makeText(getActivity(), "Se requiere registrar primero un cliente para realizar la venta", Toast.LENGTH_SHORT).show();
-                            Intent i = new Intent(getContext(), AgregarCliente.class);
-                            getActivity().startActivity(i);
-                        } else {
-                            clientesAdapter = new AdaptadorSpinnerCliente(getActivity(), ListaDeClientes);
-                            spinner_Venta_Clientes.setAdapter(clientesAdapter);
-                        }
+                        clientesAdapter = new AdaptadorSpinnerCliente(getActivity(), ListaDeClientes);
+                        spinner_Venta_Clientes.setAdapter(clientesAdapter);
                     }
 
                 }
@@ -288,7 +286,7 @@ public class Ventas extends Fragment {
 
     private void BroadCastReceiverError() {
         filtroError.addAction("Error");
-        receiverError= new BroadcastReceiver() {
+        receiverError = new BroadcastReceiver() {
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals("Error")) {
                     String error;

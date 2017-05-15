@@ -62,16 +62,8 @@
             android:label="@string/title_activity_detalle__ventas__cliente"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Main.DetalleCambio"
-            android:label="@string/title_activity_detalle_cambio"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".Main.AgregarPago"
             android:label="@string/title_activity_agregar_pago"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Main.Detalle_Compra"
-            android:label="@string/title_activity_detalle__compra"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Main.AgregarCatalogo"

@@ -36,7 +36,6 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
 
     ListView ListView_Ventas;
     ArrayList<Venta> listaVentas= new ArrayList<Venta>();
-    Venta RegistroVenta;
     Venta VentaSeleccionada;
     private AdaptadorBuscableVentas ventasAdapter;
     private OnFragmentInteractionListener mListener;
@@ -84,16 +83,15 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
         super.onCreate(savedInstanceState);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.pedidos, container, false);
-        getActivity().setTitle("Ventas");
-
         BroadCastReceiverVentas();
         getActivity().registerReceiver(receiverVentas, filtroVentas);
 
         obtenerVentas = new getVentas(getActivity());
-        obtenerVentas.execute();
+        obtenerVentas.execute();    getActivity().setTitle("Ventas");
+
+
 
         ListView_Ventas = (ListView) view.findViewById(R.id.Lista_Pedidos);
         ActualizarListView();

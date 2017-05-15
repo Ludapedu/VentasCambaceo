@@ -5,5 +5,5 @@ package com.upiicsa.cambaceo.Constantes;
  */
 
 public class Constantes {
-    public static String URL = "http://upiicsa-sales-system.site90.net/upiicsa/public/api/v1/";
+    public static String URL = "http://upiicsa-sales-system.esy.es/public/api/v1/";
 }
