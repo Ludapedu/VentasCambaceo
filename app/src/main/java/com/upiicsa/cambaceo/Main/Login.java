@@ -35,7 +35,7 @@ import java.util.List;
 
 import com.upiicsa.cambaceo.R;
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity {
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "Luis:123456", "Daniel:123456"
@@ -85,6 +85,7 @@ public class Login extends AppCompatActivity{
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
     private void attemptLogin() {
         if (mAuthTask != null) {
             return;
@@ -154,15 +155,10 @@ public class Login extends AppCompatActivity{
         }
     }
 
-    private void addUsuariosToAutoComplete(List<String> emailAddressCollection) {
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(Login.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+
+        private boolean usuarioCorrecto = false;
+        private boolean passwordCorrecto = false;
 
         private final String mEmail;
         private final String mPassword;
@@ -180,18 +176,20 @@ public class Login extends AppCompatActivity{
                 // Simulate network access.
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                return false;
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
                 if (pieces[0].equals(mEmail)) {
-                    return pieces[1].equals(mPassword);
+                    usuarioCorrecto = true;
+                }
+                if (pieces[1].equals(mPassword)) {
+                    passwordCorrecto = true;
                 }
             }
 
             // TODO: register the new account here.
-            return false;
+            return null;
         }
 
         @Override
@@ -199,13 +197,18 @@ public class Login extends AppCompatActivity{
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                Intent i = new Intent(Login.this, MainActivity.class);
-                startActivity(i);
-            } else {
-                mPasswordView.setError("Contraseña incorrecta");
-                mPasswordView.requestFocus();
+            if (!usuarioCorrecto) {
+                mEmailView.setError("Usuario Incorrecto");
+                mEmailView.requestFocus();
+                return;
             }
+            if (!passwordCorrecto) {
+                mPasswordView.setError("Password Incorrecto");
+                mPasswordView.requestFocus();
+                return;
+            }
+            Intent i = new Intent(Login.this, MainActivity.class);
+            startActivity(i);
         }
 
         @Override

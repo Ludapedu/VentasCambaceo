@@ -26,6 +26,7 @@ import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCatalogo;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCliente;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerEstatus;
 import com.upiicsa.cambaceo.AsynkTask.getCatalogos;
+import com.upiicsa.cambaceo.AsynkTask.getClientes;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Catalogo;
 import com.upiicsa.cambaceo.Modelos.Cliente;
@@ -64,9 +65,11 @@ public class DetallesVenta extends AppCompatActivity {
     public FloatingActionButton modificar;
     public FloatingActionButton aceptar;
     public FloatingActionButton cancelar;
-    private BroadcastReceiver receiverCatalogos;
+    private BroadcastReceiver receiverCatalogos, receiverClientes;
     private IntentFilter filtroCatalogos = new IntentFilter();
+    private IntentFilter filtroClientes = new IntentFilter();
     private getCatalogos obtenerCatalogos;
+    private getClientes obtenerClientes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,7 @@ public class DetallesVenta extends AppCompatActivity {
         TextCosto.setTypeface(font);
         TextPrecio.setTypeface(font);
 
+        BroadCastReceiverClientes();
         BroadCastReceiverCatalogos();
         EstadoInicial();
         InhabilitarControles();
@@ -166,8 +170,11 @@ public class DetallesVenta extends AppCompatActivity {
         super.onResume();
         try {
             registerReceiver(receiverCatalogos, filtroCatalogos);
+            registerReceiver(receiverClientes, filtroClientes);
             obtenerCatalogos = new getCatalogos(DetallesVenta.this, false);
             obtenerCatalogos.execute();
+            obtenerClientes = new getClientes(DetallesVenta.this, false);
+            obtenerClientes.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -184,45 +191,8 @@ public class DetallesVenta extends AppCompatActivity {
         estatus.add(new Estatus("Cambiar", 3));
         estatus.add(new Estatus("Cancelar", 4));
 
-        BaseDatos dbClientes = new BaseDatos(getApplicationContext(), "Clientes", null, 1);
-        SQLiteDatabase clientes = dbClientes.getWritableDatabase();
-        ListaDeClientes.clear();
-
-        Cursor filacliente = clientes.rawQuery("SELECT IDREG, Nombre, ApellidoPaterno, ApellidoMaterno, Direccion, Telefono FROM Clientes",null);
-        if(filacliente.moveToFirst())
-        {
-            do {
-                RegistroCliente = new Cliente();
-                RegistroCliente.setIdCliente(filacliente.getInt(0));
-                RegistroCliente.setNombre(filacliente.getString(1));
-                RegistroCliente.setApellidoPaterno(filacliente.getString(2));
-                RegistroCliente.setApellidoMaterno(filacliente.getString(3));
-                RegistroCliente.setDireccion(filacliente.getString(4));
-                RegistroCliente.setTelefono(filacliente.getString(5));
-                ListaDeClientes.add(RegistroCliente);
-            }while (filacliente.moveToNext());
-        }
-        filacliente.close();
-        dbClientes.close();
-
-        clientesadapter = new AdaptadorSpinnerCliente(getApplicationContext(), ListaDeClientes);
-        estatusadapter = new AdaptadorSpinnerEstatus(getApplicationContext(), estatus);
-        catalogoadapter = new AdaptadorSpinnerCatalogo(getApplicationContext(), catalogos);
-
-
-        SpinnerCatalogos.setAdapter(catalogoadapter);
-        SpinnerEstatus.setAdapter(estatusadapter);
-        SpinnerClientes.setAdapter(clientesadapter);
-
-        TextPagina.setText(String.valueOf(RegistroVenta.getPagina()));
-        TextNumero.setText(String.valueOf(RegistroVenta.getNumero()));
-        TextMarca.setText(RegistroVenta.getMarca());
-        TextID.setText(String.valueOf(RegistroVenta.getID()));
-        TextCosto.setText(String.valueOf(RegistroVenta.getCosto()));
-        TextPrecio.setText(String.valueOf(RegistroVenta.getPrecio()));
-        SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(RegistroVenta, catalogos)));
-        SpinnerEstatus.setSelection(PositionSpinnerEstatus(GetEstatusFromPedido(RegistroVenta, estatus)));
-        SpinnerClientes.setSelection(PositionSpinnerClientes(GetClienteFromPedido(RegistroVenta, ListaDeClientes)));
+        obtenerClientes = new getClientes(DetallesVenta.this, false);
+        obtenerClientes.execute();
     }
 
     private void BroadCastReceiverCatalogos() {
@@ -235,6 +205,28 @@ public class DetallesVenta extends AppCompatActivity {
                     catalogos = (ArrayList<Catalogo>) intent.getExtras().get("ListaDeCatalogos");
                     catalogoadapter = new AdaptadorSpinnerCatalogo(DetallesVenta.this, catalogos);
                     SpinnerCatalogos.setAdapter(catalogoadapter);
+                    if(catalogos.size() != 0)
+                    {
+                        SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(RegistroVenta,catalogos)));
+                    }
+                }
+            }
+        };
+    }
+    private void BroadCastReceiverClientes() {
+        filtroClientes.addAction("ListaClientes");
+
+        receiverClientes = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals("ListaClientes")) {
+                    ListaDeClientes.clear();
+                    ListaDeClientes = (ArrayList<Cliente>) intent.getExtras().get("ListaDeClientes");
+                    clientesadapter = new AdaptadorSpinnerCliente(DetallesVenta.this, ListaDeClientes);
+                    SpinnerClientes.setAdapter(clientesadapter);
+                    if(ListaDeClientes.size() != 0)
+                    {
+                        SpinnerClientes.setSelection(PositionSpinnerClientes(GetClienteFromPedido(RegistroVenta,ListaDeClientes)));
+                    }
                 }
             }
         };
@@ -364,6 +356,7 @@ public class DetallesVenta extends AppCompatActivity {
         super.onStop();
         try {
             unregisterReceiver(receiverCatalogos);
+            unregisterReceiver(receiverClientes);
         } catch (Exception e) {
             e.printStackTrace();
         }
