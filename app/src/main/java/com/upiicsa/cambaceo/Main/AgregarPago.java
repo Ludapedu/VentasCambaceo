@@ -105,14 +105,10 @@ public class AgregarPago extends AppCompatActivity {
 
                 RegistroCliente = (Cliente) SpinnerCliente.getSelectedItem();
 
-                String[] reg = new String[7];
-                reg[0] = RegistroCliente.getNombre();
-                reg[1] = String.valueOf(RegistroCliente.getIdCliente());
-                reg[2] = Dia + "-" + Mes + "-" + ano;
-                reg[3] = txt_Pagos_Monto.getText().toString();
-                reg[4] = String.valueOf(Dia);
-                reg[5] = String.valueOf(Mes);
-                reg[6] = String.valueOf(ano);
+                String[] reg = new String[3];
+                reg[0] = RegistroCliente.getIdCliente();
+                reg[1] = Dia + "-" + Mes + "-" + ano;
+                reg[2] = txt_Pagos_Monto.getText().toString();
                 new AltaPago().execute(reg);
                 Toast.makeText(getApplicationContext(), "Pago agregado correctamente", Toast.LENGTH_SHORT).show();
 
@@ -224,8 +220,9 @@ public class AgregarPago extends AppCompatActivity {
 
     private Cliente GetClienteFromPago(Pago pago, ArrayList<Cliente> clientes) {
         Cliente cliente = new Cliente();
+        if(("").equals(""))
         for (int x = 0; x < clientes.size(); x++) {
-            if (pago.getIdCliente() == clientes.get(x).getIdCliente()) {
+            if (pago.getIdCliente().equals(clientes.get(x).getIdCliente())) {
                 cliente = clientes.get(x);
             }
         }

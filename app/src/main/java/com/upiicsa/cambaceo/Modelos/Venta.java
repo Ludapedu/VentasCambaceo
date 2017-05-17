@@ -17,7 +17,7 @@ public class Venta implements Serializable {
     public  float Numero;
     public  int Costo;
     public  int Precio;
-    public  int IdCliente;
+    public  String IdCliente;
     public  String Cliente;
     public int Entregado;
     public String Ubicacion;
@@ -119,11 +119,11 @@ public class Venta implements Serializable {
         Precio = precio;
     }
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return IdCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         IdCliente = idCliente;
     }
 }

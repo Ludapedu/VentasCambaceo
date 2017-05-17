@@ -20,13 +20,10 @@ public class AltaPago extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String Stringurl = Constantes.URL +
                 "pagos/nuevo" +
-                "?Cliente=" + params[0].replace(" ", "%20") +
-                "?IdCliente=" + params[1].replace(" ", "%20") +
-                "?Fecha=" + params[2].replace(" ", "%20") +
-                "?Monto=" + params[3].replace(" ", "%20") +
-                "?Dia=" + params[4].replace(" ", "%20") +
-                "?Mes=" + params[5].replace(" ", "%20") +
-                "?Anio=" + params[6].replace(" ", "%20");
+                "?idCliente=" + params[0] +
+                "?marca="  +
+                "?fecha=" + params[1].replace(" ", "%20") +
+                "?monto=" + params[2].replace(" ", "%20");
 
         try {
             URL url = new URL(Stringurl);

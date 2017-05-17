@@ -8,9 +8,9 @@ import java.io.Serializable;
 
 public class Pago implements Serializable {
 
-    int IDREG;
+    String IDREG;
     String Cliente;
-    int IdCliente;
+    String IdCliente;
     String FechaPago;
     int Monto;
     int Dia;
@@ -41,11 +41,11 @@ public class Pago implements Serializable {
         Anio = anio;
     }
 
-    public int getIDREG() {
+    public String getIDREG() {
         return IDREG;
     }
 
-    public void setIDREG(int IDREG) {
+    public void setIDREG(String IDREG) {
         this.IDREG = IDREG;
     }
     public String getCliente() {
@@ -56,11 +56,11 @@ public class Pago implements Serializable {
         Cliente = cliente;
     }
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return IdCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         IdCliente = idCliente;
     }
 

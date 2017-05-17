@@ -82,7 +82,7 @@ public class getVentas extends AsyncTask<Void, Void, Void> {
                 Venta venta = new Venta();
                 venta.setIDREG(jsonunitario.getInt("IDREG"));
                 venta.setCliente(jsonunitario.getString("Cliente"));
-                venta.setIdCliente(jsonunitario.getInt("IdCliente"));
+                venta.setIdCliente(jsonunitario.getString("IdCliente"));
                 venta.setIdCatalogo(jsonunitario.getInt("IdCatalogo"));
                 venta.setCatalogo(jsonunitario.getString("Catalogo"));
                 venta.setPagina(jsonunitario.getInt("Pagina"));

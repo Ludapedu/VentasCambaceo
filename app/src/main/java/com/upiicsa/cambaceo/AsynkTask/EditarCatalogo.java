@@ -21,7 +21,7 @@ public class EditarCatalogo extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... strings) {
         String Stringurl = Constantes.URL +
                 "catalogos/actualizar?" +
-                "IDREG=" + strings[0] +
+                "_id=" + strings[0] +
                 "&Catalogo=" + strings[1].replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);

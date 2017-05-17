@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class Catalogo implements Serializable {
 
     public String Nombre;
-    public int IDREG;
+    public String IDREG;
 
     public String getNombre() {
         return Nombre;
@@ -19,11 +19,11 @@ public class Catalogo implements Serializable {
         Nombre = nombre;
     }
 
-    public int getIDREG() {
+    public String getIDREG() {
         return IDREG;
     }
 
-    public void setIDREG(int IDREG) {
+    public void setIDREG(String IDREG) {
         this.IDREG = IDREG;
     }
 }

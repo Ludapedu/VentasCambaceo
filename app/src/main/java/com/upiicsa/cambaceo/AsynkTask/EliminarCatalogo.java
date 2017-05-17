@@ -23,7 +23,7 @@ public class EliminarCatalogo extends AsyncTask<String,Void,Void> {
 
         String Stringurl =  Constantes.URL +
                 "catalogos/eliminar" +
-                "?IDREG=" + params[0];
+                "?_id=" + params[0];
         try {
             URL url = new URL(Stringurl);
 

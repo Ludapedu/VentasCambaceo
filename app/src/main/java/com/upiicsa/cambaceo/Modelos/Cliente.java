@@ -8,7 +8,7 @@ public class Cliente implements Serializable{
     public  String apellidomaterno;
     public  String direccion;
     public  String telefono;
-    public  int IdCliente;
+    public  String IdCliente;
 
     public String getNombre()
     {
@@ -29,7 +29,7 @@ public class Cliente implements Serializable{
     {
         return telefono;
     }
-    public int getIdCliente()
+    public String getIdCliente()
     {
         return IdCliente;
     }
@@ -59,7 +59,7 @@ public class Cliente implements Serializable{
         this.telefono = telefono;
     }
 
-    public void setIdCliente(int IdCliente)
+    public void setIdCliente(String IdCliente)
     {
         this.IdCliente = IdCliente;
     }

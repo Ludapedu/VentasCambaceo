@@ -31,7 +31,7 @@ public class EliminarCliente extends AsyncTask<String,Void,Void> {
 
         String Stringurl =  Constantes.URL +
                 "clientes/eliminar" +
-                "?IDREG=" + params[0];
+                "?_id=" + params[0];
         try {
             URL url = new URL(Stringurl);
 

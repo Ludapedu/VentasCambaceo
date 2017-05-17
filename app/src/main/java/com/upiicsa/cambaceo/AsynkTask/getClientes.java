@@ -79,7 +79,7 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Cliente cli = new Cliente();
-                cli.setIdCliente(jsonunitario.getInt("IDREG"));
+                cli.setIdCliente(jsonunitario.getString("_id"));
                 cli.setNombre(jsonunitario.getString("Nombre"));
                 if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
                     cli.setApellidoPaterno("");

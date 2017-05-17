@@ -80,15 +80,10 @@ public class getPagos extends AsyncTask<Void, Void, Void> {
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Pago pago = new Pago();
-                pago.setIDREG(jsonunitario.getInt("IDREG"));
-                pago.setCliente(jsonunitario.getString("Cliente"));
-                //pago.setIdCliente(jsonunitario.getInt("IdCliente"));
-                //pago.setCliente(jsonunitario.getString("Cliente"));
-                //pago.setFechaPago(jsonunitario.getString("Fecha"));
-                //pago.setMonto(jsonunitario.getInt("Monto"));
-                //pago.setDia(jsonunitario.getInt("Dia"));
-                //pago.setMes(jsonunitario.getInt("Mes"));
-                //pago.setAnio(jsonunitario.getInt("Anio"));
+                pago.setIDREG(jsonunitario.getString("_id"));
+                pago.setIdCliente(jsonunitario.getString("idCliente"));
+                pago.setFechaPago(jsonunitario.getString("fecha"));
+                pago.setMonto(jsonunitario.getInt("monto"));
 
                 listaPagos.add(pago);
             }

@@ -80,7 +80,7 @@ public class getCatalogos extends AsyncTask<Void, Void, Void> {
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Catalogo catalogo = new Catalogo();
-                catalogo.setIDREG(jsonunitario.getInt("IDREG"));
+                catalogo.setIDREG(jsonunitario.getString("_id"));
                 catalogo.setNombre(jsonunitario.getString("Catalogo"));
                 listaCatalogos.add(catalogo);
             }

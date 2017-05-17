@@ -314,7 +314,7 @@ public class DetallesVenta extends AppCompatActivity {
     {
         Cliente cliente = new Cliente();
         for(int x=0; x< clientes.size(); x++) {
-            if (venta.getIdCliente() == clientes.get(x).getIdCliente())
+            if (venta.getIdCliente().equals(clientes.get(x).getIdCliente()))
             {
                 cliente = clientes.get(x);
             }
