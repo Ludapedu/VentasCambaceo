@@ -22,13 +22,18 @@ public class AltaVenta extends AsyncTask<String, Void, String> {
 
         String Stringurl = Constantes.URL +
                 "ventas/nuevo" +
+                "?cliente=vacio" +
                 "&idCliente=" + params[0].replace(" ", "%20") +
                 "&idCatalogo=" + params[1].replace(" ", "%20") +
-                "&Pagina=" + params[2].replace(" ", "%20") +
-                "&idMarca=" + params[4].replace(" ", "%20") +
-                "&numero=" + params[7].replace(" ", "%20") +
-                "&costo=" + params[8].replace(" ", "%20") +
-                "&precio=" + params[9].replace(" ", "%20");
+                "&Catalogo=vacio" +
+                "&pagina=" + params[2].replace(" ", "%20") +
+                "&marca=" + params[3].replace(" ", "%20") +
+                "&id=0" +
+                "&numero=" + params[4].replace(" ", "%20") +
+                "&costo=" + params[5].replace(" ", "%20") +
+                "&precio=" + params[6].replace(" ", "%20") +
+                "&entregado=0" +
+                "&ubicacion=vacio";
 
         try {
             URL url = new URL(Stringurl);

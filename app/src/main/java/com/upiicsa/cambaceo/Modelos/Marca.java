@@ -7,14 +7,14 @@ import java.io.Serializable;
  */
 
 public class Marca implements Serializable {
-    public int IDREG;
+    public String IDREG;
     public String Marca;
 
-    public int getIDREG() {
+    public String getIDREG() {
         return IDREG;
     }
 
-    public void setIDREG(int IDREG) {
+    public void setIDREG(String IDREG) {
         this.IDREG = IDREG;
     }
 

@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCliente;
 import com.upiicsa.cambaceo.AsynkTask.AltaPago;
+import com.upiicsa.cambaceo.AsynkTask.EditarPago;
+import com.upiicsa.cambaceo.AsynkTask.EliminarPago;
 import com.upiicsa.cambaceo.AsynkTask.getClientes;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
 import com.upiicsa.cambaceo.Modelos.Cliente;
@@ -52,6 +54,8 @@ public class AgregarPago extends AppCompatActivity {
     private BroadcastReceiver receiverClientes;
     private IntentFilter filtroClientes = new IntentFilter();
     private getClientes obtenerClientes;
+    private EliminarPago eliminarPago;
+    private EditarPago editarPago;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,10 +179,9 @@ public class AgregarPago extends AppCompatActivity {
 
             case R.id.pagos_borrar: {
 
-                BaseDatos db = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
-                SQLiteDatabase pagos = db.getWritableDatabase();
-                pagos.delete("Pagos", "IDREG = " + pago.getIDREG(), null);
-                db.close();
+                String[] params = new String[1];
+                params[0] = pago.getIDREG();
+                new EliminarPago().execute(params);
                 Toast.makeText(getApplicationContext(), "Pago borrado correctamente", Toast.LENGTH_SHORT).show();
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
@@ -193,20 +196,16 @@ public class AgregarPago extends AppCompatActivity {
             }
             break;
             case R.id.pagos_guardar: {
-
                 int Dia = DatePicker_Pagos_Fecha.getDayOfMonth();
                 int Mes = DatePicker_Pagos_Fecha.getMonth() + 1;
                 int ano = DatePicker_Pagos_Fecha.getYear();
-                ContentValues datos = new ContentValues();
-                datos.put("Fecha", "" + Dia + "-" + Mes + "-" + ano);
-                datos.put("Monto", Integer.parseInt(txt_Pagos_Monto.getText().toString()));
-                datos.put("Dia", Dia);
-                datos.put("Mes", Mes);
-                datos.put("Anio", ano);
-                BaseDatos db = new BaseDatos(getApplicationContext(), "Pagos", null, 1);
-                SQLiteDatabase pagos = db.getWritableDatabase();
-                pagos.update("Pagos", datos, "IDREG = " + pago.getIDREG(), null);
-                db.close();
+                String fecha = "" + Dia + "-" + Mes + "-" + ano;
+                String monto = txt_Pagos_Monto.getText().toString();
+                String[] params = new String[3];
+                params[0] = pago.getIDREG();
+                params[1] = monto;
+                params[2] = fecha;
+                new EditarPago().execute(params);
                 Toast.makeText(getApplicationContext(), "Pago modificado correctamente", Toast.LENGTH_SHORT).show();
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);

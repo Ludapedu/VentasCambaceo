@@ -57,6 +57,7 @@ public class Ventas extends Fragment {
     TextView lblCatalogo;
     ArrayList<Cliente> ListaDeClientes = new ArrayList<Cliente>();
     private ArrayList<String> ListaMarcas = new ArrayList<>();
+    private ArrayList<Marca> Marcas = new ArrayList<>();
     Font font = new Font();
     private BroadcastReceiver receiverCatalogos, receiverClientes, receiverMarcas, receiverError;
     private IntentFilter filtroCatalogos = new IntentFilter();
@@ -208,19 +209,14 @@ public class Ventas extends Fragment {
 
                 Cliente c = (Cliente) spinner_Venta_Clientes.getSelectedItem();
                 Catalogo cat = (Catalogo) spinner_Venta_Catalogos.getSelectedItem();
-                String[] params = new String[12];
-                params[0] = c.getNombre();
-                params[1] = String.valueOf(c.getIdCliente());
-                params[2] = String.valueOf(cat.getIDREG());
-                params[3] = cat.getNombre();
-                params[4] = txt_Ventas_Pagina.getText().toString();
-                params[5] = txt_Ventas_Marca.getText().toString();
-                params[6] = txt_Ventas_ID.getText().toString();
-                params[7] = txt_Ventas_Numero.getText().toString();
-                params[8] = txt_Ventas_Costo.getText().toString();
-                params[9] = txt_Ventas_Precio.getText().toString();
-                params[10] = "0";
-                params[11] = "vacio";
+                String[] params = new String[8];
+                params[0] = c.getIdCliente();
+                params[1] = cat.getIDREG();
+                params[2] = txt_Ventas_Pagina.getText().toString();
+                params[3] = txt_Ventas_Marca.getText().toString();
+                params[4] = txt_Ventas_Numero.getText().toString();
+                params[5] = txt_Ventas_Costo.getText().toString();
+                params[6] = txt_Ventas_Precio.getText().toString();
 
                 new AltaVenta().execute(params);
                 LimpiarCampos();
@@ -274,6 +270,7 @@ public class Ventas extends Fragment {
                 if (intent.getAction().equals("ListaMarcas")) {
                     ListaMarcas.clear();
                     ListaMarcas = (ArrayList<String>) intent.getExtras().get("ListaDeMarcas");
+                    Marcas = (ArrayList<Marca>) intent.getExtras().get("Marcas");
                     if (getActivity() != null) {
                         ArrayAdapter<String> adaptadorMarcas = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, ListaMarcas);
                         txt_Ventas_Marca.setAdapter(adaptadorMarcas);

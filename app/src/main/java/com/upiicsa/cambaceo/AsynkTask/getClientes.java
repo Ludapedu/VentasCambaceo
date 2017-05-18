@@ -80,26 +80,26 @@ public class getClientes extends AsyncTask<Void, Void, Void> {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Cliente cli = new Cliente();
                 cli.setIdCliente(jsonunitario.getString("_id"));
-                cli.setNombre(jsonunitario.getString("Nombre"));
-                if(jsonunitario.getString("ApellidoPaterno").equals("vacio")) {
+                cli.setNombre(jsonunitario.getString("nombre"));
+                if(jsonunitario.getString("apellidoPaterno").equals("vacio")) {
                     cli.setApellidoPaterno("");
                 }else {
-                    cli.setApellidoPaterno(jsonunitario.getString("ApellidoPaterno"));
+                    cli.setApellidoPaterno(jsonunitario.getString("apellidoPaterno"));
                 }
-                if(jsonunitario.getString("ApellidoMaterno").equals("vacio")) {
+                if(jsonunitario.getString("apellidoMaterno").equals("vacio")) {
                     cli.setApellidoMaterno("");
                 }else {
-                    cli.setApellidoMaterno(jsonunitario.getString("ApellidoMaterno"));
+                    cli.setApellidoMaterno(jsonunitario.getString("apellidoMaterno"));
                 }
-                if(jsonunitario.getString("Direccion").equals("vacio")) {
+                if(jsonunitario.getString("direccion").equals("vacio")) {
                     cli.setDireccion("");
                 }else {
-                    cli.setDireccion(jsonunitario.getString("Direccion"));
+                    cli.setDireccion(jsonunitario.getString("direccion"));
                 }
-                if(jsonunitario.getString("Telefono").equals("vacio")) {
+                if(jsonunitario.getString("telefono").equals("vacio")) {
                     cli.setTelefono("");
                 }else {
-                    cli.setTelefono(jsonunitario.getString("Telefono"));
+                    cli.setTelefono(jsonunitario.getString("telefono"));
                 }
                 listaClientes.add(cli);
             }

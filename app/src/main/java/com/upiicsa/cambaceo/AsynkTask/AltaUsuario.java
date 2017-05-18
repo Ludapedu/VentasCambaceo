@@ -18,15 +18,15 @@ import java.net.URL;
 public class AltaUsuario extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
-        String Usuario = params[1];
-        String Correo = params[2];
-        String Password = params[3];
+        String Usuario = params[0];
+        String Correo = params[1];
+        String Password = params[2];
 
-        String Stringurl =  Constantes.URLLocal +
-                "user" +
-                "?Usuario=" + Usuario +
-                "&Correo=" + Correo +
-                "&Password=" + Password;
+        String Stringurl =  Constantes.URL +
+                "usuarios/nuevo" +
+                "?name=" + Usuario +
+                "&email=" + Correo +
+                "&password=" + Password;
         try {
             URL url = new URL(Stringurl);
 

@@ -20,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,17 +30,26 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.upiicsa.cambaceo.Constantes.Constantes;
+import com.upiicsa.cambaceo.Modelos.Cliente;
 import com.upiicsa.cambaceo.R;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
 
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "Luis:123456", "Daniel:123456"
-    };
+    private Boolean acceso = false;
 
     private UserLoginTask mAuthTask = null;
 
@@ -157,9 +167,6 @@ public class Login extends AppCompatActivity {
 
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private boolean usuarioCorrecto = false;
-        private boolean passwordCorrecto = false;
-
         private final String mEmail;
         private final String mPassword;
 
@@ -171,44 +178,61 @@ public class Login extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-
+            String Stringurl =  Constantes.URL + "login" +
+                    "?email=" + mEmail +
+                    "&password=" + mPassword;
             try {
-                // Simulate network access.
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            }
+                URL url = new URL(Stringurl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setReadTimeout(10000);
+                connection.setConnectTimeout(10000);
+                connection.setRequestMethod("GET");
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    usuarioCorrecto = true;
-                }
-                if (pieces[1].equals(mPassword)) {
-                    passwordCorrecto = true;
-                }
-            }
+                int codigoEstado = connection.getResponseCode();
+                if (codigoEstado != 200)
+                    throw new Exception("Error al procesar el registro el codigo http es: " + codigoEstado);
+                InputStream inputstream = connection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputstream, "UTF-8"));
 
+                String respuesta = "";
+                String linea;
+                while ((linea = bufferedReader.readLine()) != null) {
+                    respuesta += linea;
+                }
+                bufferedReader.close();
+                inputstream.close();
+
+                String jsonOk = "{ respuesta:[" + respuesta + "]}";
+
+                JSONObject json = new JSONObject(jsonOk);
+                JSONArray array = json.getJSONArray("respuesta");
+                for(int x = 0; x<array.length(); x++) {
+                    JSONObject jsonunitario = array.getJSONObject(x);
+                    acceso = jsonunitario.getBoolean("status");
+                }
+
+                Log.v("Registro en servidor: ", respuesta);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             // TODO: register the new account here.
-            return null;
+            return acceso;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
-
-            if (!usuarioCorrecto) {
-                mEmailView.setError("Usuario Incorrecto");
-                mEmailView.requestFocus();
-                return;
+            if(success) {
+                Intent i = new Intent(Login.this, MainActivity.class);
+                startActivity(i);
             }
-            if (!passwordCorrecto) {
-                mPasswordView.setError("Password Incorrecto");
-                mPasswordView.requestFocus();
-                return;
+            else
+            {
+                Toast.makeText(Login.this, "Usuario o Password incorrectos",Toast.LENGTH_SHORT).show();
+                mEmailView.setText("");
+                mPasswordView.setText("");
             }
-            Intent i = new Intent(Login.this, MainActivity.class);
-            startActivity(i);
         }
 
         @Override

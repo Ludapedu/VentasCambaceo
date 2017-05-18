@@ -72,10 +72,10 @@ public class AdaptadorBuscableVentas extends ArrayAdapter<Venta> implements Filt
         holder.Numero.setTypeface(font.setAsset(getContext()));
         holder.NombreCliente.setTypeface(font.setAsset(getContext()));
         holder.lblNumero.setTypeface(font.setAsset(getContext()));
-        holder.Marca.setText(filteredData.get(position).getMarca());
+        holder.Marca.setText(filteredData.get(position).getIdMarca());
         holder.ID.setText(String.valueOf(filteredData.get(position).getID()));
         holder.Numero.setText(String.valueOf(filteredData.get(position).getNumero()));
-        holder.NombreCliente.setText(filteredData.get(position).getCliente());
+        holder.NombreCliente.setText(filteredData.get(position).getIdCliente());
         return convertView;
     }
 

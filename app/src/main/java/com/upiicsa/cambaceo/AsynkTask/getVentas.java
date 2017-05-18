@@ -80,19 +80,13 @@ public class getVentas extends AsyncTask<Void, Void, Void> {
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Venta venta = new Venta();
-                venta.setIDREG(jsonunitario.getInt("IDREG"));
-                venta.setCliente(jsonunitario.getString("Cliente"));
-                venta.setIdCliente(jsonunitario.getString("IdCliente"));
-                venta.setIdCatalogo(jsonunitario.getInt("IdCatalogo"));
-                venta.setCatalogo(jsonunitario.getString("Catalogo"));
-                venta.setPagina(jsonunitario.getInt("Pagina"));
-                venta.setMarca(jsonunitario.getString("Marca"));
-                venta.setID(jsonunitario.getInt("ID"));
-                venta.setNumero(Float.valueOf(jsonunitario.getString("Numero")));
-                venta.setCosto(jsonunitario.getInt("Costo"));
-                venta.setPrecio(jsonunitario.getInt("Precio"));
-                venta.setEntregado(jsonunitario.getInt("Entregado"));
-                venta.setUbicacion(jsonunitario.getString("Ubicacion"));
+                venta.setIDREG(jsonunitario.getString("_id"));
+                venta.setIdCliente(jsonunitario.getString("idCliente"));
+                venta.setIdCatalogo(jsonunitario.getString("idCatalogo"));
+                venta.setPagina(jsonunitario.getInt("pagina"));
+                venta.setNumero(Float.valueOf(jsonunitario.getString("numero")));
+                venta.setCosto(jsonunitario.getInt("costo"));
+                venta.setPrecio(jsonunitario.getInt("precio"));
 
                 listaVentas.add(venta);
             }

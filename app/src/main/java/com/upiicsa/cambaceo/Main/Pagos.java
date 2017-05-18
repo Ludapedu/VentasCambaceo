@@ -167,6 +167,7 @@ public class Pagos extends Fragment {
                     ListaPagos = (ArrayList<Pago>) intent.getExtras().get("ListaDePagos");
                     if(ListaPagos.size() != 0)
                     {
+                        montoabonado = 0;
                         for (Pago p:ListaPagos) {
                             montoabonado += p.getMonto();
                         }

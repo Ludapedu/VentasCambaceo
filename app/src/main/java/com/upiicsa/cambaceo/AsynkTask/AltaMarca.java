@@ -20,7 +20,7 @@ public class AltaMarca extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String Stringurl = Constantes.URL +
                 "marcas/nuevo" +
-                "?Marca=" + params[0].replace(" ", "%20");
+                "?marca=" + params[0].replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 

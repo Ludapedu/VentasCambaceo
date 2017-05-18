@@ -41,11 +41,11 @@ public class AltaCliente extends AsyncTask<String, Void, String> {
 
         String Stringurl =  Constantes.URL +
                 "clientes/nuevo" +
-                "?Nombre=" + params[0].replace(" ", "%20") +
-                "&ApellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
-                "&ApellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
-                "&Direccion=" + Direccion.replace(" ", "%20") +
-                "&Telefono=" + Telefono.replace(" ", "%20");
+                "?nombre=" + params[0].replace(" ", "%20") +
+                "&apellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
+                "&apellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
+                "&direccion=" + Direccion.replace(" ", "%20") +
+                "&telefono=" + Telefono.replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 

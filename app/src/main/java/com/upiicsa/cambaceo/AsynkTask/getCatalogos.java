@@ -81,7 +81,7 @@ public class getCatalogos extends AsyncTask<Void, Void, Void> {
                 JSONObject jsonunitario = array.getJSONObject(x);
                 Catalogo catalogo = new Catalogo();
                 catalogo.setIDREG(jsonunitario.getString("_id"));
-                catalogo.setNombre(jsonunitario.getString("Catalogo"));
+                catalogo.setNombre(jsonunitario.getString("catalogo"));
                 listaCatalogos.add(catalogo);
             }
             Log.v("Registro en servidor: ", respuesta);

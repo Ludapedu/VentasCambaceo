@@ -20,14 +20,9 @@ public class EditarPago extends AsyncTask<String, Void, Void> {
     protected Void doInBackground(String... params) {
         String Stringurl = Constantes.URL +
                 "pagos/actualizar?" +
-                "IDREG=" + params[0] +
-                "?Cliente=" + params[1].replace(" ", "%20") +
-                "?IdCliente=" + params[2].replace(" ", "%20") +
-                "?Fecha=" + params[3].replace(" ", "%20") +
-                "?Monto=" + params[4].replace(" ", "%20") +
-                "?Dia=" + params[5].replace(" ", "%20") +
-                "?Mes=" + params[6].replace(" ", "%20") +
-                "?Anio=" + params[7].replace(" ", "%20");
+                "_id=" + params[0] +
+                "&monto=" + params[1].trim() +
+                "&fecha=" + params[2];
         try {
             URL url = new URL(Stringurl);
 

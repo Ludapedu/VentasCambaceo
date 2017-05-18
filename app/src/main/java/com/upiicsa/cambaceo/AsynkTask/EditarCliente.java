@@ -49,11 +49,11 @@ public class EditarCliente extends AsyncTask<String, Void, Void> {
         String Stringurl = Constantes.URL +
                 "clientes/actualizar?" +
                 "_id=" + strings[0] +
-                "&Nombre=" + strings[1].replace(" ", "%20") +
-                "&ApellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
-                "&ApellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
-                "&Direccion=" + Direccion.replace(" ", "%20") +
-                "&Telefono=" + Telefono.replace(" ", "%20");
+                "&nombre=" + strings[1].replace(" ", "%20") +
+                "&apellidoPaterno=" + ApellidoPaterno.replace(" ", "%20") +
+                "&apellidoMaterno=" + ApellidoMaterno.replace(" ", "%20") +
+                "&direccion=" + Direccion.replace(" ", "%20") +
+                "&telefono=" + Telefono.replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 

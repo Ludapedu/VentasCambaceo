@@ -21,7 +21,7 @@ public class EliminarPago extends AsyncTask<String,Void,Void> {
 
         String Stringurl =  Constantes.URL +
                 "pagos/eliminar" +
-                "?IDREG=" + params[0];
+                "?_id=" + params[0];
         try {
             URL url = new URL(Stringurl);
 

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class getMarcas extends AsyncTask<Void, Void, Void> {
     Context context;
     ArrayList<String> listaMarcas = new ArrayList<>();
+    ArrayList<Marca> Marcas = new ArrayList<>();
 
     public getMarcas(Context ctx)
     {
@@ -57,16 +58,17 @@ public class getMarcas extends AsyncTask<Void, Void, Void> {
             bufferedReader.close();
             inputstream.close();
 
-            String jsonOk = "{ clientes:" + respuesta + "}";
+            String jsonOk = "{ marcas:" + respuesta + "}";
 
             JSONObject json = new JSONObject(jsonOk);
-            JSONArray array = json.getJSONArray("clientes");
+            JSONArray array = json.getJSONArray("marcas");
             for(int x = 0; x<array.length(); x++) {
                 JSONObject jsonunitario = array.getJSONObject(x);
-                //Marca marca = new Marca();
-                //marca.setIDREG(jsonunitario.getInt("IDREG"));
-                //marca.setMarca(jsonunitario.getString("Marca"));
-                listaMarcas.add(jsonunitario.getString("Marca"));
+                Marca marca = new Marca();
+                marca.setIDREG(jsonunitario.getString("_id"));
+                marca.setMarca(jsonunitario.getString("marca"));
+                listaMarcas.add(marca.getMarca());
+                Marcas.add(marca);
             }
 
             Log.v("Registro en servidor: ", respuesta);
@@ -75,6 +77,7 @@ public class getMarcas extends AsyncTask<Void, Void, Void> {
         }
         Intent i = new Intent("ListaMarcas");
         i.putExtra("ListaDeMarcas", listaMarcas);
+        i.putExtra("Marcas", Marcas);
         context.sendBroadcast(i);
         return null;
     }

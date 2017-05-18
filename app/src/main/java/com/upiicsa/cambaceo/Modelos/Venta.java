@@ -10,9 +10,9 @@ public class Venta implements Serializable {
 
     public  String Catalogo;
     public  String Marca;
-    public  int IDREG;
+    public  String IDREG;
     public  int ID;
-    public  int IdCatalogo;
+    public  String IdCatalogo;
     public  int Pagina;
     public  float Numero;
     public  int Costo;
@@ -21,12 +21,21 @@ public class Venta implements Serializable {
     public  String Cliente;
     public int Entregado;
     public String Ubicacion;
+    public String idMarca;
 
-    public int getIdCatalogo() {
+    public String getIdMarca() {
+        return idMarca;
+    }
+
+    public void setIdMarca(String idMarca) {
+        this.idMarca = idMarca;
+    }
+
+    public String getIdCatalogo() {
         return IdCatalogo;
     }
 
-    public void setIdCatalogo(int idCatalogo) {
+    public void setIdCatalogo(String idCatalogo) {
         IdCatalogo = idCatalogo;
     }
 
@@ -47,11 +56,11 @@ public class Venta implements Serializable {
     }
 
 
-    public int getIDREG() {
+    public String getIDREG() {
         return IDREG;
     }
 
-    public void setIDREG(int IDREG) {
+    public void setIDREG(String IDREG) {
         this.IDREG = IDREG;
     }
 

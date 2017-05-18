@@ -89,7 +89,8 @@ public class Pedidos extends Fragment implements SearchView.OnQueryTextListener{
         getActivity().registerReceiver(receiverVentas, filtroVentas);
 
         obtenerVentas = new getVentas(getActivity(), true);
-        obtenerVentas.execute();    getActivity().setTitle("Ventas");
+        obtenerVentas.execute();
+        getActivity().setTitle("Ventas");
 
 
 

@@ -220,37 +220,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/btn_Dialogo_Ventas_Editar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/fab_margin"
-                    app:layout_anchorGravity="left"
-                    app:srcCompat="@android:drawable/ic_menu_edit" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/btn_Dialogo_Ventas_Cancelar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/fab_margin"
-                    app:layout_anchorGravity="right"
-                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
-
-                <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/btn_Dialogo_Ventas_Aceptar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/fab_margin"
-                    android:visibility="invisible"
-                    app:layout_anchorGravity="left"
-                    app:srcCompat="@drawable/ic_done_white_24dp" />
-
-            </LinearLayout>
-
         </LinearLayout>
 
     </android.support.design.widget.CoordinatorLayout>

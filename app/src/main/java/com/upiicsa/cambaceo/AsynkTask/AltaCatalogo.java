@@ -20,7 +20,7 @@ public class AltaCatalogo extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String Stringurl =  Constantes.URL +
                 "catalogos/nuevo" +
-                "?Catalogo=" + params[0].replace(" ", "%20");
+                "?catalogo=" + params[0].replace(" ", "%20");
         try {
             URL url = new URL(Stringurl);
 

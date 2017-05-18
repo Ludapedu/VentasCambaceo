@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCatalogo;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerCliente;
 import com.upiicsa.cambaceo.Adaptadores.AdaptadorSpinnerEstatus;
+import com.upiicsa.cambaceo.AsynkTask.EliminarVenta;
 import com.upiicsa.cambaceo.AsynkTask.getCatalogos;
 import com.upiicsa.cambaceo.AsynkTask.getClientes;
 import com.upiicsa.cambaceo.BaseDatos.BaseDatos;
@@ -62,9 +63,6 @@ public class DetallesVenta extends AppCompatActivity {
     public EditText TextID;
     public EditText TextCosto;
     public EditText TextPrecio;
-    public FloatingActionButton modificar;
-    public FloatingActionButton aceptar;
-    public FloatingActionButton cancelar;
     private BroadcastReceiver receiverCatalogos, receiverClientes;
     private IntentFilter filtroCatalogos = new IntentFilter();
     private IntentFilter filtroClientes = new IntentFilter();
@@ -97,9 +95,6 @@ public class DetallesVenta extends AppCompatActivity {
         TextID = (EditText) findViewById(R.id.txt_Dialogo_Ventas_ID);
         TextCosto = (EditText) findViewById(R.id.txt_Dialogo_Ventas_Costo);
         TextPrecio = (EditText) findViewById(R.id.txt_Dialogo_Ventas_Precio);
-        modificar = (FloatingActionButton) findViewById(R.id.btn_Dialogo_Ventas_Editar);
-        aceptar = (FloatingActionButton) findViewById(R.id.btn_Dialogo_Ventas_Aceptar);
-        cancelar = (FloatingActionButton) findViewById(R.id.btn_Dialogo_Ventas_Cancelar);
 
         LblCliente.setTypeface(font);
         LblCatalogo.setTypeface(font);
@@ -115,53 +110,6 @@ public class DetallesVenta extends AppCompatActivity {
         BroadCastReceiverCatalogos();
         EstadoInicial();
         InhabilitarControles();
-
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                InhabilitarControles();
-            }
-        });
-
-        modificar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HabilitarControles();
-            }
-        });
-
-        aceptar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Cliente cliente = (Cliente)SpinnerClientes.getSelectedItem();
-                Catalogo catalogo = (Catalogo) SpinnerCatalogos.getSelectedItem();
-                Estatus entregado = (Estatus) SpinnerEstatus.getSelectedItem();
-
-
-                ContentValues datos = new ContentValues();
-                datos.put("Cliente", cliente.getNombre());
-                datos.put("IdCliente", cliente.getIdCliente());
-                datos.put("Catalogo", catalogo.getNombre());
-                datos.put("Pagina", Integer.parseInt(TextPagina.getText().toString()));
-                datos.put("Marca", TextMarca.getText().toString());
-                datos.put("ID", Integer.parseInt(TextID.getText().toString()));
-                datos.put("Numero", Float.parseFloat(TextNumero.getText().toString()));
-                datos.put("Costo", Integer.parseInt(TextCosto.getText().toString()));
-                datos.put("Precio", TextPrecio.getText().toString());
-                datos.put("Entregado", entregado.getIdEstatus());
-
-                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
-                SQLiteDatabase TablaVentas = dbVentas.getWritableDatabase();
-                TablaVentas.update("Ventas", datos, "IDREG = " + RegistroVenta.getIDREG(), null);
-                dbVentas.close();
-
-                Toast.makeText(getApplicationContext(),"Venta Actualizada", Toast.LENGTH_SHORT).show();
-                Intent returnIntent = new Intent();
-                setResult(Activity.RESULT_OK, returnIntent);
-                finish();
-            }
-        });
 
     }
 
@@ -180,8 +128,7 @@ public class DetallesVenta extends AppCompatActivity {
         }
     }
 
-    private void EstadoInicial()
-    {
+    private void EstadoInicial() {
         obtenerCatalogos = new getCatalogos(DetallesVenta.this, false);
         obtenerCatalogos.execute();
 
@@ -205,14 +152,14 @@ public class DetallesVenta extends AppCompatActivity {
                     catalogos = (ArrayList<Catalogo>) intent.getExtras().get("ListaDeCatalogos");
                     catalogoadapter = new AdaptadorSpinnerCatalogo(DetallesVenta.this, catalogos);
                     SpinnerCatalogos.setAdapter(catalogoadapter);
-                    if(catalogos.size() != 0)
-                    {
-                        SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(RegistroVenta,catalogos)));
+                    if (catalogos.size() != 0) {
+                        SpinnerCatalogos.setSelection(PositionSpinnerCatalogos(GetCatalogoFromPedido(RegistroVenta, catalogos)));
                     }
                 }
             }
         };
     }
+
     private void BroadCastReceiverClientes() {
         filtroClientes.addAction("ListaClientes");
 
@@ -223,9 +170,8 @@ public class DetallesVenta extends AppCompatActivity {
                     ListaDeClientes = (ArrayList<Cliente>) intent.getExtras().get("ListaDeClientes");
                     clientesadapter = new AdaptadorSpinnerCliente(DetallesVenta.this, ListaDeClientes);
                     SpinnerClientes.setAdapter(clientesadapter);
-                    if(ListaDeClientes.size() != 0)
-                    {
-                        SpinnerClientes.setSelection(PositionSpinnerClientes(GetClienteFromPedido(RegistroVenta,ListaDeClientes)));
+                    if (ListaDeClientes.size() != 0) {
+                        SpinnerClientes.setSelection(PositionSpinnerClientes(GetClienteFromPedido(RegistroVenta, ListaDeClientes)));
                     }
                 }
             }
@@ -237,25 +183,23 @@ public class DetallesVenta extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 onBackPressed();
-            }break;
-            case R.id.btn_detalle_venta_eliminar:
-            {
-                BaseDatos dbVentas = new BaseDatos(getApplicationContext(), "Ventas", null, 1);
-                SQLiteDatabase TablaVentas = dbVentas.getWritableDatabase();
-                TablaVentas.delete("Ventas", "IDREG = " + RegistroVenta.getIDREG(), null);
-                dbVentas.close();
-                Toast.makeText(getApplicationContext(),"Venta borrada", Toast.LENGTH_SHORT).show();
+            }
+            break;
+            case R.id.btn_detalle_venta_eliminar: {
+                String[] params = new String[1];
+                params[0] = RegistroVenta.getIDREG();
+                new EliminarVenta().execute(params);
                 Intent returnIntent = new Intent();
                 setResult(Activity.RESULT_OK, returnIntent);
                 finish();
             }
-                return true;
+            return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private void InhabilitarControles(){
+    private void InhabilitarControles() {
         SpinnerClientes.setEnabled(false);
         SpinnerCatalogos.setEnabled(false);
         SpinnerEstatus.setEnabled(false);
@@ -265,9 +209,6 @@ public class DetallesVenta extends AppCompatActivity {
         TextID.setEnabled(false);
         TextCosto.setEnabled(false);
         TextPrecio.setEnabled(false);
-        modificar.setVisibility(View.VISIBLE);
-        aceptar.setVisibility(View.INVISIBLE);
-        cancelar.setVisibility(View.INVISIBLE);
     }
 
     private void HabilitarControles() {
@@ -281,9 +222,6 @@ public class DetallesVenta extends AppCompatActivity {
         TextID.setEnabled(true);
         TextCosto.setEnabled(true);
         TextPrecio.setEnabled(true);
-        modificar.setVisibility(View.INVISIBLE);
-        aceptar.setVisibility(View.VISIBLE);
-        cancelar.setVisibility(View.VISIBLE);
     }
 
     private int PositionSpinnerClientes(Cliente item) {
@@ -310,35 +248,30 @@ public class DetallesVenta extends AppCompatActivity {
         return position;
     }
 
-    private Cliente GetClienteFromPedido(Venta venta, ArrayList<Cliente> clientes)
-    {
+    private Cliente GetClienteFromPedido(Venta venta, ArrayList<Cliente> clientes) {
         Cliente cliente = new Cliente();
-        for(int x=0; x< clientes.size(); x++) {
-            if (venta.getIdCliente().equals(clientes.get(x).getIdCliente()))
-            {
+        for (int x = 0; x < clientes.size(); x++) {
+            if (venta.getIdCliente().equals(clientes.get(x).getIdCliente())) {
                 cliente = clientes.get(x);
             }
         }
         return cliente;
     }
-    private Catalogo GetCatalogoFromPedido(Venta venta, ArrayList<Catalogo> catalogos)
-    {
+
+    private Catalogo GetCatalogoFromPedido(Venta venta, ArrayList<Catalogo> catalogos) {
         Catalogo cat = new Catalogo();
-        for(int x=0; x< catalogos.size(); x++) {
-            if (venta.getCatalogo().equals(catalogos.get(x).getNombre()))
-            {
+        for (int x = 0; x < catalogos.size(); x++) {
+            if (venta.getIdCatalogo().equals(catalogos.get(x).getIDREG())) {
                 cat = catalogos.get(x);
             }
         }
         return cat;
     }
 
-    private Estatus GetEstatusFromPedido(Venta venta, ArrayList<Estatus> estatus)
-    {
-        Estatus est = new Estatus("",0);
-        for(int x=0; x< estatus.size(); x++) {
-            if (venta.getEntregado()== estatus.get(x).getIdEstatus())
-            {
+    private Estatus GetEstatusFromPedido(Venta venta, ArrayList<Estatus> estatus) {
+        Estatus est = new Estatus("", 0);
+        for (int x = 0; x < estatus.size(); x++) {
+            if (venta.getEntregado() == estatus.get(x).getIdEstatus()) {
                 est = estatus.get(x);
             }
         }
